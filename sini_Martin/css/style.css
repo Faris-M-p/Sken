@@ -542,40 +542,6 @@ body {
   color: var(--color-text-muted);
 }
 
-/* Gallery — neat 2×2 grid, no overlap */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  max-width: 960px;
-  margin: 40px auto 0 auto;
-  width: 100%;
-}
-
-.gallery-item {
-  margin: 0;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border: 1px solid var(--color-border-gold);
-  background: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-}
-
-.gallery-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(27, 49, 69, 0.12);
-}
-
-.gallery-item img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
 /* Lightbox */
 .lightbox-modal {
   position: fixed;
