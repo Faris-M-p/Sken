@@ -1,67 +1,46 @@
 /* -----------------------------------------------------------------
    SINI & MARTIN — PAGE 1 : OPENING (THE SACRED COVER)
-   Watercolor invitation cover rebuilt entirely in SVG + CSS.
-   Typography scales off the card via container query units so the
-   composition holds the same proportions at every viewport size.
+   Full-viewport, edge-to-edge hero. No card, no poster frame, no margins.
+   Clean space reserved at the bottom for the tap button.
    ----------------------------------------------------------------- */
 
-/* =================================================================
-   1. STAGE — the soft paper backdrop the card floats on
-   ================================================================= */
 #page-sacred-opening {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  display: flex;
-  align-items: flex-start;
-  padding: 3vmin;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 70% at 15% 100%, rgba(163, 189, 208, 0.28) 0%, transparent 70%),
-    radial-gradient(ellipse 80% 60% at 85% 90%, rgba(197, 160, 89, 0.12) 0%, transparent 70%),
-    linear-gradient(165deg, #EDF3F8 0%, #F7F4EE 45%, #E7EFF5 100%);
-  transition: opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1),
-              visibility 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #F7F4EE;
+  transition:
+    opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 1.15s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+#page-sacred-opening.is-leaving,
 #page-sacred-opening.faded-out {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
-#page-sacred-opening.faded-out .cover-card {
-  transform: scale(1.07) translateY(-1.5%);
+#page-sacred-opening.is-leaving .cover-stage {
+  transform: scale(1.08);
+  filter: blur(6px);
+}
+
+#page-sacred-opening.is-leaving .cover-tap {
+  opacity: 0;
+  transform: translate(-50%, 14px);
 }
 
 body.cover-locked {
   overflow: hidden;
-}
-
-/* =================================================================
-   2. CARD — portrait invitation panel, the container query root
-   ================================================================= */
-.cover-card {
-  position: relative;
-  flex: 0 0 auto;
-  /* auto margins centre the card but collapse to 0 rather than pushing
-     it out of reach if it ever grows taller than the stage */
-  margin: auto;
-  width: min(93vw, 45rem, calc(94vh * 0.781));
-  aspect-ratio: 1000 / 1280;
-  container-type: size;
-  container-name: cover;
-  border-radius: 18px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #F2F7FA 0%, #E9F1F7 55%, #C9DCE9 100%);
-  box-shadow:
-    0 2px 6px rgba(27, 49, 69, 0.06),
-    0 24px 60px -12px rgba(27, 49, 69, 0.28),
-    0 60px 120px -40px rgba(27, 49, 69, 0.22);
-  transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-  transform: translateZ(0);
+  height: 100%;
+  height: 100dvh;
 }
 
 .cover-defs {
@@ -72,273 +51,126 @@ body.cover-locked {
 }
 
 /* =================================================================
-   3. ARTWORK LAYERS
+   FULL-BLEED STAGE — fills the entire viewport
    ================================================================= */
-.cover-scene {
+.cover-stage {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cover.is-ready .cover-stage {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.cover-art {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  object-fit: cover;
+  object-position: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* Soft fade at the bottom so the button sits in clean space */
+.cover-stage::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: min(34vh, 280px);
+  background: linear-gradient(
+    180deg,
+    rgba(247, 244, 238, 0) 0%,
+    rgba(247, 244, 238, 0.45) 40%,
+    rgba(247, 244, 238, 0.82) 100%
+  );
+  pointer-events: none;
   z-index: 1;
 }
 
-/* Hazy light wash that lifts the mid-card text off the artwork */
-.cover-haze {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 26%,
-    rgba(250, 252, 254, 0.42) 40%,
-    rgba(250, 252, 254, 0.66) 56%,
-    rgba(250, 252, 254, 0.6) 74%,
-    rgba(255, 255, 255, 0.1) 86%,
-    rgba(255, 255, 255, 0) 94%
-  );
-}
-
-/* Painted edge bleed — the artwork softens into white at the borders */
-.cover-vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 78% 72% at 50% 44%,
-    rgba(255, 255, 255, 0) 42%,
-    rgba(249, 251, 253, 0.34) 72%,
-    rgba(252, 253, 254, 0.72) 100%
-  );
-}
-
-/* Watercolor floral corner clusters */
-.cover-flora {
-  position: absolute;
-  z-index: 4;
-  height: auto;
-  pointer-events: none;
-  opacity: 0.96;
-}
-
-.flora-tl { top: -2%;    left: -3%;   width: 22cqw; }
-.flora-tr { top: -3%;    right: -4%;  width: 40cqw; }
-.flora-lm { top: 19%;    left: -6%;   width: 19cqw; }
-.flora-bl { bottom: -3%; left: -4%;   width: 32cqw; }
-.flora-br { bottom: -2%; right: -3%;  width: 18cqw; opacity: 0.7; }
-
 /* =================================================================
-   4. CONTENT STACK
+   TAP BUTTON — bottom of the viewport
    ================================================================= */
-.cover-content {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 4.6cqh 7cqw 3.4cqh;
-}
-
-/* -- Gold cross + flourish -- */
-.cover-cross {
-  width: 3.4cqw;
-  height: auto;
-  filter: drop-shadow(0 1px 5px rgba(197, 160, 89, 0.45));
-}
-
-.cover-cross-flourish {
-  width: 11cqw;
-  height: auto;
-  margin-top: 1.1cqh;
-}
-
-/* -- Title -- */
-.cover-title {
-  margin-top: 3.4cqh;
-  font-family: var(--font-serif);
-  font-weight: 500;
-  font-size: clamp(14px, 2.5vw, 26px);
-  font-size: 3.35cqw;
-  line-height: 1.25;
-  letter-spacing: 0.085em;
-  text-transform: uppercase;
-  color: var(--color-navy-ink);
-}
-
-.cover-promise {
-  display: block;
-  margin-top: 0.4cqh;
-  font-family: var(--font-script-formal);
-  font-weight: 400;
-  font-size: clamp(26px, 5vw, 52px);
-  font-size: 7.1cqw;
-  line-height: 1.06;
-  letter-spacing: 0.01em;
-  text-transform: none;
-  color: var(--color-gold);
-  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.7);
-}
-
-.cover-divider {
-  width: 17cqw;
-  height: auto;
-  margin-top: 1.6cqh;
-}
-
-/* -- Open scene gap: lets the couple and church breathe -- */
-.cover-gap {
-  flex: 1 1 auto;
-  min-height: 4cqh;
-}
-
-/* -- Poem -- */
-.cover-poem {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(12px, 1.9vw, 20px);
-  font-size: 2.5cqw;
-  line-height: 1.62;
-  color: var(--color-navy-ink);
-  max-width: 74cqw;
-}
-
-/* -- Four pillars -- */
-.cover-pillars {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top: 4.6cqh;
-  width: 100%;
-}
-
-.pillar {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.pillar-icon {
-  width: 4.6cqw;
-  height: auto;
-  stroke: var(--color-gold);
-  stroke-width: 1.15;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-}
-
-.pillar-title {
-  margin-top: 1.5cqh;
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(7px, 1vw, 11px);
-  font-size: 1.36cqw;
-  line-height: 1.3;
-  letter-spacing: 0.075em;
-  text-transform: uppercase;
-  color: var(--color-navy-ink);
-}
-
-.pillar-text {
-  margin-top: 0.7cqh;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(9px, 1.35vw, 14px);
-  font-size: 1.82cqw;
-  line-height: 1.42;
-  color: var(--color-text-dark);
-}
-
-/* Dotted gold connector between icons. Because the columns are equal,
-   a pillar's left edge is exactly the midpoint between its own icon
-   and the previous one, so the run can simply straddle that edge. */
-.pillar:not(:first-child)::before {
-  content: '';
-  position: absolute;
-  top: 2.3cqw;
-  left: -4.2cqw;
-  width: 8.4cqw;
-  height: 1px;
-  background-image: radial-gradient(circle, rgba(197, 160, 89, 0.85) 0.55px, transparent 0.6px);
-  background-size: 0.9cqw 1px;
-  background-repeat: repeat-x;
-}
-
-.pillar:not(:first-child)::after {
-  content: '';
-  position: absolute;
-  top: 2.3cqw;
-  left: 0;
-  width: 0.62cqw;
-  height: 0.62cqw;
-  background: var(--color-gold);
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-/* -- Gold script invitation -- */
-.cover-invite {
-  margin-top: 4.4cqh;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(14px, 2.4vw, 26px);
-  font-size: 3.3cqw;
-  line-height: 1.42;
-  letter-spacing: 0.012em;
-  color: var(--color-gold-dark);
-  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.75);
-}
-
-.cover-heart-flourish {
-  width: 11cqw;
-  height: auto;
-  margin-top: 1.6cqh;
-}
-
-/* -- Enter affordance -- */
-.cover-enter-wrap {
-  position: relative;
-  margin-top: 2.4cqh;
-}
-
-/* Moonlight bloom on the water so the pill reads cleanly */
-.cover-enter-wrap::before {
-  content: '';
+.cover-tap {
   position: absolute;
   left: 50%;
-  top: 50%;
-  width: 38cqw;
-  height: 12cqh;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse at center, rgba(250, 252, 254, 0.42) 0%, rgba(250, 252, 254, 0) 72%);
+  bottom: max(28px, env(safe-area-inset-bottom, 0px) + 24px);
+  transform: translate(-50%, 12px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(88vw, 320px);
+  opacity: 0;
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.45s,
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
+}
+
+.cover.is-ready .cover-tap {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.btn-tap-here {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  padding: 14px 28px;
+  border: 1.5px solid var(--color-gold);
+  border-radius: 999px;
+  background: rgba(252, 251, 248, 0.94);
+  color: var(--color-navy-ink);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 6px 22px rgba(27, 49, 69, 0.12);
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s ease;
+}
+
+.btn-tap-here::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  animation: tapPulse 2.4s ease-out infinite;
   pointer-events: none;
 }
 
-.cover-enter {
-  position: relative;
-  padding: 1.5cqh 5.6cqw;
-  border: 1px solid var(--color-gold);
-  border-radius: 999px;
-  background: rgba(252, 251, 248, 0.9);
-  color: var(--color-navy-ink);
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: clamp(8px, 1.1vw, 13px);
-  font-size: 1.55cqw;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  cursor: pointer;
-  backdrop-filter: blur(3px);
-  box-shadow: 0 4px 18px rgba(27, 49, 69, 0.14);
-  transition: background 0.45s ease, color 0.45s ease,
-              box-shadow 0.45s ease, transform 0.45s ease;
-}
-
-.cover-enter:hover,
-.cover-enter:focus-visible {
+.btn-tap-here:hover,
+.btn-tap-here:focus-visible {
   background: var(--color-gold);
   color: #FFFDF8;
   box-shadow: 0 10px 28px rgba(197, 160, 89, 0.4);
@@ -346,152 +178,77 @@ body.cover-locked {
   outline: none;
 }
 
-/* =================================================================
-   5. MOTION — ambience + staged entrance
-   ================================================================= */
-@keyframes coverWaveSway {
-  0%, 100% { transform: translate3d(-1.4%, 0, 0); }
-  50%      { transform: translate3d(1.4%, 0.5%, 0); }
+.btn-tap-here:active {
+  transform: translateY(0) scale(0.98);
 }
 
-@keyframes coverDrift {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50%      { transform: translate3d(1.6%, -0.5%, 0); }
+.btn-tap-label {
+  position: relative;
+  z-index: 1;
 }
 
-@keyframes coupleBreathe {
-  0%, 100% { opacity: 0.74; }
-  50%      { opacity: 0.86; }
+.tap-subtext {
+  margin-top: 10px;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-navy-ink);
 }
 
-@keyframes coverGoldPulse {
-  0%, 100% { filter: drop-shadow(0 1px 5px rgba(197, 160, 89, 0.35)); }
-  50%      { filter: drop-shadow(0 1px 12px rgba(197, 160, 89, 0.75)); }
+.tap-heart {
+  width: 72px;
+  height: auto;
+  margin-top: 6px;
 }
 
-.scene-wave-1 { animation: coverWaveSway 13s ease-in-out infinite; }
-.scene-wave-2 { animation: coverWaveSway 17s ease-in-out infinite reverse; }
-.scene-wave-3 { animation: coverWaveSway 21s ease-in-out infinite; }
-.scene-wave-4 { animation: coverWaveSway 26s ease-in-out infinite reverse; }
-.scene-boat   { animation: coverDrift 15s ease-in-out infinite; }
-.scene-couple { animation: coupleBreathe 11s ease-in-out infinite; }
-.cover-cross  { animation: coverGoldPulse 5.5s ease-in-out infinite; }
-
-/* Staged entrance. Every hidden starting state is gated on the .js
-   class that cover.js adds, so the cover is fully visible if the
-   script never runs. Reveal order comes from --i, set in cover.js. */
-.cover.js [data-reveal] {
-  opacity: 0;
-  transform: translateY(1.6cqh);
-  transition: opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--i, 0) * 0.15s + 0.25s);
-}
-
-.cover.js.is-ready [data-reveal] {
-  opacity: 1;
-  transform: none;
-}
-
-.cover.js .cover-scene,
-.cover.js .cover-flora {
-  opacity: 0;
-  transition: opacity 2s ease;
-}
-
-.cover.js.is-ready .cover-scene { opacity: 1; }
-.cover.js.is-ready .cover-flora { opacity: 0.96; }
-.cover.js.is-ready .flora-br    { opacity: 0.7; }
-
-/* Pointer parallax targets */
-.scene-parallax-near,
-.scene-parallax-far,
-.cover-flora {
-  will-change: transform;
+@keyframes tapPulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  70%, 100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
 }
 
 /* =================================================================
-   6. RESPONSIVE — phones get a full-bleed cover with px-based type
+   HERO ENTRANCE (Page 2)
    ================================================================= */
-@media screen and (max-width: 700px) {
-  #page-sacred-opening {
-    padding: 0;
-  }
-
-  .cover-card {
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    aspect-ratio: auto;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  /* Pull the right-hand headland inward so the church survives the
-     horizontal crop of the portrait artwork on narrow screens. */
-  .scene-headland { transform: translateX(-186px); }
-  .scene-boat-group { transform: translateX(-118px); }
-
-  .cover-content { padding: 4.5vh 7vw 3.2vh; }
-
-  .cover-cross           { width: 20px; }
-  .cover-cross-flourish  { width: 74px; }
-  .cover-title           { font-size: clamp(15px, 4.4vw, 21px); }
-  .cover-promise         { font-size: clamp(30px, 9.2vw, 44px); }
-  .cover-divider         { width: 104px; }
-  .cover-poem            { font-size: clamp(13px, 3.5vw, 16px); max-width: 88vw; }
-  .cover-invite          { font-size: clamp(17px, 4.8vw, 23px); }
-  .cover-heart-flourish  { width: 74px; }
-  .cover-enter           { font-size: 10px; padding: 13px 30px; }
-
-  .flora-tl { width: 104px; }
-  .flora-tr { width: 176px; }
-  .flora-lm { width: 88px; top: 20%; }
-  .flora-bl { width: 168px; }
-  .flora-br { width: 92px; }
-
-  /* Pillars fall into a 2x2 grid; the connectors are dropped */
-  .cover-pillars {
-    grid-template-columns: 1fr 1fr;
-    gap: 2.6vh 5vw;
-    margin-top: 3.4vh;
-  }
-
-  .pillar:not(:first-child)::before,
-  .pillar:not(:first-child)::after { content: none; }
-
-  .pillar-icon  { width: 26px; }
-  .pillar-title { font-size: 9.5px; margin-top: 10px; }
-  .pillar-text  { font-size: 12.5px; margin-top: 5px; }
+body.cover-exiting #page-hero-landing {
+  animation: heroReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@media screen and (max-width: 700px) and (max-height: 720px) {
-  .cover-gap { display: none; }
-  .cover-pillars { margin-top: 2.6vh; }
-  .cover-invite { margin-top: 2.8vh; }
+@keyframes heroReveal {
+  from {
+    opacity: 0.35;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* =================================================================
-   7. ACCESSIBILITY
-   ================================================================= */
 @media (prefers-reduced-motion: reduce) {
-  .scene-wave-1,
-  .scene-wave-2,
-  .scene-wave-3,
-  .scene-wave-4,
-  .scene-boat,
-  .scene-couple,
-  .cover-cross {
+  .btn-tap-here::before {
     animation: none;
   }
 
-  .cover [data-reveal] {
+  #page-sacred-opening,
+  .cover-stage,
+  .cover-tap {
     transition-duration: 0.01ms;
-    transition-delay: 0ms;
   }
 
-  .cover-card,
-  #page-sacred-opening {
-    transition-duration: 0.01ms;
+  body.cover-exiting #page-hero-landing {
+    animation: none;
+  }
+
+  #page-sacred-opening.is-leaving .cover-stage {
+    filter: none;
+    transform: none;
   }
 }

@@ -4,26 +4,43 @@
    ----------------------------------------------------------------- */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Sacred Opening Fade-Out & Music Start Trigger
   const sacredOpening = document.getElementById('page-sacred-opening');
   const btnBeginJourney = document.getElementById('btn-begin-journey');
 
+  // Cover → Page 2: button click only. Zoom + fade, then reveal hero.
   if (btnBeginJourney && sacredOpening) {
-    btnBeginJourney.addEventListener('click', () => {
-      sacredOpening.classList.add('faded-out');
+    let entering = false;
 
-      // Start ambient audio soundscape upon first interaction
+    btnBeginJourney.addEventListener('click', () => {
+      if (entering) return;
+      entering = true;
+
+      btnBeginJourney.disabled = true;
+      document.body.classList.add('cover-exiting');
+      document.body.classList.remove('cover-locked');
+      sacredOpening.classList.add('is-leaving');
+
       if (window.soundscape) {
         window.soundscape.play();
       }
 
-      // Smooth scroll to Page 2 (Hero Landing)
-      setTimeout(() => {
-        const heroLanding = document.getElementById('page-hero-landing');
-        if (heroLanding) {
-          heroLanding.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 500);
+      const heroLanding = document.getElementById('page-hero-landing');
+      if (heroLanding) {
+        // Jump behind the fading cover so Page 2 is already in place.
+        heroLanding.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
+
+      // After the cover finishes leaving, drop it from the stacking context.
+      window.setTimeout(() => {
+        sacredOpening.classList.add('faded-out');
+        sacredOpening.style.display = 'none';
+        document.body.classList.remove('cover-exiting');
+
+        // Re-trigger scroll reveals that may have fired under the cover.
+        document.querySelectorAll('#page-hero-landing .reveal-on-scroll').forEach((el) => {
+          el.classList.add('is-visible');
+        });
+      }, 1200);
     });
   }
 
