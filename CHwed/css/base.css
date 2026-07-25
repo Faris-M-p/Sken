@@ -1,0 +1,294 @@
+/* ============================================================
+   THE COVENANT — base
+   Design tokens, reset, typography, continuous paper ambience
+   ============================================================ */
+
+:root{
+  /* --- ink & paper --- */
+  --ink:        #3b3026;
+  --ink-soft:   #6d5c49;
+  --ink-faint:  #8d7b66;
+
+  --paper:      #fbf6ec;
+  --cream:      #f2e8d8;
+  --cream-warm: #ecdfc9;
+  --cream-deep: #e3d3b8;
+  --shadow:     rgba(78, 58, 34, .16);
+
+  /* --- gold foil --- */
+  --gold:       #b08d57;
+  --gold-light: #e0c390;
+  --gold-deep:  #8a6a3b;
+  --gold-foil:  linear-gradient(105deg,
+                  #8a6a3b 0%, #b08d57 12%, #e6cd9c 26%,
+                  #a9854e 48%, #f0dcb2 68%, #b08d57 88%, #8a6a3b 100%);
+
+  --olive:      #6f7c55;
+
+  /* --- type --- */
+  --serif:  'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --title:  'Marcellus', 'Cormorant Garamond', Georgia, serif;
+  --script: 'Pinyon Script', 'Segoe Script', cursive;
+
+  /* --- rhythm (mobile first) ---
+     Two widths, used by every page without exception:
+       --leaf   the sheet of paper a page is printed on
+       --shell  the column the words sit in, inside that sheet
+     Nothing else declares its own width, so the edges never jump
+     from one page to the next. */
+  --leaf:    34rem;
+  --shell:   27rem;
+  --gutter:  clamp(1.25rem, 5vw, 2rem);
+  --page-pad: clamp(2rem, 6vh, 4rem);
+
+  /* --- motion --- */
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:auto;
+}
+
+body{
+  margin:0;
+  background-color:var(--cream);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:clamp(1rem, .95rem + .5vw, 1.125rem);
+  font-weight:400;
+  line-height:1.75;
+  letter-spacing:.005em;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* the doors are shut: nothing scrolls behind them */
+html.is-sealed,
+html.is-sealed body{ overflow:hidden; }
+
+h1,h2,h3,p,blockquote,figure,dl,dd{ margin:0; }
+ul{ margin:0; padding:0; list-style:none; }
+img{ max-width:100%; display:block; }
+address{ font-style:normal; }
+cite{ font-style:normal; }
+button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+a{ color:inherit; text-decoration:none; }
+
+::selection{ background:var(--gold-light); color:#2c231a; }
+
+/* ------------------------------------------------------------
+   Accessibility helpers
+   ------------------------------------------------------------ */
+.sr-only{
+  position:absolute; width:1px; height:1px;
+  margin:-1px; padding:0; border:0;
+  clip:rect(0 0 0 0); clip-path:inset(50%);
+  overflow:hidden; white-space:nowrap;
+}
+
+.skip-link{
+  position:fixed; top:.75rem; left:50%;
+  transform:translate(-50%,-160%);
+  z-index:400;
+  padding:.6rem 1.4rem;
+  background:var(--paper);
+  border:1px solid var(--gold);
+  border-radius:2rem;
+  font-family:var(--title);
+  font-size:.8rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  transition:transform .3s var(--ease);
+}
+.skip-link:focus{ transform:translate(-50%,0); }
+
+:focus-visible{
+  outline:1.5px solid var(--gold-deep);
+  outline-offset:4px;
+  border-radius:2px;
+}
+
+/* ------------------------------------------------------------
+   Typography kit
+   ------------------------------------------------------------ */
+/* Solid ink rather than clipped gradient: the script lines get split
+   into per-character spans for animation, and a clipped background
+   would not survive that. The highlight below does the foil work. */
+.script{
+  font-family:var(--script);
+  font-weight:400;
+  line-height:1.14;
+  letter-spacing:.01em;
+  color:#453520;
+  text-shadow:
+    0 1px 0 rgba(255,252,244,.7),
+    0 .04em .09em rgba(96,70,34,.16);
+  padding-bottom:.1em;   /* descenders in Pinyon Script run deep */
+}
+.script--sm{ font-size:clamp(1.3rem, 1.05rem + 1.8vw, 1.85rem); }
+.script--md{ font-size:clamp(1.65rem, 1.2rem + 2.6vw, 2.35rem); }
+.script--lg{ font-size:clamp(2.3rem, 1.5rem + 4.6vw, 3.4rem); }
+.script--xl{ font-size:clamp(2.9rem, 1.6rem + 7vw, 4.6rem); }
+
+.eyebrow{
+  font-family:var(--title);
+  font-size:clamp(.62rem, .58rem + .28vw, .78rem);
+  letter-spacing:.42em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+  line-height:1.9;
+  text-indent:.42em;      /* optical centring for tracked caps */
+}
+
+.amp,
+.couple__amp{
+  display:block;
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(1.5rem, 1.1rem + 2vw, 2.4rem);
+  color:var(--gold);
+  line-height:1;
+}
+
+/* ------------------------------------------------------------
+   Ornaments
+   ------------------------------------------------------------ */
+.sprite{ position:absolute; width:0; height:0; overflow:hidden; }
+
+.orn{
+  display:block;
+  fill:currentColor;
+  color:var(--gold);
+  margin-inline:auto;
+  flex:none;
+}
+.orn--cross{ width:.9rem; height:1.5rem; }
+.orn--cross.orn--sm{ width:.7rem; height:1.15rem; opacity:.75; }
+.orn--lily{ width:2.1rem; height:2.3rem; color:var(--gold); opacity:.8; }
+/* heights are the width divided by each viewBox ratio, so nothing letterboxes */
+.orn--flourish{ width:min(15rem, 62%); height:1.15rem; opacity:.85; }
+.orn--flourish.orn--muted{ opacity:.5; width:min(11rem, 46%); }
+.orn--vine{ width:min(11rem, 52%); height:2.2rem; opacity:.6; }
+/* rotate rather than scale: the reveal tweens scaleX, and would
+   otherwise wipe a mirrored ornament back the right way round */
+.orn--flip{ transform:rotate(180deg); }
+
+/* ------------------------------------------------------------
+   Continuous ambience — one sheet of paper for the whole site
+   ------------------------------------------------------------ */
+.ambience{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+.ambience__wash{
+  position:absolute; inset:0;
+  background:
+    linear-gradient(180deg,
+      #f6eee0 0%,
+      #f1e6d3 22%,
+      #efe3cd 46%,
+      #f2e7d6 68%,
+      #ede0c9 86%,
+      #e9dbc2 100%);
+}
+
+/* the candle that never leaves the room */
+.ambience__glow{
+  position:absolute; inset:-10%;
+  background:
+    radial-gradient(58% 42% at 14% 8%,  rgba(255,236,196,.75), transparent 70%),
+    radial-gradient(52% 38% at 88% 34%, rgba(255,228,182,.55), transparent 72%),
+    radial-gradient(64% 44% at 20% 72%, rgba(255,240,208,.50), transparent 74%),
+    radial-gradient(48% 34% at 82% 94%, rgba(246,222,178,.48), transparent 70%);
+  mix-blend-mode:screen;
+}
+
+.ambience__grain{
+  position:absolute; inset:0;
+  opacity:.5;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23g)' opacity='.34'/%3E%3C/svg%3E");
+  background-size:220px 220px;
+}
+
+/* fibres in the handmade paper, only where the screen is big enough to see them */
+@media (min-width:48rem){
+  .ambience__grain::after{
+    content:"";
+    position:absolute; inset:0;
+    opacity:.35;
+    background-image:
+      repeating-linear-gradient(96deg, rgba(120,94,60,.05) 0 1px, transparent 1px 7px),
+      repeating-linear-gradient(6deg,  rgba(120,94,60,.04) 0 1px, transparent 1px 11px);
+  }
+}
+
+/* ------------------------------------------------------------
+   The ribbon thread — a single silk marker down the whole book
+   ------------------------------------------------------------ */
+.thread{
+  position:fixed;
+  top:0; left:0;
+  width:2px; height:100vh;
+  z-index:60;
+  pointer-events:none;
+  background:linear-gradient(180deg, rgba(176,141,87,.05), rgba(176,141,87,.14), rgba(176,141,87,.05));
+  opacity:0;
+  transition:opacity .8s var(--ease);
+}
+html:not(.is-sealed) .thread{ opacity:1; }
+
+.thread__fill{
+  position:absolute;
+  inset:0 0 auto 0;
+  height:100%;
+  transform:scaleY(0);
+  transform-origin:top;
+  background:linear-gradient(180deg, #d9bd8c, #b08d57 40%, #8a6a3b);
+  box-shadow:0 0 10px rgba(176,141,87,.5);
+}
+
+@media (min-width:64rem){
+  .thread{ left:2.25rem; width:3px; }
+}
+
+/* ------------------------------------------------------------
+   Reveal start states
+   Gated on .motion, which motion.js drops if GSAP never arrives,
+   so a blocked CDN can never leave the page blank.
+   ------------------------------------------------------------ */
+.motion [data-reveal]{ will-change:opacity, transform; }
+.motion [data-reveal="rise"],
+.motion [data-reveal="lines"],
+.motion [data-reveal="chars"],
+.motion [data-reveal="letter"]{ opacity:0; }
+.motion [data-reveal="bloom"]{ opacity:0; transform:scale(.86); }
+.motion [data-reveal="rule"]{ opacity:0; transform:scaleX(.2); }
+.motion [data-reveal="mask"]{ opacity:0; clip-path:inset(0 0 100% 0); }
+
+.is-revealed{ will-change:auto; }
+
+/* ------------------------------------------------------------
+   Reduced motion — show everything, move nothing
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+  .motion [data-reveal]{
+    opacity:1 !important;
+    transform:none !important;
+    clip-path:none !important;
+  }
+  .crest__label{ animation:none; opacity:1; }
+}

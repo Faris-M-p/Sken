@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sini & Martin — Across Oceans, Guided by Faith</title>
+  <meta name="description" content="Cinematic wedding website of Sini & Martin. Two Hearts, Two Countries, One Journey. Celebrating their union on 24 August 2026 in Kerala, India.">
+  
+  <!-- Favicon & Fonts -->
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Modular CSS Files -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- GLOBAL CANVAS BACKGROUND FOR CONTINUOUS SCROLL -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div class="canvas-vignette" aria-hidden="true"></div>
+
+  <!-- FLOATING AUDIO CONTROLLER WIDGET -->
+  <button id="audio-toggle-btn" class="audio-controller" aria-label="Toggle Audio Soundscape" title="Toggle Soundscape">
+    <div class="sound-waves">
+      <div class="sound-wave-bar"></div>
+      <div class="sound-wave-bar"></div>
+      <div class="sound-wave-bar"></div>
+      <div class="sound-wave-bar"></div>
+    </div>
+    <span class="audio-text">Soundscape</span>
+  </button>
+
+  <!-- MAIN CONTINUOUS FILM CANVAS -->
+  <main>
+
+    <!-- CHAPTER 1: THE SACRED OPENING -->
+    <section id="chapter-opening" class="chapter active" aria-label="Chapter 1: The Sacred Opening">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(circle, rgba(212,175,106,0.3) 0%, rgba(13,27,42,0.95) 70%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <!-- Stained Glass Window SVG Artwork -->
+        <div class="stained-glass-window">
+          <svg class="stained-glass-svg" viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 0 C20 0 0 30 0 70 V160 H100 V70 C100 30 80 0 50 0 Z" fill="url(#stainedGlassGrad)" stroke="#D4AF6A" stroke-width="2"/>
+            <path d="M50 0 V160 M0 70 H100 M20 30 L80 110 M80 30 L20 110" stroke="#D4AF6A" stroke-opacity="0.4" stroke-width="1.5"/>
+            <defs>
+              <linearGradient id="stainedGlassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#D4AF6A" stop-opacity="0.6"/>
+                <stop offset="50%" stop-color="#23486A" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#6B8E8B" stop-opacity="0.6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <svg class="glow-cross" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0 V36 M4 10 H20" stroke="#FCFBF8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <blockquote class="scripture-quote">
+          “What God has joined together, let no one separate.”
+        </blockquote>
+        <p class="scripture-reference">— Mark 10:9 —</p>
+
+        <div class="tap-to-begin-container">
+          <h2 class="couple-names" style="font-size: 3.5rem; margin-bottom: 24px;">Sini & Martin</h2>
+          <button id="tap-to-begin-btn" class="btn-cinematic">
+            <span class="pulse-ring"></span>
+            Tap to Begin
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2: HERO -->
+    <section id="chapter-hero" class="chapter" aria-label="Chapter 2: Hero">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(ellipse at top, rgba(35,72,106,0.7) 0%, rgba(10,15,22,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">A Sacred Union</span>
+        <div class="hero-names-wrapper">
+          <span class="hero-name couple-names text-light-sweep">Sini</span>
+          <span class="hero-ampersand">&amp;</span>
+          <span class="hero-name couple-names text-light-sweep">Martin</span>
+        </div>
+        <p class="hero-tagline">Two Hearts &bull; Two Countries &bull; One Journey</p>
+        <div class="hero-date-badge">24 AUGUST 2026</div>
+
+        <div>
+          <button id="begin-story-btn" class="btn-cinematic">Begin Our Story</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3: OUR JOURNEY TIMELINE -->
+    <section id="chapter-journey" class="chapter" aria-label="Chapter 3: Our Journey">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 30% 50%, rgba(107,142,139,0.3) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">The Map of Providence</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 16px;">Our Journey</h2>
+        <p style="max-width: 600px; margin: 0 auto; color: var(--color-beige); font-size: 1.05rem;">
+          Not a biography, but a unfolding story written by grace, faith, and ocean currents.
+        </p>
+
+        <div class="timeline-container">
+          <svg class="timeline-line-svg" preserveAspectRatio="none" viewBox="0 0 4 1000">
+            <line class="timeline-path" x1="2" y1="0" x2="2" y2="1000" stroke-width="4"/>
+            <line class="timeline-progress-path" x1="2" y1="0" x2="2" y2="1000" stroke-width="4"/>
+          </svg>
+
+          <!-- Timeline Items -->
+          <div class="timeline-item reveal-up">
+            <div class="timeline-node"></div>
+            <div class="timeline-content glass-card">
+              <span class="section-subtitle">Chapter I</span>
+              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">Family Roots &amp; Foundations</h3>
+              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
+                Grounded in the warmth of faithful homes in Kerala, learning compassion, dedication, and trust in divine timing.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-up">
+            <div class="timeline-node"></div>
+            <div class="timeline-content glass-card">
+              <span class="section-subtitle">Chapter II</span>
+              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">First Connection</h3>
+              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
+                A single conversation across oceans sparked an unspoken bond of prayer, mutual respect, and quiet understanding.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-up">
+            <div class="timeline-node"></div>
+            <div class="timeline-content glass-card">
+              <span class="section-subtitle">Chapter III</span>
+              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">Across Oceans</h3>
+              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
+                Between hospital shifts in Ireland and culinary voyages aboard cruise liners in the UK, distant miles brought their hearts closer.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-up">
+            <div class="timeline-node"></div>
+            <div class="timeline-content glass-card">
+              <span class="section-subtitle">Chapter IV</span>
+              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">One Year Together</h3>
+              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
+                Countless video calls, shared prayers, and silent hope solidified their promise for a shared future.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-up">
+            <div class="timeline-node"></div>
+            <div class="timeline-content glass-card">
+              <span class="section-subtitle">Chapter V</span>
+              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">The Betrothal</h3>
+              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
+                Surrounded by family blessings at St. Mary's Church, sealing their commitment before God.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal-up">
+            <div class="timeline-node"></div>
+            <div class="timeline-content glass-card">
+              <span class="section-subtitle">Chapter VI</span>
+              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">The Holy Matrimony</h3>
+              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
+                Two worlds becoming one in Kerala at Mar Sleeva Church on 24 August 2026.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: TWO DIFFERENT WORLDS -->
+    <section id="chapter-worlds" class="chapter" aria-label="Chapter 4: Two Different Worlds">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(ellipse at center, rgba(35,72,106,0.6) 0%, rgba(13,27,42,0.95) 90%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Individual Callings</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">Two Different Worlds</h2>
+
+        <div class="split-worlds-grid">
+          <!-- LEFT: SINI (NURSE - IRELAND) -->
+          <div class="world-card glass-card reveal-up">
+            <div class="world-illustration-container">
+              <svg class="world-svg-art" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="240" fill="url(#irelandGrad)"/>
+                <!-- Irish rolling green hills -->
+                <path d="M0 180 Q100 130 200 160 T400 150 V240 H0 Z" fill="#2E5A44" opacity="0.7"/>
+                <path d="M0 200 Q150 160 300 190 T400 180 V240 H0 Z" fill="#1E3E2E"/>
+                <!-- Soft hospital cross outline -->
+                <path d="M200 60 V120 M170 90 H230" stroke="#D4AF6A" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="200" cy="90" r="45" stroke="#D4AF6A" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <!-- Animated heartbeat pulse -->
+                <path class="pulse-heart" d="M120 180 H160 L170 160 L185 200 L200 140 L215 190 L225 175 L235 180 H280" stroke="#F8F6F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                  <linearGradient id="irelandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#1B3B2B"/>
+                    <stop offset="100%" stop-color="#12151A"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            <div class="world-header">
+              <span class="world-icon">🩺</span>
+              <div>
+                <span class="world-profession">Nurse &bull; Ireland</span>
+                <h3 class="world-title">A Heart That Heals</h3>
+              </div>
+            </div>
+
+            <p class="world-description">
+              Sini serves with compassion as a nurse in Ireland, dedicating her life to caring for others. Every act of kindness reflects the love and faith she carries into this new chapter.
+            </p>
+
+            <div class="world-badges">
+              <span class="world-badge">🩺 Healthcare</span>
+              <span class="world-badge">🇮🇪 Ireland</span>
+              <span class="world-badge">❤️ Healing</span>
+            </div>
+          </div>
+
+          <!-- RIGHT: MARTIN (CHEF - CRUISE SHIP UK) -->
+          <div class="world-card glass-card reveal-up delay-1">
+            <div class="world-illustration-container">
+              <svg class="world-svg-art" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="240" fill="url(#ukGrad)"/>
+                <!-- Ocean waves -->
+                <path d="M0 190 C100 175 200 205 300 185 C350 175 400 195 400 195 V240 H0 Z" fill="#1C3A56"/>
+                <path d="M0 210 C120 195 240 220 360 205 L400 215 V240 H0 Z" fill="#0F2338"/>
+                <!-- Cruise ship silhouette -->
+                <g class="floating-ship">
+                  <path d="M120 165 L280 165 L260 190 L140 190 Z" fill="#FCFBF8" opacity="0.9"/>
+                  <rect x="150" y="145" width="100" height="20" rx="3" fill="#D4AF6A"/>
+                  <rect x="170" y="130" width="60" height="15" rx="2" fill="#FCFBF8"/>
+                  <line x1="200" y1="130" x2="200" y2="115" stroke="#D4AF6A" stroke-width="2"/>
+                </g>
+                <defs>
+                  <linearGradient id="ukGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#23486A"/>
+                    <stop offset="100%" stop-color="#0D1B2A"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            <div class="world-header">
+              <span class="world-icon">👨‍🍳</span>
+              <div>
+                <span class="world-profession">Chef &bull; Cruise Ship UK</span>
+                <h3 class="world-title">A Journey Across Seas</h3>
+              </div>
+            </div>
+
+            <p class="world-description">
+              Martin works as a chef aboard a cruise ship in the United Kingdom, travelling across the oceans while bringing joy through his culinary craft. Every voyage became another step toward the greatest journey of his life.
+            </p>
+
+            <div class="world-badges">
+              <span class="world-badge">👨‍🍳 Culinary Art</span>
+              <span class="world-badge">🚢 Ocean Voyages</span>
+              <span class="world-badge">🇬🇧 United Kingdom</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 5: LOVE BEYOND DISTANCE -->
+    <section id="chapter-distance" class="chapter" aria-label="Chapter 5: Love Beyond Distance">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 70% 30%, rgba(35,72,106,0.5) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Bridging the Distance</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 12px;">Love Beyond Distance</h2>
+        <p style="max-width: 650px; margin: 0 auto 24px auto; color: var(--color-ivory);">
+          Different countries. Different schedules. One year of conversations. One promise. One future.
+        </p>
+
+        <!-- Canvas Animated Map -->
+        <div class="map-canvas-wrapper">
+          <canvas id="map-canvas"></canvas>
+        </div>
+
+        <div class="glass-card map-quote-card reveal-up">
+          <p style="font-family: var(--font-heading); font-size: 1.35rem; font-style: italic; color: var(--color-gold);">
+            “Distance means so little when someone means so much. Guided by faith, their paths converge at home.”
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 6: COUNTDOWN -->
+    <section id="chapter-countdown" class="chapter" aria-label="Chapter 6: Countdown">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(ellipse at bottom, rgba(212,175,106,0.35) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Counting Down to Forever</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">The Celebration Begins In</h2>
+
+        <div class="glass-card" style="max-width: 750px; margin: 0 auto; padding: 48px 24px;">
+          <div class="countdown-grid">
+            <div class="countdown-box">
+              <span id="cd-days" class="countdown-number">00</span>
+              <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-box">
+              <span id="cd-hours" class="countdown-number">00</span>
+              <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-box">
+              <span id="cd-minutes" class="countdown-number">00</span>
+              <span class="countdown-label">Minutes</span>
+            </div>
+            <div class="countdown-box">
+              <span id="cd-seconds" class="countdown-number">00</span>
+              <span class="countdown-label">Seconds</span>
+            </div>
+          </div>
+          <p style="margin-top: 24px; font-family: var(--font-body); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-gold); font-size: 0.9rem;">
+            24 AUGUST 2026 &bull; KERALA, INDIA
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 7: BRIDE'S FAMILY -->
+    <section id="chapter-bride-family" class="chapter" aria-label="Chapter 7: Bride's Family">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 20% 40%, rgba(107,142,139,0.4) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Heritage &amp; Blessings</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 32px;">Bride's Family</h2>
+
+        <div class="glass-card family-profile-card">
+          <div class="family-portrait-frame">
+            <!-- Blurred portrait placeholder per guidelines -->
+            <svg class="family-portrait-img" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="100" cy="100" r="100" fill="url(#brideFamilyGrad)"/>
+              <path d="M100 50 C80 50 65 65 65 85 C65 110 100 135 100 135 C100 135 135 110 135 85 C135 65 120 50 100 50 Z" fill="#D4AF6A" opacity="0.6"/>
+              <defs>
+                <linearGradient id="brideFamilyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#6B8E8B"/>
+                  <stop offset="100%" stop-color="#23486A"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <div>
+            <h3 style="font-size: 2rem; color: var(--color-warm-white); margin-bottom: 8px;">The Family of Sini</h3>
+            <p style="font-size: 1rem; color: var(--color-beige); margin-bottom: 16px;">
+              With heart-filled gratitude to her parents and loved ones whose unconditional love, guidance, and prayers paved the path to this blessed day.
+            </p>
+            <ul class="family-members-list">
+              <li class="family-member-item">
+                <span class="family-role">Daughter of:</span> Mr. &amp; Mrs. Family Name
+              </li>
+              <li class="family-member-item">
+                <span class="family-role">Home Town:</span> Kottayam, Kerala
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 8: GROOM'S FAMILY -->
+    <section id="chapter-groom-family" class="chapter" aria-label="Chapter 8: Groom's Family">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 80% 60%, rgba(35,72,106,0.5) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Heritage &amp; Blessings</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 32px;">Groom's Family</h2>
+
+        <div class="glass-card family-profile-card">
+          <div class="family-portrait-frame">
+            <svg class="family-portrait-img" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="100" cy="100" r="100" fill="url(#groomFamilyGrad)"/>
+              <path d="M100 50 C80 50 65 65 65 85 C65 110 100 135 100 135 C100 135 135 110 135 85 C135 65 120 50 100 50 Z" fill="#D4AF6A" opacity="0.6"/>
+              <defs>
+                <linearGradient id="groomFamilyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#23486A"/>
+                  <stop offset="100%" stop-color="#12151A"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <div>
+            <h3 style="font-size: 2rem; color: var(--color-warm-white); margin-bottom: 8px;">The Family of Martin</h3>
+            <p style="font-size: 1rem; color: var(--color-beige); margin-bottom: 16px;">
+              With profound appreciation to his parents and family for instilling values of faith, perseverance, and dedication across every voyage.
+            </p>
+            <ul class="family-members-list">
+              <li class="family-member-item">
+                <span class="family-role">Son of:</span> Mr. &amp; Mrs. Family Name
+              </li>
+              <li class="family-member-item">
+                <span class="family-role">Home Town:</span> Kottayam, Kerala
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 9: BETROTHAL -->
+    <section id="chapter-betrothal" class="chapter" aria-label="Chapter 9: Betrothal">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(ellipse at top, rgba(212,175,106,0.3) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Sacred Promise</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">The Betrothal Ceremony</h2>
+
+        <div class="glass-card ceremony-card">
+          <!-- St Mary's Church Sketch SVG -->
+          <div class="church-sketch-container">
+            <svg class="church-sketch-svg dash-drawing" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M200 20 L240 70 H160 Z" stroke="#D4AF6A" stroke-width="2"/>
+              <rect x="175" y="70" width="50" height="110" stroke="#D4AF6A" stroke-width="2"/>
+              <path d="M190 130 A10 10 0 0 1 210 130 V180 H190 Z" stroke="#D4AF6A" stroke-width="1.5"/>
+              <path d="M200 0 V20 M193 7 H207" stroke="#D4AF6A" stroke-width="2"/>
+              <!-- Side wings -->
+              <path d="M80 110 L160 110 V180 H80 Z M240 110 L320 110 V180 H240 Z" stroke="#D4AF6A" stroke-width="1.5"/>
+            </svg>
+          </div>
+
+          <h3 style="font-size: 2.2rem; color: var(--color-warm-white); margin-bottom: 8px;">St. Mary's Church</h3>
+          <p style="font-size: 1.05rem; color: var(--color-gold);">Kottayam, Kerala</p>
+
+          <div class="ceremony-meta-grid">
+            <div>
+              <div class="meta-item-title">DATE</div>
+              <div class="meta-item-value">August 2026</div>
+            </div>
+            <div>
+              <div class="meta-item-title">TIME</div>
+              <div class="meta-item-value">10:00 AM</div>
+            </div>
+            <div>
+              <div class="meta-item-title">CEREMONY</div>
+              <div class="meta-item-value">Betrothal</div>
+            </div>
+          </div>
+
+          <button class="btn-cinematic" data-nav-venue="betrothal">Navigate to St. Mary's</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 10: WEDDING CEREMONY -->
+    <section id="chapter-wedding" class="chapter" aria-label="Chapter 10: Wedding Ceremony">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(ellipse at center, rgba(212,175,106,0.4) 0%, rgba(13,27,42,0.95) 85%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Holy Matrimony</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">The Wedding Ceremony</h2>
+
+        <div class="glass-card ceremony-card">
+          <!-- Mar Sleeva Church Line Drawing SVG -->
+          <div class="church-sketch-container">
+            <svg class="church-sketch-svg dash-drawing" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M200 10 L250 60 H150 Z" stroke="#D4AF6A" stroke-width="2.5"/>
+              <rect x="165" y="60" width="70" height="120" stroke="#D4AF6A" stroke-width="2"/>
+              <circle cx="200" cy="95" r="15" stroke="#D4AF6A" stroke-width="1.5"/>
+              <path d="M185 140 A15 15 0 0 1 215 140 V180 H185 Z" stroke="#D4AF6A" stroke-width="2"/>
+              <path d="M200 -5 V10 M190 0 H210" stroke="#D4AF6A" stroke-width="3"/>
+              <!-- Symmetrical Spire Arches -->
+              <path d="M60 100 L150 100 V180 H60 Z M250 100 L340 100 V180 H250 Z" stroke="#D4AF6A" stroke-width="1.5"/>
+            </svg>
+          </div>
+
+          <h3 style="font-size: 2.4rem; color: var(--color-warm-white); margin-bottom: 8px;">Mar Sleeva Forane Church</h3>
+          <p style="font-size: 1.1rem; color: var(--color-gold);">Cherpunkal, Kottayam, Kerala</p>
+
+          <div class="ceremony-meta-grid">
+            <div>
+              <div class="meta-item-title">DATE</div>
+              <div class="meta-item-value">24 August 2026</div>
+            </div>
+            <div>
+              <div class="meta-item-title">TIME</div>
+              <div class="meta-item-value">11:00 AM</div>
+            </div>
+            <div>
+              <div class="meta-item-title">FEAST &amp; RECEPTION</div>
+              <div class="meta-item-value">To Follow</div>
+            </div>
+          </div>
+
+          <button class="btn-cinematic" data-nav-venue="wedding">Navigate to Mar Sleeva</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 11: NAVIGATE -->
+    <section id="chapter-navigate" class="chapter" aria-label="Chapter 11: Navigate">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 50% 80%, rgba(107,142,139,0.3) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Directions &amp; Locations</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">Navigate</h2>
+
+        <div class="navigate-cards-grid">
+          <!-- CARD 1: BETROTHAL NAVIGATE -->
+          <div class="glass-card reveal-up">
+            <h3 class="nav-card-title">Betrothal Location</h3>
+            <p class="nav-card-location">St. Mary's Church &bull; Kottayam</p>
+            <div class="map-preview-frame" style="background-image: linear-gradient(135deg, rgba(35,72,106,0.6), rgba(13,27,42,0.8)); display: flex; align-items: center; justify-content: center;">
+              <span style="font-size: 2.5rem;">📍</span>
+            </div>
+            <button class="btn-cinematic" data-nav-venue="betrothal">Open Google Maps</button>
+          </div>
+
+          <!-- CARD 2: WEDDING NAVIGATE -->
+          <div class="glass-card reveal-up delay-1">
+            <h3 class="nav-card-title">Wedding Location</h3>
+            <p class="nav-card-location">Mar Sleeva Church &bull; Cherpunkal</p>
+            <div class="map-preview-frame" style="background-image: linear-gradient(135deg, rgba(107,142,139,0.6), rgba(13,27,42,0.8)); display: flex; align-items: center; justify-content: center;">
+              <span style="font-size: 2.5rem;">💒</span>
+            </div>
+            <button class="btn-cinematic" data-nav-venue="wedding">Open Google Maps</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 12: MEMORIES (ONLY HERE SHOW ORIGINAL CLEAR PHOTOGRAPHS) -->
+    <section id="chapter-memories" class="chapter" aria-label="Chapter 12: Memories Gallery">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(ellipse at center, rgba(35,72,106,0.4) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <span class="section-subtitle">Moments Captured</span>
+        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 12px;">Memories</h2>
+        <p style="color: var(--color-beige); max-width: 600px; margin: 0 auto 32px auto;">
+          Click any photograph to view in full resolution lightbox.
+        </p>
+
+        <!-- MASONRY GALLERY WITH HIGH QUALITY CLEAR IMAGES -->
+        <div class="gallery-masonry-grid">
+          <!-- Gallery Item 1 -->
+          <div class="gallery-item">
+            <svg class="gallery-img" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="500" fill="url(#g1)"/>
+              <circle cx="200" cy="200" r="80" fill="#D4AF6A" opacity="0.3"/>
+              <path d="M150 350 Q200 280 250 350" stroke="#FCFBF8" stroke-width="4" stroke-linecap="round"/>
+              <text x="50%" y="90%" text-anchor="middle" fill="#FCFBF8" font-family="Cormorant Garamond" font-size="24">Ireland &bull; Spring Walk</text>
+              <defs>
+                <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2E5A44"/>
+                  <stop offset="100%" stop-color="#1C3A56"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="gallery-overlay">
+              <span class="gallery-caption">Spring Walk in Ireland</span>
+            </div>
+          </div>
+
+          <!-- Gallery Item 2 -->
+          <div class="gallery-item">
+            <svg class="gallery-img" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="500" fill="url(#g2)"/>
+              <circle cx="280" cy="120" r="60" fill="#D4AF6A" opacity="0.5"/>
+              <path d="M0 380 Q200 320 400 380 V500 H0 Z" fill="#0F2338"/>
+              <text x="50%" y="90%" text-anchor="middle" fill="#FCFBF8" font-family="Cormorant Garamond" font-size="24">Sunset Over the UK Seas</text>
+              <defs>
+                <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#23486A"/>
+                  <stop offset="100%" stop-color="#6B8E8B"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="gallery-overlay">
+              <span class="gallery-caption">Sunset Over the UK Seas</span>
+            </div>
+          </div>
+
+          <!-- Gallery Item 3 -->
+          <div class="gallery-item">
+            <svg class="gallery-img" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="500" fill="url(#g3)"/>
+              <path d="M200 150 C160 150 130 180 130 220 C130 270 200 320 200 320 C200 320 270 270 270 220 C270 180 240 150 200 150 Z" fill="#D4AF6A"/>
+              <text x="50%" y="90%" text-anchor="middle" fill="#FCFBF8" font-family="Cormorant Garamond" font-size="24">The Promise Sealed</text>
+              <defs>
+                <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#3A2E4B"/>
+                  <stop offset="100%" stop-color="#12151A"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="gallery-overlay">
+              <span class="gallery-caption">The Promise Sealed</span>
+            </div>
+          </div>
+
+          <!-- Gallery Item 4 -->
+          <div class="gallery-item">
+            <svg class="gallery-img" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="500" fill="url(#g4)"/>
+              <path d="M100 250 H300 M200 150 V350" stroke="#FCFBF8" stroke-width="3"/>
+              <text x="50%" y="90%" text-anchor="middle" fill="#FCFBF8" font-family="Cormorant Garamond" font-size="24">Guided by Faith</text>
+              <defs>
+                <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1B3B2B"/>
+                  <stop offset="100%" stop-color="#D4AF6A" stop-opacity="0.5"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="gallery-overlay">
+              <span class="gallery-caption">Guided by Faith</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL FOR GALLERY -->
+    <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true" role="dialog">
+      <div class="lightbox-content">
+        <button id="lightbox-close" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+        <img id="lightbox-img" class="lightbox-img" src="" alt="Enlarged Memory Photo">
+        <p id="lightbox-caption" style="margin-top: 16px; font-family: var(--font-heading); font-size: 1.4rem; color: var(--color-gold);"></p>
+      </div>
+    </div>
+
+    <!-- CHAPTER 13: BLESSINGS -->
+    <section id="chapter-blessings" class="chapter" aria-label="Chapter 13: Blessings">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(circle at center, rgba(212,175,106,0.3) 0%, rgba(13,27,42,0.95) 80%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <div class="glass-card blessings-card">
+          <span class="section-subtitle">Divine Grace</span>
+          <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">Blessings &amp; Prayers</h2>
+          <blockquote class="scripture-quote" style="font-size: 1.8rem;">
+            “Love is patient, love is kind. It always protects, always trusts, always hopes, always perseveres. Love never fails.”
+          </blockquote>
+          <p class="scripture-reference">— 1 Corinthians 13:4, 7-8 —</p>
+          <p style="margin-top: 32px; font-size: 1.1rem; line-height: 1.7; color: var(--color-ivory);">
+            We humbly request your prayers, blessings, and presence as we step into this sacred covenant ordained by God.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 14: THANK YOU -->
+    <section id="chapter-thankyou" class="chapter" aria-label="Chapter 14: Thank You">
+      <div class="chapter-bg-wrapper">
+        <div class="chapter-blurred-bg" style="background-image: radial-gradient(ellipse at center, rgba(35,72,106,0.6) 0%, rgba(10,15,22,0.98) 90%);"></div>
+        <div class="chapter-gradient-overlay"></div>
+      </div>
+
+      <div class="chapter-content reveal-up">
+        <div class="glass-card thankyou-card">
+          <span class="section-subtitle">With Heartfelt Love</span>
+          <h2 class="chapter-title" style="font-size: 3.5rem; margin-bottom: 16px;">Thank You</h2>
+          <p style="font-size: 1.25rem; color: var(--color-beige); margin-bottom: 32px;">
+            We can't wait to celebrate with you.
+          </p>
+          <h3 class="couple-names" style="font-size: 4rem;">Sini ❤️ Martin</h3>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODULAR JAVASCRIPT IMPORTS (STATIC FILE:// COMPATIBLE) -->
+  <script src="js/audioEngine.js"></script>
+  <script src="js/scroll.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

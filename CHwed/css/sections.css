@@ -1,0 +1,464 @@
+/* ============================================================
+   THE COVENANT — sections
+   Page-by-page typography and composition
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Paper tint per page
+   Each leaf has its own warmth so no two pages feel identical,
+   but they are all the same paper and shift only a shade at a
+   time, so the change is never noticeable as a boundary.
+   ------------------------------------------------------------ */
+.page--hero      { --leaf-tint:#f9f2e5; }
+.page--verse     { --leaf-tint:#f6ecd9; }
+.page--invite    { --leaf-tint:#faf4e8; }
+.page--count     { --leaf-tint:#f6ecda; }
+.page--betrothal { --leaf-tint:#f9f3e6; }
+.page--wedding   { --leaf-tint:#f8f0e3; }
+.page--reception { --leaf-tint:#f4e9d5; }
+.page--venue     { --leaf-tint:#f6eddc; }
+.page--bless     { --leaf-tint:#faf4e9; }
+.page--thanks    { --leaf-tint:#f4e8d3; }
+
+/* ------------------------------------------------------------
+   PAGE 2 — HERO
+   ------------------------------------------------------------ */
+/* The title page is the one section that should own a whole screen. */
+.page--hero{ --page-min:100svh; }
+
+.couple{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.1rem;
+  margin:0;
+  font-weight:400;
+}
+.couple__amp{ margin-block:.15rem; }
+
+.couple__full{
+  font-family:var(--title);
+  font-size:clamp(.63rem, .58rem + .3vw, .76rem);
+  letter-spacing:.32em;
+  text-indent:.32em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+}
+
+.date-line{
+  font-family:var(--title);
+  font-size:clamp(.78rem, .72rem + .42vw, 1rem);
+  letter-spacing:.3em;
+  text-indent:.3em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+.place-line{
+  font-size:clamp(.92rem, .88rem + .35vw, 1.08rem);
+  font-style:italic;
+  font-weight:300;
+  color:var(--ink-soft);
+  margin-top:-.55rem;
+}
+
+.welcome{
+  max-width:23rem;
+  margin-top:clamp(.75rem, 3vh, 1.5rem);
+  font-size:clamp(.9rem, .86rem + .3vw, 1.02rem);
+  font-style:italic;
+  font-weight:300;
+  line-height:2;
+  letter-spacing:.03em;
+  color:var(--ink-soft);
+}
+
+/* ------------------------------------------------------------
+   PAGE 3 — SACRED VERSE
+   ------------------------------------------------------------ */
+.page--verse .page__body{ gap:clamp(1.1rem, 4vw, 1.75rem); }
+
+.scripture{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(1rem, 3.6vw, 1.5rem);
+}
+/* Tracked capitals eat width fast — held well below the shell so the
+   three written lines stay three lines instead of wrapping to five. */
+.scripture__text{
+  font-family:var(--serif);
+  font-size:clamp(1.1rem, .92rem + 1.9vw, 1.7rem);
+  font-weight:300;
+  line-height:1.75;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#4a3a26;
+}
+.scripture__ref{
+  font-family:var(--title);
+  font-size:clamp(.6rem, .57rem + .2vw, .7rem);
+  letter-spacing:.36em;
+  text-indent:.36em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+
+/* ------------------------------------------------------------
+   PAGE 4 — WEDDING INVITATION
+   ------------------------------------------------------------ */
+/* The longest page in the book, so everything on it is held in close. */
+.card--invite{ gap:clamp(.85rem, 3vw, 1.25rem); }
+
+.invite__lead{
+  max-width:22rem;
+  font-size:clamp(.85rem, .82rem + .28vw, .98rem);
+  font-style:italic;
+  font-weight:300;
+  line-height:1.8;
+  color:var(--ink-soft);
+}
+
+.party{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.3rem;
+}
+.party__role{
+  font-family:var(--title);
+  font-size:.6rem;
+  letter-spacing:.4em;
+  text-indent:.4em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+.party__name{ margin-block:.05rem .2rem; }
+.party__of{
+  font-family:var(--title);
+  font-size:.6rem;
+  letter-spacing:.26em;
+  text-indent:.26em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+}
+.party__parents{
+  font-size:clamp(1rem, .95rem + .35vw, 1.15rem);
+  font-weight:400;
+  line-height:1.65;
+  color:var(--ink);
+}
+.party__and{
+  font-style:italic;
+  font-weight:300;
+  color:var(--gold);
+}
+.party__address{
+  margin-top:.2rem;
+  font-size:.84rem;
+  font-style:italic;
+  font-weight:300;
+  line-height:1.7;
+  color:var(--ink-faint);
+}
+
+.joiner{
+  display:flex;
+  align-items:center;
+  gap:.9rem;
+  width:min(14rem, 62%);
+  margin-block:.15rem;
+}
+.joiner__rule{
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(176,141,87,.55), transparent);
+}
+.joiner__word{
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:300;
+  font-size:1rem;
+  letter-spacing:.14em;
+  color:var(--gold-deep);
+}
+
+/* ------------------------------------------------------------
+   PAGE 5 — COUNTDOWN
+   ------------------------------------------------------------ */
+/* tall enough that the pocket watch still reads below the numbers */
+.page--count{ --page-min:82svh; }
+.page--count .page__body{ gap:clamp(.75rem, 2.6vw, 1.15rem); }
+
+.count__date{ margin-bottom:.25rem; }
+
+.count{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:clamp(.4rem, 1.8vw, .75rem);
+  width:100%;
+  max-width:25rem;
+}
+.count__unit{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.3rem;
+  padding:clamp(.7rem, 3vw, 1.05rem) .25rem clamp(.6rem, 2.4vw, .9rem);
+  background:linear-gradient(170deg, rgba(253,249,242,.7), rgba(243,233,215,.5));
+  border:1px solid rgba(176,141,87,.32);
+  border-radius:2px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+}
+.count__num{
+  font-family:var(--serif);
+  font-size:clamp(1.5rem, 1rem + 4.4vw, 2.5rem);
+  font-weight:300;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.02em;
+  color:#4a3a26;
+}
+.count__lbl{
+  font-family:var(--title);
+  font-size:clamp(.5rem, .46rem + .22vw, .6rem);
+  letter-spacing:.2em;
+  text-indent:.2em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+.count__done{
+  grid-column:1 / -1;
+  padding-top:.5rem;
+  font-family:var(--script);
+  font-size:clamp(1.5rem, 1.2rem + 2.4vw, 2.2rem);
+  color:var(--gold-deep);
+}
+.count.is-complete .count__unit{ display:none; }
+
+/* ------------------------------------------------------------
+   PAGES 6, 7, 8 — CEREMONY CARDS
+   ------------------------------------------------------------ */
+.event__title{ margin-block:-.2rem .05rem; }
+
+.detail{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(.8rem, 2.8vw, 1.2rem);
+  width:100%;
+  margin-top:.2rem;
+}
+.detail__row{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.3rem;
+}
+.detail dt{
+  display:inline-flex;
+  align-items:center;
+  gap:.45rem;
+  font-family:var(--title);
+  font-size:.58rem;
+  letter-spacing:.34em;
+  text-indent:.34em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+.detail dt svg{
+  width:.85rem; height:.85rem;
+  stroke-width:1.3;
+  opacity:.85;
+  margin-right:-.2rem;
+}
+.detail dd{
+  font-size:clamp(1.02rem, .95rem + .5vw, 1.25rem);
+  font-weight:400;
+  line-height:1.5;
+  color:var(--ink);
+}
+.detail__sub{
+  display:block;
+  margin-top:.15rem;
+  font-size:.85rem;
+  font-style:italic;
+  font-weight:300;
+  color:var(--ink-faint);
+}
+
+/* ------------------------------------------------------------
+   PAGE 9 — VENUE
+   ------------------------------------------------------------ */
+/* two cards and a map: the one page that earns a little more room */
+.page--venue{ --page-min:88svh; }
+.page--venue .page__body{ gap:clamp(.85rem, 3vw, 1.25rem); }
+
+.venue__lead{ margin-bottom:.2rem; }
+
+.venue__grid{
+  display:flex;
+  flex-direction:column;
+  gap:clamp(.65rem, 2.6vw, .95rem);
+  width:100%;
+}
+.card--venue{
+  gap:.35rem;
+  padding:clamp(1.35rem, 5.5vw, 1.85rem) clamp(1.1rem, 4.5vw, 1.6rem);
+}
+.card--venue::after{ inset:5px; }
+.card__kicker{
+  font-family:var(--title);
+  font-size:.56rem;
+  letter-spacing:.36em;
+  text-indent:.36em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+.card__title{
+  font-size:clamp(1.1rem, 1rem + .6vw, 1.35rem);
+  font-weight:400;
+  line-height:1.4;
+  color:var(--ink);
+}
+.card__meta{
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  font-size:.88rem;
+  font-style:italic;
+  font-weight:300;
+  color:var(--ink-faint);
+}
+.card__meta svg{ width:.85rem; height:.85rem; stroke-width:1.3; }
+
+.map{
+  position:relative;
+  width:100%;
+  margin:.5rem 0 0;
+  aspect-ratio:4 / 3;
+  overflow:hidden;
+  border:1px solid rgba(176,141,87,.35);
+  border-radius:3px;
+  background:
+    radial-gradient(120% 90% at 30% 20%, rgba(255,248,234,.85), transparent 70%),
+    linear-gradient(160deg, rgba(243,233,215,.9), rgba(228,213,186,.9));
+  box-shadow:0 1.2rem 3rem -1.2rem rgba(78,58,34,.28);
+  display:grid;
+  place-items:center;
+}
+.map__open{
+  display:inline-flex;
+  align-items:center;
+  gap:.6rem;
+  min-height:2.8rem;
+  padding:.7rem 1.5rem;
+  border:1px solid var(--gold);
+  border-radius:999px;
+  background:rgba(253,249,242,.72);
+  font-family:var(--title);
+  font-size:.68rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+  transition:background .4s var(--ease), transform .4s var(--ease);
+}
+.map__open svg{ width:1rem; height:1rem; stroke-width:1.4; }
+.map__open:hover{ background:rgba(253,249,242,.95); transform:translateY(-2px); }
+
+.map iframe{
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  border:0;
+  filter:sepia(.14) saturate(.9) brightness(1.02);
+}
+.map__cap{
+  position:absolute;
+  bottom:0; left:0; right:0;
+  z-index:2;
+  padding:.55rem .8rem;
+  background:linear-gradient(to top, rgba(244,235,218,.94), rgba(244,235,218,0));
+  font-family:var(--title);
+  font-size:.58rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+.map.is-loaded .map__open{ display:none; }
+
+@media (min-width:48rem){
+  .map{ aspect-ratio:16 / 10; }
+}
+
+/* ------------------------------------------------------------
+   PAGE 10 — FAMILY BLESSINGS
+   ------------------------------------------------------------ */
+.page--bless .page__body{ gap:clamp(.95rem, 3.2vw, 1.4rem); }
+
+.bless__title{
+  font-family:var(--title);
+  font-size:clamp(1rem, .9rem + 1.1vw, 1.45rem);
+  font-weight:400;
+  line-height:1.85;
+  letter-spacing:.22em;
+  text-indent:.22em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+
+.bless__list{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(.4rem, 2vw, .8rem);
+}
+
+/* ------------------------------------------------------------
+   PAGE 11 — THANK YOU
+   ------------------------------------------------------------ */
+/* the closing page keeps its stillness, and room for the colophon */
+.page--thanks{ --page-min:92svh; padding-bottom:calc(var(--page-pad) + 4.5rem); }
+.page--thanks .page__body{ gap:clamp(.9rem, 3.2vw, 1.4rem); }
+
+.thanks__title{ margin-bottom:-.25rem; }
+
+.thanks__text{
+  max-width:21rem;
+  font-size:clamp(.92rem, .88rem + .32vw, 1.05rem);
+  font-style:italic;
+  font-weight:300;
+  line-height:2;
+  color:var(--ink-soft);
+}
+.thanks__blessing{
+  font-family:var(--title);
+  font-size:clamp(.72rem, .66rem + .38vw, .9rem);
+  letter-spacing:.36em;
+  text-indent:.36em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+
+.colophon{
+  position:absolute;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + clamp(1.5rem, 5vh, 2.75rem));
+  left:0; right:0;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.3rem;
+  text-align:center;
+}
+.colophon__names{
+  font-family:var(--script);
+  font-size:1.15rem;
+  color:var(--gold-deep);
+}
+.colophon__date{
+  font-family:var(--title);
+  font-size:.56rem;
+  letter-spacing:.4em;
+  text-indent:.4em;
+  color:var(--ink-faint);
+}

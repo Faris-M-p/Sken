@@ -1,0 +1,139 @@
+/* -----------------------------------------------------------------
+   ACROSS OCEANS, GUIDED BY FAITH - RESPONSIVE STYLES
+   Mobile-First Architecture
+   ----------------------------------------------------------------- */
+
+/* --- TABLETS & MEDIUM SCREENS (min-width: 768px) --- */
+@media (min-width: 768px) {
+  :root {
+    --chapter-padding-y: 120px;
+    --chapter-padding-x: 48px;
+  }
+
+  .scripture-quote {
+    font-size: 2.6rem;
+  }
+
+  .split-worlds-grid {
+    gap: 40px;
+  }
+
+  .world-illustration-container {
+    height: 280px;
+  }
+
+  .navigate-cards-grid {
+    gap: 40px;
+  }
+
+  .countdown-box {
+    min-width: 120px;
+    padding: 28px 24px;
+  }
+
+  .countdown-number {
+    font-size: 3.5rem;
+  }
+}
+
+/* --- LARGE SCREENS & DESKTOPS (min-width: 1024px) --- */
+@media (min-width: 1024px) {
+  :root {
+    --chapter-padding-y: 140px;
+  }
+
+  .split-worlds-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .family-profile-card {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+
+  .family-portrait-frame {
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+  }
+
+  .family-members-list {
+    align-items: flex-start;
+  }
+}
+
+/* --- MOBILE SPECIFIC FIXES (max-width: 767px) --- */
+@media (max-width: 767px) {
+  .split-worlds-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .timeline-container {
+    padding-left: 28px;
+    padding-right: 0;
+  }
+
+  .timeline-line-svg {
+    left: 14px;
+    transform: none;
+  }
+
+  .timeline-item, .timeline-item:nth-child(even) {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+    padding-left: 20px;
+  }
+
+  .timeline-node, .timeline-item:nth-child(even) .timeline-node {
+    left: -20px;
+    right: auto;
+  }
+
+  .timeline-content {
+    width: 100%;
+  }
+
+  .countdown-grid {
+    gap: 10px;
+  }
+
+  .countdown-box {
+    min-width: 70px;
+    padding: 16px 8px;
+  }
+
+  .countdown-number {
+    font-size: 2rem;
+  }
+
+  .countdown-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+  }
+
+  .ceremony-meta-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .navigate-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .audio-controller {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 16px;
+  }
+
+  .audio-text {
+    font-size: 0.75rem;
+  }
+
+  .hero-name {
+    font-size: 3.2rem;
+  }
+}

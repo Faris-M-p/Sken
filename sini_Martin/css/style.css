@@ -1,0 +1,958 @@
+/* -----------------------------------------------------------------
+   ACROSS OCEANS, GUIDED BY FAITH - MASTER CSS DESIGN SYSTEM
+   Single-Canvas Cinematic Experience for Sini & Martin
+   ----------------------------------------------------------------- */
+
+/* --- GOOGLE FONTS IMPORT --- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+/* --- DESIGN TOKENS --- */
+:root {
+  /* Primary Colors */
+  --color-ivory: #F8F6F2;
+  --color-warm-white: #FCFBF8;
+
+  /* Secondary Colors */
+  --color-ocean-blue: #23486A;
+  --color-sea-green: #6B8E8B;
+
+  /* Accent Colors */
+  --color-gold: #D4AF6A;
+  --color-gold-light: #F3E5C8;
+  --color-gold-dark: #9A7B3E;
+
+  /* Support Colors */
+  --color-sage: #8A9A86;
+  --color-beige: #E6DFD5;
+  --color-dark-charcoal: #12151A;
+  --color-overlay-dark: rgba(18, 21, 26, 0.65);
+  --color-overlay-light: rgba(248, 246, 242, 0.15);
+
+  /* Typography */
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-accent: 'Great Vibes', cursive;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(252, 251, 248, 0.12);
+  --glass-bg-hover: rgba(252, 251, 248, 0.22);
+  --glass-border: rgba(212, 175, 106, 0.25);
+  --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  --glass-backdrop: blur(16px) saturate(180%);
+
+  /* Spacing */
+  --chapter-padding-y: 100px;
+  --chapter-padding-x: 24px;
+  
+  /* Transitions */
+  --transition-slow: 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-medium: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-fast: 0.3s ease;
+}
+
+/* --- RESET & GLOBAL STYLES --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--color-dark-charcoal);
+  color: var(--color-ivory);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: radial-gradient(circle at center, #1b263b 0%, #0d1b2a 100%);
+}
+
+/* --- SINGLE CANVAS BACKGROUND CONTAINER --- */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.canvas-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 40%, rgba(10, 15, 22, 0.6) 100%);
+}
+
+/* --- MAIN CONTAINER --- */
+main {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+/* --- CHAPTER BASE CLASS --- */
+.chapter {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--chapter-padding-y) var(--chapter-padding-x);
+  overflow: hidden;
+  transition: opacity var(--transition-slow);
+}
+
+.chapter-content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* --- ATMOSPHERIC BACKGROUND RULE FOR EVERY SECTION --- */
+.chapter-bg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.chapter-blurred-bg {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) brightness(0.65) saturate(120%);
+  opacity: 0.25;
+  transform: scale(1.05);
+  transition: transform 15s ease-out;
+}
+
+.chapter.active .chapter-blurred-bg {
+  transform: scale(1.15);
+}
+
+.chapter-gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background: linear-gradient(180deg, 
+    rgba(13, 27, 42, 0.75) 0%, 
+    rgba(35, 72, 106, 0.45) 50%, 
+    rgba(13, 27, 42, 0.85) 100%);
+}
+
+/* --- GLASS CARD COMPONENT --- */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 20px;
+  padding: 48px 36px;
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-medium), border-color var(--transition-fast), box-shadow var(--transition-medium);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 106, 0.15), transparent);
+  transition: left 0.8s ease;
+}
+
+.glass-card:hover::before {
+  left: 100%;
+}
+
+.glass-card:hover {
+  border-color: rgba(212, 175, 106, 0.5);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 30px rgba(212, 175, 106, 0.15);
+  transform: translateY(-4px);
+}
+
+/* --- TYPOGRAPHY UTILITIES --- */
+h1, h2, h3, .chapter-title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--color-warm-white);
+  line-height: 1.2;
+}
+
+.couple-names {
+  font-family: var(--font-accent);
+  font-weight: 400;
+  color: var(--color-gold);
+  line-height: 1.1;
+  text-shadow: 0 0 20px rgba(212, 175, 106, 0.3);
+}
+
+.section-subtitle {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-sea-green);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.scripture-quote {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 2.2rem;
+  line-height: 1.4;
+  color: var(--color-ivory);
+  max-width: 750px;
+  margin: 0 auto 16px auto;
+}
+
+.scripture-reference {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* --- BUTTONS & INTERACTIVE ELEMENTS --- */
+.btn-cinematic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, rgba(212, 175, 106, 0.25), rgba(35, 72, 106, 0.4));
+  border: 1px solid var(--color-gold);
+  border-radius: 50px;
+  color: var(--color-warm-white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-medium);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-cinematic:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 106, 0.45), rgba(35, 72, 106, 0.65));
+  border-color: var(--color-gold-light);
+  box-shadow: 0 12px 35px rgba(212, 175, 106, 0.35);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.btn-cinematic::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.6s ease-out;
+}
+
+.btn-cinematic:active::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* --- CHAPTER 1: THE SACRED OPENING --- */
+#chapter-opening {
+  min-height: 100vh;
+  cursor: pointer;
+  background: radial-gradient(circle at 50% 30%, rgba(35, 72, 106, 0.6), rgba(13, 27, 42, 0.98));
+}
+
+.stained-glass-window {
+  width: 140px;
+  height: 220px;
+  margin: 0 auto 32px auto;
+  position: relative;
+}
+
+.stained-glass-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 25px rgba(212, 175, 106, 0.6));
+}
+
+.glow-cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 60px;
+}
+
+.tap-to-begin-container {
+  margin-top: 48px;
+}
+
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  border: 1px solid var(--color-gold);
+  animation: pulseExpand 2.5s infinite;
+  pointer-events: none;
+}
+
+/* --- CHAPTER 2: HERO --- */
+#chapter-hero {
+  text-align: center;
+}
+
+.hero-names-wrapper {
+  margin: 24px 0;
+}
+
+.hero-name {
+  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  letter-spacing: -0.02em;
+}
+
+.hero-ampersand {
+  font-family: var(--font-accent);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: var(--color-gold);
+  margin: 0 16px;
+  display: inline-block;
+}
+
+.hero-tagline {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-sea-green);
+  margin-bottom: 24px;
+}
+
+.hero-date-badge {
+  display: inline-block;
+  padding: 8px 24px;
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  letter-spacing: 0.3em;
+  color: var(--color-gold);
+  margin-bottom: 40px;
+}
+
+/* --- CHAPTER 3: OUR JOURNEY TIMELINE --- */
+.timeline-container {
+  position: relative;
+  max-width: 850px;
+  margin: 60px auto 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.timeline-line-svg {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  z-index: 1;
+}
+
+.timeline-path {
+  stroke: rgba(212, 175, 106, 0.3);
+  stroke-dasharray: 6 6;
+}
+
+.timeline-progress-path {
+  stroke: var(--color-gold);
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.timeline-item {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 60px;
+  width: 50%;
+}
+
+.timeline-item:nth-child(even) {
+  align-self: flex-end;
+  margin-left: 50%;
+  justify-content: flex-start;
+}
+
+.timeline-content {
+  width: 85%;
+  text-align: left;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+  text-align: left;
+}
+
+.timeline-node {
+  position: absolute;
+  top: 20px;
+  right: -13px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-dark-charcoal);
+  border: 2px solid var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(212, 175, 106, 0.5);
+  transition: all 0.4s ease;
+}
+
+.timeline-node::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+
+.timeline-item:nth-child(even) .timeline-node {
+  right: auto;
+  left: -13px;
+}
+
+/* --- CHAPTER 4: TWO DIFFERENT WORLDS (SPLIT SCREEN) --- */
+.split-worlds-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 40px;
+  text-align: left;
+}
+
+.world-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.world-illustration-container {
+  width: 100%;
+  height: 240px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 24px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--glass-border);
+}
+
+.world-svg-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.world-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.world-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.world-profession {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  color: var(--color-gold);
+}
+
+.world-title {
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+  color: var(--color-warm-white);
+}
+
+.world-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(248, 246, 242, 0.85);
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.world-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.world-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(212, 175, 106, 0.1);
+  border: 1px solid rgba(212, 175, 106, 0.25);
+  font-size: 0.85rem;
+  color: var(--color-ivory);
+}
+
+/* --- CHAPTER 5: LOVE BEYOND DISTANCE (MAP ROUTE) --- */
+.map-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 420px;
+  margin: 40px auto;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  background: radial-gradient(ellipse at center, rgba(35, 72, 106, 0.4), rgba(13, 27, 42, 0.85));
+}
+
+#map-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.map-quote-card {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* --- CHAPTER 6: COUNTDOWN --- */
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.countdown-box {
+  background: rgba(13, 27, 42, 0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px 16px;
+  min-width: 100px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.countdown-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+.countdown-number {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 600;
+  color: var(--color-gold);
+  line-height: 1;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.countdown-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-ivory);
+  opacity: 0.8;
+}
+
+/* --- CHAPTERS 7 & 8: FAMILY PROFILES --- */
+.family-profile-card {
+  max-width: 750px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.family-portrait-frame {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  padding: 6px;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-sea-green));
+  box-shadow: 0 0 30px rgba(212, 175, 106, 0.3);
+  position: relative;
+}
+
+.family-portrait-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: blur(12px) brightness(0.8);
+  transition: filter 0.6s ease;
+}
+
+.family-members-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.family-member-item {
+  font-size: 1.1rem;
+  color: var(--color-ivory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.family-role {
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+/* --- CHAPTERS 9 & 10: CEREMONY DETAILS --- */
+.ceremony-card {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.church-sketch-container {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.church-sketch-svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--color-gold);
+}
+
+.ceremony-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 32px 0;
+  padding: 20px 0;
+  border-top: 1px dashed var(--glass-border);
+  border-bottom: 1px dashed var(--glass-border);
+}
+
+.meta-item-title {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-sea-green);
+  margin-bottom: 6px;
+}
+
+.meta-item-value {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--color-warm-white);
+}
+
+/* --- CHAPTER 11: NAVIGATE --- */
+.navigate-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.nav-card-title {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.nav-card-location {
+  font-size: 1.05rem;
+  color: var(--color-gold);
+  margin-bottom: 20px;
+}
+
+.map-preview-frame {
+  width: 100%;
+  height: 160px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  border: 1px solid var(--glass-border);
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.85);
+  position: relative;
+}
+
+/* --- CHAPTER 12: MEMORIES MASONRY GALLERY --- */
+.gallery-masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 4/5;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+}
+
+.gallery-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 20px 40px rgba(212, 175, 106, 0.3);
+}
+
+/* Unblurred full quality photo in Chapter 12 */
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+  filter: none !important; /* Strictly clear in Chapter 12 */
+}
+
+.gallery-item:hover .gallery-img {
+  transform: scale(1.1);
+}
+
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 60%, rgba(13, 27, 42, 0.85) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-caption {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-warm-white);
+}
+
+/* LIGHTBOX MODAL */
+.lightbox-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: rgba(10, 15, 22, 0.95);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 12px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.8);
+  border: 1px solid var(--color-gold);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: none;
+  border: none;
+  color: var(--color-ivory);
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.lightbox-close:hover {
+  color: var(--color-gold);
+}
+
+/* --- CHAPTER 13: BLESSINGS --- */
+.blessings-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* --- CHAPTER 14: THANK YOU --- */
+#chapter-thankyou {
+  min-height: 100vh;
+}
+
+.thankyou-card {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.fade-to-black-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 3s ease;
+}
+
+/* --- FLOATING AUDIO CONTROLLER WIDGET --- */
+.audio-controller {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(13, 27, 42, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.audio-controller:hover {
+  border-color: var(--color-gold);
+  box-shadow: 0 12px 35px rgba(212, 175, 106, 0.3);
+  transform: translateY(-2px);
+}
+
+.sound-waves {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+}
+
+.sound-wave-bar {
+  width: 3px;
+  background: var(--color-gold);
+  border-radius: 3px;
+  height: 4px;
+  transition: height 0.3s ease;
+}
+
+.audio-controller.playing .sound-wave-bar:nth-child(1) { animation: soundWave 1.2s infinite ease-in-out; }
+.audio-controller.playing .sound-wave-bar:nth-child(2) { animation: soundWave 0.8s infinite ease-in-out 0.2s; }
+.audio-controller.playing .sound-wave-bar:nth-child(3) { animation: soundWave 1.5s infinite ease-in-out 0.4s; }
+.audio-controller.playing .sound-wave-bar:nth-child(4) { animation: soundWave 1.0s infinite ease-in-out 0.1s; }
+
+.audio-text {
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-ivory);
+  font-weight: 500;
+}

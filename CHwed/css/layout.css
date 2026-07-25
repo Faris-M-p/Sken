@@ -1,0 +1,534 @@
+/* ============================================================
+   THE COVENANT — layout
+   The leaf column, page scaffolding, seamless blending,
+   shared paper cards, gold buttons, and the sacred doors.
+   ============================================================ */
+
+:root{
+  /* How tall a page is when its content does not need the room. This is the
+     one dial for how much scrolling the whole book takes. */
+  --page-min: 76svh;
+}
+
+.book{
+  position:relative;
+  z-index:1;
+}
+
+/* ------------------------------------------------------------
+   A PAGE OF THE BOOK
+   ------------------------------------------------------------ */
+/* Pages are sized by what is on them, with a floor so the artwork keeps a
+   portrait-ish shape. Only the title page and the closing page claim a whole
+   screen; the rest stay close to their content so the book reads quickly. */
+.page{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:var(--page-min);
+  padding-block:var(--page-pad);
+}
+
+/* ---- the leaf: one width, every page, no exceptions ---- */
+.page__media{
+  position:absolute;
+  top:-12%; bottom:-12%;   /* overscan, so parallax never exposes an edge */
+  left:0; right:0;
+  z-index:1;
+  width:min(100%, var(--leaf));
+  margin-inline:auto;
+
+  /* Handmade paper, drawn entirely in CSS. This is the real background of
+     every page — the photographs layer on top of it as enrichment, so a
+     missing illustration is never a hole. */
+  background-color:var(--leaf-tint, #f7eedf);
+  background-image:
+    radial-gradient(135% 68% at 20% 6%,   rgba(255,249,235,.95), rgba(255,249,235,0) 60%),
+    radial-gradient(115% 58% at 88% 78%,  rgba(244,225,190,.55), rgba(244,225,190,0) 64%),
+    radial-gradient(90%  46% at 50% 50%,  rgba(255,252,244,.5),  rgba(255,252,244,0) 70%),
+    repeating-linear-gradient(94deg, rgba(150,120,78,.05)  0 1px, transparent 1px 7px),
+    repeating-linear-gradient(4deg,  rgba(150,120,78,.038) 0 1px, transparent 1px 11px);
+}
+
+/* the photograph, when it is there */
+.page__media::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:var(--art);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:var(--art-strength, 1);
+}
+
+/* The leaf dissolves into the ambience at its own left and right edges,
+   so the sheet never shows a hard vertical line. Sitting inside the leaf
+   means it lands on the paper's edge rather than the viewport's; the
+   parallax only shifts it vertically, which a sideways fade cannot show. */
+.page__media::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(to right,
+    var(--cream) 0%,
+    rgba(242,232,216,.5) 2.5%,
+    rgba(242,232,216,0) 8%,
+    rgba(242,232,216,0) 92%,
+    rgba(242,232,216,.5) 97.5%,
+    var(--cream) 100%);
+}
+
+/* Four illustrations carry a printed border of their own. Letting the CSS
+   paper read through softens the crop on a short page, and stops that
+   border competing with the card sitting on top of it. */
+.page__media--plate{ --art-strength:.72; }
+
+/* ------------------------------------------------------------
+   SEAMLESS BLENDING
+   Every page dissolves into the same cream at top and bottom,
+   so no two sections ever meet at a hard edge.
+   ------------------------------------------------------------ */
+.page__veil{
+  position:absolute;
+  left:-1px; right:-1px;
+  z-index:2;
+  height:clamp(3.5rem, 11vh, 8rem);
+  pointer-events:none;
+}
+.page__veil--top{
+  top:-1px;
+  background:linear-gradient(to bottom,
+    var(--cream) 0%,
+    rgba(242,232,216,.92) 26%,
+    rgba(242,232,216,.55) 58%,
+    rgba(242,232,216,0) 100%);
+}
+.page__veil--bottom{
+  bottom:-1px;
+  background:linear-gradient(to top,
+    var(--cream) 0%,
+    rgba(242,232,216,.92) 26%,
+    rgba(242,232,216,.55) 58%,
+    rgba(242,232,216,0) 100%);
+}
+
+/* legibility haze under text that sits directly on artwork */
+.page__scrim{
+  position:absolute; inset:0;
+  z-index:2;
+  pointer-events:none;
+}
+.page__scrim--soft{
+  background:radial-gradient(72% 46% at 50% 44%, rgba(248,241,229,.68), rgba(248,241,229,.14) 68%, transparent 84%);
+}
+.page__scrim--center{
+  background:radial-gradient(68% 44% at 50% 46%, rgba(250,244,233,.5), rgba(250,244,233,.2) 62%, transparent 84%);
+}
+/* the banquet is the busiest artwork on the site, so it needs the most haze */
+.page__scrim--strong{
+  background:
+    radial-gradient(62% 42% at 50% 48%, rgba(250,244,233,.86), rgba(250,244,233,.46) 62%, rgba(250,244,233,.1) 86%),
+    linear-gradient(180deg, rgba(244,234,217,.4), transparent 30%, transparent 70%, rgba(244,234,217,.4));
+}
+
+/* the ornament that straddles two pages */
+.seam{
+  position:absolute;
+  bottom:0; left:50%;
+  z-index:4;
+  transform:translate(-50%, -55%);
+  display:flex; align-items:center; justify-content:center;
+  width:min(20rem, 74%);
+  pointer-events:none;
+}
+.seam::before,
+.seam::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(176,141,87,.5));
+}
+.seam::after{ background:linear-gradient(90deg, rgba(176,141,87,.5), transparent); }
+.seam .orn{
+  width:1.15rem; height:1.6rem;
+  margin-inline:.9rem;
+  opacity:.85;
+}
+
+/* ------------------------------------------------------------
+   PAGE CONTENT
+   ------------------------------------------------------------ */
+.page__body{
+  position:relative;
+  z-index:3;
+  width:100%;
+  max-width:var(--shell);
+  margin-inline:auto;
+  padding-inline:var(--gutter);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(.8rem, 2.8vw, 1.25rem);
+  text-align:center;
+}
+.page__body--narrow{ max-width:23rem; }
+.page__body--top{ align-self:flex-start; margin-top:clamp(.25rem, 2vh, 1.25rem); }
+
+/* ------------------------------------------------------------
+   PAPER CARD
+   ------------------------------------------------------------ */
+.card{
+  position:relative;
+  width:100%;
+  padding:clamp(1.75rem, 6.5vw, 2.6rem) clamp(1.25rem, 5.5vw, 2.25rem);
+  background:
+    linear-gradient(168deg, rgba(253,249,242,.9) 0%, rgba(246,238,224,.84) 52%, rgba(240,229,210,.88) 100%);
+  border:1px solid rgba(176,141,87,.3);
+  border-radius:3px;
+  box-shadow:
+    0 1.6rem 3.5rem -1.4rem rgba(78,58,34,.22),
+    inset 0 1px 0 rgba(255,255,255,.6);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(.75rem, 2.6vw, 1.1rem);
+}
+/* the inner blind-embossed rule */
+.card::after{
+  content:"";
+  position:absolute;
+  inset:6px;
+  border:1px solid rgba(176,141,87,.22);
+  border-radius:2px;
+  pointer-events:none;
+}
+.card--glass{
+  background:
+    linear-gradient(168deg, rgba(253,249,242,.8), rgba(243,234,218,.72));
+  -webkit-backdrop-filter:blur(6px) saturate(1.06);
+          backdrop-filter:blur(6px) saturate(1.06);
+}
+
+/* Where the artwork already IS an embossed card, the panel steps back and
+   lets the printed border do the framing instead of drawing a second one. */
+.card--bare{
+  background:linear-gradient(168deg, rgba(252,247,238,.6), rgba(245,236,221,.48));
+  border-color:transparent;
+  box-shadow:none;
+}
+.card--bare::after{ border-color:rgba(176,141,87,.14); }
+.card--bare .card__corner{ opacity:.34; }
+
+.card__corner{
+  position:absolute;
+  width:clamp(1.9rem, 6vw, 2.6rem);
+  aspect-ratio:1;
+  color:var(--gold);
+  opacity:.65;
+  pointer-events:none;
+}
+.card__corner .orn{ width:100%; height:100%; }
+.card__corner--tl{ top:10px;    left:10px; }
+.card__corner--tr{ top:10px;    right:10px;  transform:scaleX(-1); }
+.card__corner--bl{ bottom:10px; left:10px;   transform:scaleY(-1); }
+.card__corner--br{ bottom:10px; right:10px;  transform:scale(-1); }
+
+/* ------------------------------------------------------------
+   GOLD FOIL BUTTON
+   ------------------------------------------------------------ */
+.btn{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.65rem;
+  min-height:2.9rem;
+  margin-top:.4rem;
+  padding:.75rem 1.65rem;
+  border:1px solid var(--gold);
+  border-radius:999px;
+  overflow:hidden;
+  font-family:var(--title);
+  font-size:.7rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:#4d3a1f;
+  background:linear-gradient(150deg, rgba(233,209,164,.62), rgba(214,180,124,.42) 52%, rgba(233,209,164,.58));
+  box-shadow:0 .6rem 1.5rem -.7rem rgba(120,90,44,.5), inset 0 1px 0 rgba(255,255,255,.55);
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease), color .35s var(--ease);
+}
+.btn span{ position:relative; z-index:2; }
+.btn svg{
+  position:relative; z-index:2;
+  width:1rem; height:1rem;
+  stroke-width:1.4;
+}
+/* the foil sheen */
+.btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:linear-gradient(105deg, transparent 12%, rgba(255,252,244,.8) 42%, transparent 68%);
+  transform:translateX(-120%);
+  transition:transform .9s var(--ease);
+}
+.btn:hover,
+.btn:focus-visible{
+  transform:translateY(-2px);
+  box-shadow:0 1rem 2.2rem -.7rem rgba(120,90,44,.55), inset 0 1px 0 rgba(255,255,255,.65);
+}
+.btn:hover::before,
+.btn:focus-visible::before{ transform:translateX(120%); }
+.btn:active{ transform:translateY(0); }
+
+.btn--ghost{
+  background:rgba(253,249,242,.5);
+  border-color:rgba(176,141,87,.55);
+  color:var(--gold-deep);
+  box-shadow:none;
+  min-height:2.6rem;
+  padding:.6rem 1.3rem;
+  font-size:.66rem;
+}
+
+/* below .page__body (3) so motes never drift across the words */
+.dust{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  width:100%; height:100%;
+  pointer-events:none;
+}
+
+/* ============================================================
+   PAGE 1 — THE SACRED DOORS
+
+   Two leaves of paper meeting on a gold seam. Without JavaScript
+   this is simply the first page and scrolls away; with it, the
+   doors are a fixed gate that parts left and right.
+   ============================================================ */
+.doors{
+  position:relative;
+  z-index:200;
+  overflow:hidden;
+  background:var(--cream-warm);
+}
+.js .doors{
+  position:fixed;
+  inset:0;
+}
+
+.door{
+  position:absolute;
+  top:0; bottom:0;
+  z-index:1;
+  width:calc(50% + 1px);   /* a hair of overlap, so no seam gap can appear */
+  overflow:hidden;
+  background-color:#f4ead8;
+}
+.door--left{
+  left:0;
+  background-image:
+    radial-gradient(120% 86% at 12% 10%, rgba(255,251,240,.96), rgba(255,251,240,0) 62%),
+    linear-gradient(102deg, rgba(255,250,239,.7) 0%, rgba(242,231,211,.35) 58%, rgba(228,212,184,.5) 100%);
+}
+.door--right{
+  right:0;
+  background-image:
+    radial-gradient(120% 86% at 88% 10%, rgba(255,251,240,.9), rgba(255,251,240,0) 62%),
+    linear-gradient(258deg, rgba(255,250,239,.62) 0%, rgba(242,231,211,.32) 58%, rgba(226,209,180,.55) 100%);
+}
+
+/* Each face is a full viewport wide and pinned to the outer edge, so the
+   two halves of the illustration line up exactly across the seam. */
+.door__face{
+  position:absolute;
+  top:0; bottom:0;
+  width:100vw;
+  background-image:var(--art);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:.9;
+}
+.door--left  .door__face{ left:0; }
+.door--right .door__face{ right:0; }
+
+.door__grain{
+  position:absolute; inset:0;
+  opacity:.4;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23d)' opacity='.3'/%3E%3C/svg%3E");
+}
+
+/* the thickness of the paper where the two doors meet */
+.door__lip{
+  position:absolute;
+  top:0; bottom:0;
+  width:clamp(1.25rem, 5vw, 2.75rem);
+}
+.door--left .door__lip{
+  right:0;
+  background:linear-gradient(to right, rgba(122,94,54,0), rgba(122,94,54,.13));
+}
+.door--right .door__lip{
+  left:0;
+  background:linear-gradient(to left, rgba(122,94,54,0), rgba(122,94,54,.1));
+}
+
+.doors__seam{
+  position:absolute;
+  top:0; bottom:0; left:50%;
+  z-index:5;
+  width:1px;
+  transform:translateX(-.5px);
+  background:linear-gradient(180deg,
+    rgba(176,141,87,0) 0%,
+    rgba(176,141,87,.45) 14%,
+    rgba(214,180,124,.7) 50%,
+    rgba(176,141,87,.45) 86%,
+    rgba(176,141,87,0) 100%);
+}
+
+.doors .dust{ z-index:4; }
+
+/* ---- what is printed across the closed doors ---- */
+.doors__stage{
+  position:relative;
+  z-index:6;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:
+    calc(env(safe-area-inset-top, 0px) + clamp(2.5rem, 8vh, 4.5rem))
+    var(--gutter)
+    calc(env(safe-area-inset-bottom, 0px) + clamp(2rem, 6vh, 3.25rem));
+  text-align:center;
+}
+
+.wordmark{
+  font-family:var(--title);
+  font-size:clamp(.66rem, .6rem + .34vw, .82rem);
+  letter-spacing:.52em;
+  text-indent:.52em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+
+.doors__verse{
+  margin-top:clamp(1.5rem, 5vh, 3rem);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.85rem;
+}
+.doors__verse p{
+  font-size:clamp(.92rem, .86rem + .42vw, 1.12rem);
+  font-style:italic;
+  font-weight:300;
+  line-height:1.85;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+.doors__verse cite{
+  font-family:var(--title);
+  font-size:.6rem;
+  letter-spacing:.34em;
+  text-indent:.34em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+}
+
+/* ---- the wax seal that holds the doors shut ---- */
+.crest{
+  position:relative;
+  margin-block:auto;         /* settles midway between verse and names */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1rem;
+  padding:.75rem;
+  border-radius:50%;
+  -webkit-tap-highlight-color:transparent;
+}
+/* centred without a transform, so the tween that scales it has nothing to undo */
+.crest__halo{
+  position:absolute;
+  top:-.5rem; left:0; right:0;
+  margin-inline:auto;
+  width:clamp(7rem, 26vw, 9rem);
+  aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,246,224,.9), rgba(255,240,206,.32) 52%, transparent 72%);
+}
+.crest__seal{
+  position:relative;
+  width:clamp(4.4rem, 17vw, 5.6rem);
+  height:clamp(4.4rem, 17vw, 5.6rem);
+  filter:drop-shadow(0 .7rem 1.4rem rgba(120,86,40,.4));
+  transition:transform .6s var(--ease);
+}
+.crest__label{
+  font-family:var(--title);
+  font-size:.66rem;
+  letter-spacing:.32em;
+  text-indent:.32em;
+  text-transform:uppercase;
+  color:var(--gold-deep);
+  animation:breathe 3.6s ease-in-out infinite;
+}
+.crest:hover .crest__seal,
+.crest:focus-visible .crest__seal{ transform:scale(1.06) rotate(-3deg); }
+.crest:active .crest__seal{ transform:scale(.96); }
+
+/* ---- the two names, one on each door ---- */
+.doors__names{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:end;
+  width:100%;
+  max-width:var(--leaf);   /* the seam falls exactly between the two columns */
+}
+.doors__name{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.4rem;
+  padding-inline:.5rem;
+}
+.doors__role{
+  font-family:var(--title);
+  font-size:.58rem;
+  letter-spacing:.3em;
+  text-indent:.3em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+}
+
+/* Once the doors are moving: no CSS transition fighting the tween, no
+   blend mode to recomposite on every frame, and a hint to promote the
+   two panels for the one moment they actually travel. */
+.doors.is-opening{ pointer-events:none; }
+.doors.is-opening .crest__seal{ transition:none; }
+.doors.is-opening .door{ will-change:transform; }
+.doors.is-opening .door__grain{ display:none; }
+
+@keyframes breathe{
+  0%,100%{ opacity:.55; }
+  50%    { opacity:1; }
+}
+
+/* short viewports — phones held sideways, small laptops */
+@media (max-height:34rem){
+  .doors__stage{ padding-block:clamp(1.25rem, 6vh, 2rem); }
+  .doors__verse{ margin-top:clamp(.5rem, 2vh, 1rem); gap:.45rem; }
+  .doors__verse p{ font-size:.88rem; line-height:1.6; }
+  .crest{ gap:.55rem; padding:.35rem; }
+  .crest__seal{ width:3.2rem; height:3.2rem; }
+  .crest__halo{ width:5rem; }
+  .script--md{ font-size:1.5rem; }
+}
