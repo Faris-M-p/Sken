@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/cover.css">
+  <link rel="stylesheet" href="css/gallery.css">
 
   <!-- Without JS the cover can never be dismissed, so skip straight to the site -->
   <noscript>
@@ -526,32 +527,122 @@
     </section>
 
     <!-- =================================================================
-         PAGE 6: GALLERY
+         PAGE 6: GALLERY — luxury scrapbook album
          ================================================================= -->
-    <section id="page-gallery" class="page-section" aria-label="Gallery">
-      <div class="page-bg-wrapper">
-        <div class="page-blurred-photo" style="background-image: url('assets/images/client_photo_resort.jpg');"></div>
-        <div class="page-watercolor-overlay"></div>
-      </div>
+    <section id="page-gallery" class="page-section album-section" aria-label="Gallery">
+      <div class="page-content">
+        <header class="album-header reveal-on-scroll">
+          <span class="section-subtitle">MEMORIES &amp; MOMENTS</span>
+          <h2 class="serif-heading album-title">OUR GALLERY</h2>
+          <div class="thin-gold-divider"></div>
+        </header>
 
-      <div class="page-content reveal-on-scroll" style="text-align: center;">
-        <span class="section-subtitle">MEMORIES &amp; MOMENTS</span>
-        <h2 class="serif-heading" style="font-size: 3.2rem;">OUR GALLERY</h2>
-        <div class="thin-gold-divider"></div>
+        <div class="album-flow">
 
-        <div class="gallery-grid">
-          <figure class="gallery-item">
-            <img src="assets/images/client_photo_indoor.jpg" alt="Sini &amp; Martin indoor portrait">
+          <!-- 1 · large portrait · left · −3° -->
+          <figure class="album-photo album-photo--left album-photo--lg album-photo--portrait" data-rot="-3">
+            <div class="album-frame">
+              <span class="album-tape album-tape--tl" aria-hidden="true"></span>
+              <img
+                src="assets/images/client_photo_indoor.jpg"
+                alt="Sini and Martin — indoor portrait"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <svg class="album-accent album-accent--leaf-br" viewBox="0 0 80 90" aria-hidden="true" focusable="false">
+              <path d="M12 70 C28 52 48 40 68 18" fill="none" stroke="#7A9AA0" stroke-width="1.4" opacity="0.55"/>
+              <ellipse cx="28" cy="58" rx="12" ry="5" fill="#8DAFCB" opacity="0.45" transform="rotate(-40 28 58)"/>
+              <ellipse cx="46" cy="40" rx="11" ry="4.5" fill="#6A8CA8" opacity="0.4" transform="rotate(-55 46 40)"/>
+              <ellipse cx="60" cy="24" rx="9" ry="3.8" fill="#9DB4A8" opacity="0.45" transform="rotate(-35 60 24)"/>
+            </svg>
           </figure>
-          <figure class="gallery-item">
-            <img src="assets/images/client_photo_resort.jpg" alt="Sini &amp; Martin at resort">
+
+          <!-- 2 · landscape · right · +2° -->
+          <figure class="album-photo album-photo--right album-photo--md album-photo--landscape" data-rot="2">
+            <div class="album-frame">
+              <span class="album-tape album-tape--tr" aria-hidden="true"></span>
+              <img
+                src="assets/images/client_photo_resortBrown.png"
+                alt="Wedding church"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <span class="album-sparkle album-sparkle--tl" aria-hidden="true"></span>
           </figure>
-          <figure class="gallery-item">
-            <img src="assets/images/client_photo_hands_camera.jpg" alt="Hands holding vintage camera">
+
+          <!-- 3 · medium · left · +1° -->
+          <figure class="album-photo album-photo--left album-photo--md album-photo--square" data-rot="1">
+            <div class="album-frame">
+              <img
+                src="assets/images/client_photo_hands_camera.jpg"
+                alt="Hands holding a vintage camera"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <svg class="album-accent album-accent--leaf-tl" viewBox="0 0 70 80" aria-hidden="true" focusable="false">
+              <path d="M8 60 C22 44 40 28 58 12" fill="none" stroke="#C5A059" stroke-width="1.1" opacity="0.55"/>
+              <ellipse cx="22" cy="48" rx="10" ry="4" fill="#A9C5D9" opacity="0.5" transform="rotate(-48 22 48)"/>
+              <ellipse cx="40" cy="28" rx="9" ry="3.6" fill="#7A9AA0" opacity="0.4" transform="rotate(-38 40 28)"/>
+              <circle cx="58" cy="12" r="2" fill="#C5A059" opacity="0.7"/>
+            </svg>
           </figure>
-          <figure class="gallery-item">
-            <img src="assets/images/client_photo_pathway.jpg" alt="Sini &amp; Martin along garden pathway">
+
+          <!-- 4 · portrait · right · −2° -->
+          <figure class="album-photo album-photo--right album-photo--lg album-photo--portrait" data-rot="-2">
+            <div class="album-frame">
+              <span class="album-tape album-tape--tr" aria-hidden="true"></span>
+              <img
+                src="assets/images/client_photo_pathway.jpg"
+                alt="Sini and Martin along a garden pathway"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <span class="album-sparkle album-sparkle--br" aria-hidden="true"></span>
           </figure>
+
+          <!-- 5 · landscape · left · −3° -->
+          <figure class="album-photo album-photo--left album-photo--md album-photo--landscape" data-rot="-3">
+            <div class="album-frame">
+              <span class="album-tape album-tape--tl" aria-hidden="true"></span>
+              <img
+                src="assets/images/client_photo_resort.jpg"
+                alt="Sini and Martin at the resort"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <svg class="album-accent album-accent--leaf-br" viewBox="0 0 80 90" aria-hidden="true" focusable="false">
+              <path d="M14 72 C30 54 50 36 66 16" fill="none" stroke="#6A8CA8" stroke-width="1.3" opacity="0.5"/>
+              <ellipse cx="30" cy="56" rx="11" ry="4.5" fill="#8DAFCB" opacity="0.42" transform="rotate(-42 30 56)"/>
+              <ellipse cx="50" cy="34" rx="10" ry="4" fill="#9DB4A8" opacity="0.4" transform="rotate(-50 50 34)"/>
+            </svg>
+          </figure>
+
+          <!-- 6 · medium portrait · right · +2° -->
+          <figure class="album-photo album-photo--right album-photo--sm album-photo--portrait" data-rot="2">
+            <div class="album-frame">
+              <img
+                src="assets/images/hero_couple.png"
+                alt="Sini and Martin"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <span class="album-sparkle album-sparkle--tl" aria-hidden="true"></span>
+          </figure>
+
+        </div>
+
+        <div class="album-footer-flourish" aria-hidden="true">
+          <svg viewBox="0 0 140 22" fill="none">
+            <path d="M70 17 C65 10 57 10 57 14.4 C57 18.4 70 21 70 21 C70 21 83 18.4 83 14.4 C83 10 75 10 70 17 Z" stroke="#C5A059" stroke-width="1.1"/>
+            <path d="M53 14.6 C42 10.6 28 12.6 18 17.6" stroke="#C5A059" stroke-width="1" opacity="0.6"/>
+            <path d="M87 14.6 C98 10.6 112 12.6 122 17.6" stroke="#C5A059" stroke-width="1" opacity="0.6"/>
+          </svg>
         </div>
       </div>
     </section>
