@@ -66,17 +66,7 @@ body {
   line-height: 1.7;
 }
 
-/* Global Canvas */
-#particle-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.8;
-}
+/* Particle canvas styles live in css/particles.css */
 
 /* Floating music control — sits above the cover so guests can mute anytime */
 .audio-controller {
