@@ -1,123 +1,112 @@
 /* -----------------------------------------------------------------
-   SINI & MARTIN — LUXURY INTERACTIVE WEDDING WEBSITE
-   Web Audio API Ambient Soundscape Engine (Soft Piano & Ocean Ambience)
+   SINI & MARTIN — Background Music Player
+   Plays assets/audio/bgm.mp3. Exposes window.soundscape with
+   play() / pause() / togglePlay() for the floating control button
+   and for the cover "Tap Here" handoff in main.js.
    ----------------------------------------------------------------- */
 
-class SoundscapeEngine {
-  constructor() {
-    this.ctx = null;
+(function () {
+  'use strict';
+
+  var TRACK = 'assets/audio/bgm.mp3';
+
+  function SoundscapeEngine() {
+    this.audio = new Audio(TRACK);
+    this.audio.loop = true;
+    this.audio.preload = 'auto';
+    this.audio.volume = 0.55;
+
     this.isPlaying = false;
-    this.isMuted = false;
-    this.timer = null;
-
     this.toggleBtn = document.getElementById('audio-toggle-btn');
-    this.initEvents();
+    this.labelEl = this.toggleBtn
+      ? this.toggleBtn.querySelector('.audio-text')
+      : null;
+
+    this.bindEvents();
+    this.syncUI(false);
   }
 
-  initContext() {
-    if (!this.ctx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) {
-        this.ctx = new AudioCtx();
-      }
-    }
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
-  }
+  SoundscapeEngine.prototype.bindEvents = function () {
+    var self = this;
 
-  initEvents() {
     if (this.toggleBtn) {
-      this.toggleBtn.addEventListener('click', () => {
-        this.togglePlay();
+      this.toggleBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        self.togglePlay();
       });
     }
-  }
 
-  togglePlay() {
-    this.initContext();
-    if (this.isPlaying) {
+    this.audio.addEventListener('play', function () {
+      self.isPlaying = true;
+      self.syncUI(true);
+    });
+
+    this.audio.addEventListener('pause', function () {
+      self.isPlaying = false;
+      self.syncUI(false);
+    });
+
+    this.audio.addEventListener('ended', function () {
+      // loop=true normally prevents this; keep UI honest if it fires
+      self.isPlaying = false;
+      self.syncUI(false);
+    });
+  };
+
+  SoundscapeEngine.prototype.syncUI = function (playing) {
+    if (!this.toggleBtn) return;
+
+    this.toggleBtn.classList.toggle('playing', playing);
+    this.toggleBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    this.toggleBtn.setAttribute(
+      'aria-label',
+      playing ? 'Pause music' : 'Play music'
+    );
+    this.toggleBtn.setAttribute(
+      'title',
+      playing ? 'Pause music' : 'Play music'
+    );
+
+    if (this.labelEl) {
+      this.labelEl.textContent = playing ? 'Pause' : 'Music';
+    }
+  };
+
+  SoundscapeEngine.prototype.play = function () {
+    var self = this;
+    var result = this.audio.play();
+
+    if (result && typeof result.then === 'function') {
+      result
+        .then(function () {
+          self.isPlaying = true;
+          self.syncUI(true);
+        })
+        .catch(function () {
+          // Autoplay blocked until a later user gesture — UI stays "Music"
+          self.isPlaying = false;
+          self.syncUI(false);
+        });
+    } else {
+      this.isPlaying = true;
+      this.syncUI(true);
+    }
+  };
+
+  SoundscapeEngine.prototype.pause = function () {
+    this.audio.pause();
+    this.isPlaying = false;
+    this.syncUI(false);
+  };
+
+  SoundscapeEngine.prototype.togglePlay = function () {
+    if (this.isPlaying && !this.audio.paused) {
       this.pause();
     } else {
       this.play();
     }
-  }
+  };
 
-  play() {
-    this.initContext();
-    if (!this.ctx) return;
-
-    this.isPlaying = true;
-    if (this.toggleBtn) {
-      this.toggleBtn.classList.add('playing');
-    }
-
-    this.scheduleAmbientChords();
-  }
-
-  pause() {
-    this.isPlaying = false;
-    if (this.toggleBtn) {
-      this.toggleBtn.classList.remove('playing');
-    }
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-  }
-
-  // Synthesize soft ambient piano note harmonics
-  playSoftNote(freq, duration = 4.5, delay = 0) {
-    if (!this.ctx || !this.isPlaying) return;
-
-    setTimeout(() => {
-      if (!this.ctx || !this.isPlaying) return;
-
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-
-      // Envelope: gentle attack, long smooth decay
-      const now = this.ctx.currentTime;
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(0.08, now + 0.3);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + duration);
-    }, delay * 1000);
-  }
-
-  scheduleAmbientChords() {
-    if (!this.isPlaying) return;
-
-    // F Major / C Major ambient chord progression (Peaceful, sacred)
-    const chords = [
-      [261.63, 329.63, 392.00, 523.25], // C Major
-      [220.00, 261.63, 329.63, 440.00], // A Minor
-      [174.61, 220.00, 261.63, 349.23], // F Major
-      [196.00, 246.94, 293.66, 392.00]  // G Major
-    ];
-
-    let chordIndex = 0;
-    const playNextChord = () => {
-      if (!this.isPlaying) return;
-
-      const currentChord = chords[chordIndex];
-      currentChord.forEach((freq, idx) => {
-        this.playSoftNote(freq, 6.0, idx * 0.4);
-      });
-
-      chordIndex = (chordIndex + 1) % chords.length;
-      this.timer = setTimeout(playNextChord, 6500);
-    };
-
-    playNextChord();
-  }
-}
-
-window.soundscape = new SoundscapeEngine();
+  window.soundscape = new SoundscapeEngine();
+})();

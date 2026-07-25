@@ -28,14 +28,32 @@
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
   <!-- FLOATING AUDIO CONTROLLER -->
-  <button id="audio-toggle-btn" class="audio-controller" aria-label="Toggle Soundscape" title="Toggle Soundscape">
-    <div class="sound-waves">
-      <div class="sound-wave-bar"></div>
-      <div class="sound-wave-bar"></div>
-      <div class="sound-wave-bar"></div>
-      <div class="sound-wave-bar"></div>
-    </div>
-    <span class="audio-text">Soundscape</span>
+  <button
+    id="audio-toggle-btn"
+    class="audio-controller"
+    type="button"
+    aria-pressed="false"
+    aria-label="Play music"
+    title="Play music"
+  >
+    <span class="audio-icon audio-icon-play" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+        <path d="M8 5.5v13l11-6.5L8 5.5z"/>
+      </svg>
+    </span>
+    <span class="audio-icon audio-icon-pause" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+        <rect x="6" y="5" width="4" height="14" rx="1"/>
+        <rect x="14" y="5" width="4" height="14" rx="1"/>
+      </svg>
+    </span>
+    <span class="sound-waves" aria-hidden="true">
+      <span class="sound-wave-bar"></span>
+      <span class="sound-wave-bar"></span>
+      <span class="sound-wave-bar"></span>
+      <span class="sound-wave-bar"></span>
+    </span>
+    <span class="audio-text">Music</span>
   </button>
 
   <!-- =================================================================
@@ -485,19 +503,19 @@
         <h2 class="serif-heading" style="font-size: 3rem;">OUR FAMILIES</h2>
         <div class="thin-gold-divider"></div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 900px; margin: 40px auto 0 auto;">
-          <div style="background: rgba(255,255,255,0.65); border: 1px solid var(--color-border-gold); padding: 36px 24px;">
+        <div class="families-grid">
+          <div class="family-card">
             <span class="section-subtitle">BRIDE'S FAMILY</span>
-            <h3 class="serif-heading" style="font-size: 1.6rem; color: var(--color-navy-ink); margin-bottom: 6px;">JOSEPH PM &amp; JESSY JOSEPH</h3>
-            <p style="font-family: var(--font-serif); font-size: 1.15rem; font-style: italic; color: var(--color-gold-dark);">Ponthottiyil House</p>
-            <p style="font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-muted);">Konnakkad, Kerala</p>
+            <h3 class="serif-heading family-names">JOSEPH PM &amp; JESSY JOSEPH</h3>
+            <p class="family-house">Ponthottiyil House</p>
+            <p class="family-place">Konnakkad, Kerala</p>
           </div>
 
-          <div style="background: rgba(255,255,255,0.65); border: 1px solid var(--color-border-gold); padding: 36px 24px;">
+          <div class="family-card">
             <span class="section-subtitle">GROOM'S FAMILY</span>
-            <h3 class="serif-heading" style="font-size: 1.6rem; color: var(--color-navy-ink); margin-bottom: 6px;">BABY &amp; JESSY</h3>
-            <p style="font-family: var(--font-serif); font-size: 1.15rem; font-style: italic; color: var(--color-gold-dark);">Anchukandathil</p>
-            <p style="font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-muted);">Vannappuram, Kerala</p>
+            <h3 class="serif-heading family-names">BABY &amp; JESSY</h3>
+            <p class="family-house">Anchukandathil</p>
+            <p class="family-place">Vannappuram, Kerala</p>
           </div>
         </div>
 
@@ -521,19 +539,19 @@
         <h2 class="serif-heading" style="font-size: 3.2rem;">OUR GALLERY</h2>
         <div class="thin-gold-divider"></div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: 1040px; margin: 40px auto 0 auto;">
-          <div class="gallery-item">
+        <div class="gallery-grid">
+          <figure class="gallery-item">
             <img src="assets/images/client_photo_indoor.jpg" alt="Sini &amp; Martin indoor portrait">
-          </div>
-          <div class="gallery-item">
+          </figure>
+          <figure class="gallery-item">
             <img src="assets/images/client_photo_resort.jpg" alt="Sini &amp; Martin at resort">
-          </div>
-          <div class="gallery-item">
+          </figure>
+          <figure class="gallery-item">
             <img src="assets/images/client_photo_hands_camera.jpg" alt="Hands holding vintage camera">
-          </div>
-          <div class="gallery-item">
+          </figure>
+          <figure class="gallery-item">
             <img src="assets/images/client_photo_pathway.jpg" alt="Sini &amp; Martin along garden pathway">
-          </div>
+          </figure>
         </div>
       </div>
     </section>

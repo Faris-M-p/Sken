@@ -1,8 +1,5 @@
 /* -----------------------------------------------------------------
-   SINI & MARTIN — LUXURY INTERACTIVE WEDDING WEBSITE
-   Responsive Styles
-   Page 1 (the cover) and Page 2 (the monogram hero) carry their own
-   breakpoints in css/cover.css and css/style.css respectively.
+   SINI & MARTIN — Responsive Styles
    ----------------------------------------------------------------- */
 
 @media screen and (max-width: 1024px) {
@@ -10,10 +7,15 @@
     --section-padding-y: 90px;
   }
 
-  /* Betrothal and Wedding stack rather than sitting side by side */
   .events-split-grid {
     grid-template-columns: 1fr;
     gap: 36px;
+  }
+
+  .families-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 520px;
   }
 }
 
@@ -23,11 +25,34 @@
     --section-padding-x: 20px;
   }
 
+  /* Family cards: one per line */
+  .families-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .family-card {
+    padding: 28px 20px;
+  }
+
+  .family-names {
+    font-size: 1.35rem;
+  }
+
+  /* Gallery: stacked, one photo per row on small phones;
+     two neat columns from tablet-ish widths still inside this query
+     use a single column under 560px for readability */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .gallery-item {
-    transform: none !important;
-    grid-column: auto !important;
-    grid-row: auto !important;
-    height: 320px;
+    aspect-ratio: 3 / 4;
+  }
+
+  .gallery-item:hover {
+    transform: none;
   }
 
   .event-church-img-container {
@@ -42,5 +67,12 @@
 
   .audio-text {
     font-size: 0.65rem;
+  }
+}
+
+@media screen and (min-width: 561px) and (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 }
