@@ -1,63 +1,51 @@
 /* -----------------------------------------------------------------
-   ACROSS OCEANS, GUIDED BY FAITH - COUNTDOWN TIMER
-   Live flip counter calculation to 24 August 2026
+   SINI & MARTIN — LUXURY INTERACTIVE WEDDING WEBSITE
+   Countdown to the wedding.
+   The target is read from data-target on .mono-countdown so the date
+   is edited once, in the markup, next to the text that displays it.
    ----------------------------------------------------------------- */
 
-class CountdownTimer {
-  constructor(targetDateString, containerSelector) {
-    this.targetDate = new Date(targetDateString).getTime();
-    this.daysEl = document.getElementById('cd-days');
-    this.hoursEl = document.getElementById('cd-hours');
-    this.minutesEl = document.getElementById('cd-minutes');
-    this.secondsEl = document.getElementById('cd-seconds');
-    this.timerInterval = null;
+const WEDDING_FALLBACK = '2026-08-24T11:00:00+05:30';
 
-    if (this.daysEl && this.hoursEl && this.minutesEl && this.secondsEl) {
-      this.start();
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.mono-countdown');
+  const targetAttr = container && container.dataset.target;
+  let targetDate = new Date(targetAttr || WEDDING_FALLBACK).getTime();
+
+  // An unparseable date would render NaN across all four units.
+  if (Number.isNaN(targetDate)) {
+    console.warn('Countdown: unreadable data-target "%s", using fallback.', targetAttr);
+    targetDate = new Date(WEDDING_FALLBACK).getTime();
   }
 
-  start() {
-    this.update();
-    this.timerInterval = setInterval(() => this.update(), 1000);
-  }
+  const daysEl = document.getElementById('cd-days');
+  const hoursEl = document.getElementById('cd-hours');
+  const minutesEl = document.getElementById('cd-minutes');
+  const secondsEl = document.getElementById('cd-seconds');
 
-  update() {
+  function updateCountdown() {
     const now = new Date().getTime();
-    const distance = this.targetDate - now;
+    const difference = targetDate - now;
 
-    if (distance < 0) {
-      if (this.daysEl) this.daysEl.textContent = '00';
-      if (this.hoursEl) this.hoursEl.textContent = '00';
-      if (this.minutesEl) this.minutesEl.textContent = '00';
-      if (this.secondsEl) this.secondsEl.textContent = '00';
-      clearInterval(this.timerInterval);
+    if (difference <= 0) {
+      if (daysEl) daysEl.textContent = '00';
+      if (hoursEl) hoursEl.textContent = '00';
+      if (minutesEl) minutesEl.textContent = '00';
+      if (secondsEl) secondsEl.textContent = '00';
       return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-    this.animateDigit(this.daysEl, days.toString().padStart(2, '0'));
-    this.animateDigit(this.hoursEl, hours.toString().padStart(2, '0'));
-    this.animateDigit(this.minutesEl, minutes.toString().padStart(2, '0'));
-    this.animateDigit(this.secondsEl, seconds.toString().padStart(2, '0'));
+    if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+    if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+    if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+    if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
   }
 
-  animateDigit(element, newValue) {
-    if (!element) return;
-    if (element.textContent !== newValue) {
-      element.style.transform = 'scale(1.15)';
-      element.style.transition = 'transform 0.2s ease';
-      element.textContent = newValue;
-      setTimeout(() => {
-        element.style.transform = 'scale(1)';
-      }, 200);
-    }
-  }
-}
-
-window.CountdownTimer = CountdownTimer;
-
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+});

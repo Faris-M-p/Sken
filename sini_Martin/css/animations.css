@@ -1,161 +1,81 @@
 /* -----------------------------------------------------------------
-   ACROSS OCEANS, GUIDED BY FAITH - KEYFRAME ANIMATIONS
+   SINI & MARTIN — LUXURY INTERACTIVE WEDDING WEBSITE
+   Cinematic Animations & Keyframes
    ----------------------------------------------------------------- */
 
-/* --- PULSE & GLOW ANIMATIONS --- */
-@keyframes pulseExpand {
+/* Slow Painted Background Photo Zoom */
+@keyframes paintedZoom {
   0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.6);
-    opacity: 0;
-  }
-}
-
-@keyframes goldGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 15px rgba(212, 175, 106, 0.4));
+    transform: scale(1.02) translate(0, 0);
   }
   50% {
-    filter: drop-shadow(0 0 35px rgba(212, 175, 106, 0.8));
-  }
-}
-
-/* --- LIGHT SWEEP EFFECT --- */
-@keyframes lightSweep {
-  0% {
-    background-position: -200% 0;
+    transform: scale(1.08) translate(-1%, -1%);
   }
   100% {
-    background-position: 200% 0;
+    transform: scale(1.02) translate(0, 0);
   }
 }
 
-.text-light-sweep {
-  background: linear-gradient(90deg, 
-    var(--color-ivory) 0%, 
-    var(--color-ivory) 35%, 
-    var(--color-gold-light) 50%, 
-    var(--color-ivory) 65%, 
-    var(--color-ivory) 100%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: lightSweep 6s infinite linear;
+/* Equalizer Sound Waves */
+@keyframes soundBar {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
 }
 
-/* --- KEN BURNS CINEMATIC ZOOM --- */
-@keyframes kenBurnsZoom {
-  0% {
-    transform: scale(1) translate(0, 0);
-  }
-  50% {
-    transform: scale(1.1) translate(-1%, -1%);
-  }
-  100% {
-    transform: scale(1) translate(0, 0);
-  }
+/* Ocean Wave SVG Motion */
+@keyframes oceanWaveMotion {
+  0% { transform: translateX(0) translateZ(0) scaleY(1); }
+  50% { transform: translateX(-25%) translateZ(0) scaleY(1.08); }
+  100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
 }
 
-.ken-burns {
-  animation: kenBurnsZoom 25s infinite ease-in-out alternate;
+.animated-ocean-wave {
+  animation: oceanWaveMotion 14s linear infinite;
 }
 
-/* --- HEARTBEAT PULSE ANIMATION --- */
-@keyframes heartbeatPulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  14% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-  28% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  42% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-  70% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
+/* Soft Floating Effect */
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1.5deg); }
 }
 
-.pulse-heart {
-  display: inline-block;
-  animation: heartbeatPulse 2.5s infinite ease-in-out;
+.float-element {
+  animation: floatSoft 6s ease-in-out infinite;
 }
 
-/* --- SHIP FLOAT & DRIFT --- */
-@keyframes shipFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(2deg);
-  }
+/* Gold Shimmer Glow */
+@keyframes goldShimmer {
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.3)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 16px rgba(197, 160, 89, 0.7)); }
 }
 
-.floating-ship {
-  animation: shipFloat 4s infinite ease-in-out;
+.gold-glow {
+  animation: goldShimmer 4s ease-in-out infinite;
 }
 
-/* --- SOUND WAVE BARS --- */
-@keyframes soundWave {
-  0%, 100% {
-    height: 4px;
-  }
-  50% {
-    height: 18px;
-  }
+/* Animated Travel Flight Path Dash Offset */
+@keyframes flightPathDash {
+  to { stroke-dashoffset: -40; }
 }
 
-/* --- CHURCH SKETCH DRAWING EFFECT --- */
-@keyframes dashDraw {
-  to {
-    stroke-dashoffset: 0;
-  }
+.animated-travel-route {
+  stroke-dasharray: 8 8;
+  animation: flightPathDash 2s linear infinite;
 }
 
-.dash-drawing {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  transition: stroke-dashoffset 2.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.chapter.active .dash-drawing {
-  stroke-dashoffset: 0;
-}
-
-/* --- REVEAL FADE IN UP (PROGRESSIVE ENHANCEMENT) --- */
-.reveal-up {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.js-enabled .reveal-up {
+/* Scroll Reveal Classes */
+.reveal-on-scroll {
   opacity: 0;
-  transform: translateY(35px);
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.js-enabled .reveal-up.revealed {
+.reveal-on-scroll.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-
-.delay-1 { transition-delay: 0.2s; }
-.delay-2 { transition-delay: 0.4s; }
-.delay-3 { transition-delay: 0.6s; }
-.delay-4 { transition-delay: 0.8s; }
+/* Stagger Delays */
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }

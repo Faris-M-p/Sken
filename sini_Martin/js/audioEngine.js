@@ -1,202 +1,123 @@
 /* -----------------------------------------------------------------
-   ACROSS OCEANS, GUIDED BY FAITH - WEB AUDIO SYNTHESIZER ENGINE
-   Generates rich ambient soundscapes directly in the browser:
-   - Resonant Cathedral Church Bells
-   - Gentle Ocean Wave Pink Noise Engine
-   - Romantic Piano Chord Harmonics
-   - Soft Choir/String Pads
+   SINI & MARTIN — LUXURY INTERACTIVE WEDDING WEBSITE
+   Web Audio API Ambient Soundscape Engine (Soft Piano & Ocean Ambience)
    ----------------------------------------------------------------- */
 
-class WebAudioEngine {
+class SoundscapeEngine {
   constructor() {
     this.ctx = null;
-    this.isMuted = false;
     this.isPlaying = false;
-    this.masterGain = null;
-    this.oceanGain = null;
-    this.oceanFilter = null;
-    this.currentChapter = 1;
-    this.chordInterval = null;
+    this.isMuted = false;
+    this.timer = null;
+
+    this.toggleBtn = document.getElementById('audio-toggle-btn');
+    this.initEvents();
   }
 
-  init() {
-    if (this.ctx) return;
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    this.ctx = new AudioContext();
-
-    // Master Gain Node
-    this.masterGain = this.ctx.createGain();
-    this.masterGain.gain.setValueAtTime(0.5, this.ctx.currentTime);
-    this.masterGain.connect(this.ctx.destination);
-
-    // Setup Ocean Wave Noise Generator
-    this.setupOceanWaves();
+  initContext() {
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        this.ctx = new AudioCtx();
+      }
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
   }
 
-  // --- OCEAN WAVE GENERATOR ---
-  setupOceanWaves() {
-    const bufferSize = this.ctx.sampleRate * 2;
-    const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const output = noiseBuffer.getChannelData(0);
-    
-    // Pink noise generation
-    let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
-    for (let i = 0; i < bufferSize; i++) {
-      let white = Math.random() * 2 - 1;
-      b0 = 0.99886 * b0 + white * 0.0555179;
-      b1 = 0.99332 * b1 + white * 0.0750759;
-      b2 = 0.96900 * b2 + white * 0.1538520;
-      b3 = 0.86650 * b3 + white * 0.3104856;
-      b4 = 0.55000 * b4 + white * 0.5329522;
-      b5 = -0.7616 * b5 - white * 0.0168980;
-      output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
-      output[i] *= 0.08;
-      b6 = white * 0.115926;
+  initEvents() {
+    if (this.toggleBtn) {
+      this.toggleBtn.addEventListener('click', () => {
+        this.togglePlay();
+      });
+    }
+  }
+
+  togglePlay() {
+    this.initContext();
+    if (this.isPlaying) {
+      this.pause();
+    } else {
+      this.play();
+    }
+  }
+
+  play() {
+    this.initContext();
+    if (!this.ctx) return;
+
+    this.isPlaying = true;
+    if (this.toggleBtn) {
+      this.toggleBtn.classList.add('playing');
     }
 
-    const whiteNoise = this.ctx.createBufferSource();
-    whiteNoise.buffer = noiseBuffer;
-    whiteNoise.loop = true;
-
-    this.oceanFilter = this.ctx.createBiquadFilter();
-    this.oceanFilter.type = 'lowpass';
-    this.oceanFilter.frequency.setValueAtTime(400, this.ctx.currentTime);
-
-    this.oceanGain = this.ctx.createGain();
-    this.oceanGain.gain.setValueAtTime(0.15, this.ctx.currentTime);
-
-    whiteNoise.connect(this.oceanFilter);
-    this.oceanFilter.connect(this.oceanGain);
-    this.oceanGain.connect(this.masterGain);
-
-    whiteNoise.start();
-
-    // Ocean Swell LFO Modulation
-    this.modulateOceanWaves();
+    this.scheduleAmbientChords();
   }
 
-  modulateOceanWaves() {
-    if (!this.ctx) return;
-    const now = this.ctx.currentTime;
-    // Slow swell over 6 seconds
-    this.oceanFilter.frequency.linearRampToValueAtTime(800, now + 3);
-    this.oceanGain.gain.linearRampToValueAtTime(0.25, now + 3);
-    this.oceanFilter.frequency.linearRampToValueAtTime(300, now + 7);
-    this.oceanGain.gain.linearRampToValueAtTime(0.08, now + 7);
+  pause() {
+    this.isPlaying = false;
+    if (this.toggleBtn) {
+      this.toggleBtn.classList.remove('playing');
+    }
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+  }
+
+  // Synthesize soft ambient piano note harmonics
+  playSoftNote(freq, duration = 4.5, delay = 0) {
+    if (!this.ctx || !this.isPlaying) return;
 
     setTimeout(() => {
-      if (this.isPlaying) this.modulateOceanWaves();
-    }, 7000);
+      if (!this.ctx || !this.isPlaying) return;
+
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+      // Envelope: gentle attack, long smooth decay
+      const now = this.ctx.currentTime;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.08, now + 0.3);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + duration);
+    }, delay * 1000);
   }
 
-  // --- CHURCH BELL SYNTHESIZER ---
-  playChurchBell(pitch = 220) {
-    if (!this.ctx || this.isMuted) return;
-    if (this.ctx.state === 'suspended') this.ctx.resume();
+  scheduleAmbientChords() {
+    if (!this.isPlaying) return;
 
-    const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const bellGain = this.ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(pitch, now);
-    // Strike overtone
-    osc.frequency.exponentialRampToValueAtTime(pitch * 1.5, now + 0.1);
-    osc.frequency.exponentialRampToValueAtTime(pitch, now + 0.4);
-
-    bellGain.gain.setValueAtTime(0.6, now);
-    bellGain.gain.exponentialRampToValueAtTime(0.001, now + 4.5);
-
-    osc.connect(bellGain);
-    bellGain.connect(this.masterGain);
-
-    osc.start(now);
-    osc.stop(now + 4.5);
-  }
-
-  // --- SOFT PIANO CHORD SYNTHESIZER ---
-  playPianoNote(freq, delay = 0, duration = 3) {
-    if (!this.ctx || this.isMuted) return;
-    const now = this.ctx.currentTime + delay;
-
-    const osc1 = this.ctx.createOscillator();
-    const osc2 = this.ctx.createOscillator();
-    const noteGain = this.ctx.createGain();
-
-    osc1.type = 'sine';
-    osc2.type = 'triangle';
-
-    osc1.frequency.setValueAtTime(freq, now);
-    osc2.frequency.setValueAtTime(freq * 1.002, now); // subtle warmth detune
-
-    noteGain.gain.setValueAtTime(0, now);
-    noteGain.gain.linearRampToValueAtTime(0.2, now + 0.05); // attack
-    noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-    osc1.connect(noteGain);
-    osc2.connect(noteGain);
-    noteGain.connect(this.masterGain);
-
-    osc1.start(now);
-    osc2.start(now);
-    osc1.stop(now + duration);
-    osc2.stop(now + duration);
-  }
-
-  playPianoChord(frequencies) {
-    frequencies.forEach((freq, index) => {
-      this.playPianoNote(freq, index * 0.12, 4);
-    });
-  }
-
-  startAmbientProgression() {
-    // Chords: Cmaj7 -> G/B -> Am7 -> Fmaj7
+    // F Major / C Major ambient chord progression (Peaceful, sacred)
     const chords = [
-      [261.63, 329.63, 392.00, 493.88], // Cmaj7
-      [246.94, 293.66, 392.00, 440.00], // G/B
-      [220.00, 261.63, 329.63, 392.00], // Am7
-      [174.61, 261.63, 329.63, 392.00]  // Fmaj7
+      [261.63, 329.63, 392.00, 523.25], // C Major
+      [220.00, 261.63, 329.63, 440.00], // A Minor
+      [174.61, 220.00, 261.63, 349.23], // F Major
+      [196.00, 246.94, 293.66, 392.00]  // G Major
     ];
 
-    let chordIdx = 0;
-    this.playPianoChord(chords[0]);
+    let chordIndex = 0;
+    const playNextChord = () => {
+      if (!this.isPlaying) return;
 
-    this.chordInterval = setInterval(() => {
-      if (this.isPlaying && !this.isMuted) {
-        chordIdx = (chordIdx + 1) % chords.length;
-        this.playPianoChord(chords[chordIdx]);
-      }
-    }, 6000);
-  }
+      const currentChord = chords[chordIndex];
+      currentChord.forEach((freq, idx) => {
+        this.playSoftNote(freq, 6.0, idx * 0.4);
+      });
 
-  toggleSound() {
-    if (!this.ctx) {
-      this.init();
-    }
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
+      chordIndex = (chordIndex + 1) % chords.length;
+      this.timer = setTimeout(playNextChord, 6500);
+    };
 
-    this.isMuted = !this.isMuted;
-    if (this.isMuted) {
-      this.masterGain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.1);
-    } else {
-      this.masterGain.gain.setTargetAtTime(0.5, this.ctx.currentTime, 0.1);
-    }
-    return !this.isMuted;
-  }
-
-  startAudio() {
-    this.init();
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
-    this.isPlaying = true;
-    this.playChurchBell(220);
-    this.startAmbientProgression();
+    playNextChord();
   }
 }
 
-window.WebAudioEngine = WebAudioEngine;
-window.audioEngine = new WebAudioEngine();
-
+window.soundscape = new SoundscapeEngine();

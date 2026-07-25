@@ -1,61 +1,74 @@
 /* -----------------------------------------------------------------
-   ACROSS OCEANS, GUIDED BY FAITH - MEMORIES LIGHTBOX GALLERY
-   Masonry gallery with full resolution zoom modal for Chapter 12
+   SINI & MARTIN — LUXURY INTERACTIVE WEDDING WEBSITE
+   Editorial Gallery Lightbox & Interactivity
    ----------------------------------------------------------------- */
 
-class GalleryManager {
-  constructor() {
-    this.modal = document.getElementById('lightbox-modal');
-    this.modalImg = document.getElementById('lightbox-img');
-    this.captionEl = document.getElementById('lightbox-caption');
-    this.closeBtn = document.getElementById('lightbox-close');
-    this.galleryItems = document.querySelectorAll('.gallery-item');
+document.addEventListener('DOMContentLoaded', () => {
+  const galleryItems = document.querySelectorAll('.gallery-item img');
+  const lightboxModal = document.getElementById('lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxClose = document.getElementById('lightbox-close');
 
-    this.init();
-  }
-
-  init() {
-    if (!this.modal || !this.galleryItems.length) return;
-
-    this.galleryItems.forEach((item) => {
-      item.addEventListener('click', () => {
-        const img = item.querySelector('.gallery-img');
-        const caption = item.querySelector('.gallery-caption');
-        if (img) {
-          this.openLightbox(img.src, caption ? caption.textContent : '');
-        }
+  if (galleryItems.length && lightboxModal && lightboxImg) {
+    galleryItems.forEach(img => {
+      img.parentElement.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || 'Gallery detail view';
+        lightboxModal.classList.add('active');
+        lightboxModal.setAttribute('aria-hidden', 'false');
       });
     });
 
-    if (this.closeBtn) {
-      this.closeBtn.addEventListener('click', () => this.closeLightbox());
+    const closeLightbox = () => {
+      lightboxModal.classList.remove('active');
+      lightboxModal.setAttribute('aria-hidden', 'true');
+    };
+
+    if (lightboxClose) {
+      lightboxClose.addEventListener('click', closeLightbox);
     }
 
-    this.modal.addEventListener('click', (e) => {
-      if (e.target === this.modal) {
-        this.closeLightbox();
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        closeLightbox();
       }
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.modal.classList.contains('active')) {
-        this.closeLightbox();
+      if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
+        closeLightbox();
       }
     });
   }
 
-  openLightbox(src, captionText) {
-    if (this.modalImg) this.modalImg.src = src;
-    if (this.captionEl) this.captionEl.textContent = captionText;
-    this.modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+  // Blessings Form Interactive Handler
+  const blessingsForm = document.getElementById('blessings-form');
+  const blessingsFeed = document.getElementById('blessings-feed');
+
+  if (blessingsForm && blessingsFeed) {
+    blessingsForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameInput = document.getElementById('blessing-name');
+      const msgInput = document.getElementById('blessing-msg');
+
+      if (nameInput.value.trim() && msgInput.value.trim()) {
+        const newItem = document.createElement('div');
+        newItem.className = 'blessing-item';
+        newItem.innerHTML = `
+          <p class="blessing-author">${escapeHtml(nameInput.value.trim())}</p>
+          <p class="blessing-text">“${escapeHtml(msgInput.value.trim())}”</p>
+        `;
+        blessingsFeed.prepend(newItem);
+
+        nameInput.value = '';
+        msgInput.value = '';
+      }
+    });
   }
 
-  closeLightbox() {
-    this.modal.classList.remove('active');
-    document.body.style.overflow = '';
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
-}
-
-window.GalleryManager = GalleryManager;
-
+});

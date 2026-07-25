@@ -3,29 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sini & Martin — Across Oceans, Guided by Faith</title>
-  <meta name="description" content="Cinematic wedding website of Sini & Martin. Two Hearts, Two Countries, One Journey. Celebrating their union on 24 August 2026 in Kerala, India.">
-  
-  <!-- Favicon & Fonts -->
-  <script>document.documentElement.classList.add('js-enabled');</script>
+  <title>Sini & Martin — Across Oceans, Guided by Faith | 24 August 2026</title>
+  <meta name="description" content="Official luxury wedding website of Sini & Martin. Celebrating their holy union on 24 August 2026 at Mar Sleeva Church, Vannappuram, Kerala.">
+
+  <!-- Favicon & Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@200;300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
 
-  <!-- Modular CSS Files -->
+  <!-- Master CSS Files -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/cover.css">
+
+  <!-- Without JS the cover can never be dismissed, so skip straight to the site -->
+  <noscript>
+    <style>#page-sacred-opening { display: none; }</style>
+  </noscript>
 </head>
 <body>
 
-  <!-- GLOBAL CANVAS BACKGROUND FOR CONTINUOUS SCROLL -->
+  <!-- GLOBAL PARTICLES & WATERCOLOR CANVAS -->
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
-  <div class="canvas-vignette" aria-hidden="true"></div>
 
-  <!-- FLOATING AUDIO CONTROLLER WIDGET -->
-  <button id="audio-toggle-btn" class="audio-controller" aria-label="Toggle Audio Soundscape" title="Toggle Soundscape">
+  <!-- FLOATING AUDIO CONTROLLER -->
+  <button id="audio-toggle-btn" class="audio-controller" aria-label="Toggle Soundscape" title="Toggle Soundscape">
     <div class="sound-waves">
       <div class="sound-wave-bar"></div>
       <div class="sound-wave-bar"></div>
@@ -35,696 +38,964 @@
     <span class="audio-text">Soundscape</span>
   </button>
 
-  <!-- MAIN CONTINUOUS FILM CANVAS -->
-  <main>
+  <!-- =================================================================
+       PAGE 1: OPENING — THE SACRED COVER
+       Watercolor invitation cover. All artwork is inline SVG so the
+       page renders with zero external image assets.
+       ================================================================= -->
+  <section id="page-sacred-opening" class="cover" aria-label="Opening — The Sacred Cover">
+   <div class="cover-card">
 
-    <!-- CHAPTER 1: THE SACRED OPENING -->
-    <section id="chapter-opening" class="chapter active" aria-label="Chapter 1: The Sacred Opening">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(circle, rgba(212,175,106,0.3) 0%, rgba(13,27,42,0.95) 70%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
+    <!-- ---------- SHARED WATERCOLOR FLORAL LIBRARY ----------
+         Referenced by <use> from Page 1 and Page 2. It lives here rather
+         than at body level only because the cover is the first consumer;
+         the cover is never detached, so the references stay resolvable. -->
+    <svg class="cover-defs" aria-hidden="true" focusable="false">
+      <defs>
+        <!-- Single petal, base pinned at (50,52) so rings rotate about it -->
+        <path id="pt" d="M50 52 C31 47 23 29 34 15 C42 5 58 5 66 15 C77 29 69 47 50 52 Z"/>
 
-      <div class="chapter-content reveal-up">
-        <!-- Stained Glass Window SVG Artwork -->
-        <div class="stained-glass-window">
-          <svg class="stained-glass-svg" viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 0 C20 0 0 30 0 70 V160 H100 V70 C100 30 80 0 50 0 Z" fill="url(#stainedGlassGrad)" stroke="#D4AF6A" stroke-width="2"/>
-            <path d="M50 0 V160 M0 70 H100 M20 30 L80 110 M80 30 L20 110" stroke="#D4AF6A" stroke-opacity="0.4" stroke-width="1.5"/>
-            <defs>
-              <linearGradient id="stainedGlassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#D4AF6A" stop-opacity="0.6"/>
-                <stop offset="50%" stop-color="#23486A" stop-opacity="0.8"/>
-                <stop offset="100%" stop-color="#6B8E8B" stop-opacity="0.6"/>
-              </linearGradient>
-            </defs>
+        <radialGradient id="gRoseOut" cx="0.5" cy="0.62" r="0.62">
+          <stop offset="0"   stop-color="#8DAFCB"/>
+          <stop offset="0.6" stop-color="#6F97BB"/>
+          <stop offset="1"   stop-color="#527EA5"/>
+        </radialGradient>
+        <radialGradient id="gRoseMid" cx="0.5" cy="0.6" r="0.62">
+          <stop offset="0"   stop-color="#7DA2C2"/>
+          <stop offset="1"   stop-color="#4A73A0"/>
+        </radialGradient>
+        <radialGradient id="gRoseIn" cx="0.5" cy="0.6" r="0.62">
+          <stop offset="0"   stop-color="#6B92B6"/>
+          <stop offset="1"   stop-color="#3E6791"/>
+        </radialGradient>
+
+        <radialGradient id="gPeonyOut" cx="0.5" cy="0.62" r="0.64">
+          <stop offset="0"    stop-color="#FFFFFF"/>
+          <stop offset="0.62" stop-color="#F3F7FA"/>
+          <stop offset="1"    stop-color="#D6E3EE"/>
+        </radialGradient>
+        <radialGradient id="gPeonyMid" cx="0.5" cy="0.6" r="0.62">
+          <stop offset="0"   stop-color="#FFFFFF"/>
+          <stop offset="1"   stop-color="#E2EBF3"/>
+        </radialGradient>
+        <radialGradient id="gPeonyIn" cx="0.5" cy="0.6" r="0.62">
+          <stop offset="0"   stop-color="#FFFFFF"/>
+          <stop offset="1"   stop-color="#EDF3F8"/>
+        </radialGradient>
+
+        <linearGradient id="gLeaf" x1="0" y1="0" x2="1" y2="0.6">
+          <stop offset="0"   stop-color="#9DB4A8"/>
+          <stop offset="0.5" stop-color="#7A9AA0"/>
+          <stop offset="1"   stop-color="#557C84"/>
+        </linearGradient>
+
+        <!-- Painted edge: fractal displacement + a whisper of bleed -->
+        <filter id="wcPaint" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="3" seed="9" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="6"
+                             xChannelSelector="R" yChannelSelector="G" result="disp"/>
+          <feGaussianBlur in="disp" stdDeviation="0.6"/>
+        </filter>
+
+        <!-- Blue watercolor rose, viewed from above -->
+        <symbol id="rose-blue" viewBox="0 0 100 104">
+          <g fill="url(#gRoseOut)">
+            <use href="#pt" transform="rotate(0 50 52)"/>
+            <use href="#pt" transform="rotate(51.4 50 52)"/>
+            <use href="#pt" transform="rotate(102.8 50 52)"/>
+            <use href="#pt" transform="rotate(154.2 50 52)"/>
+            <use href="#pt" transform="rotate(205.6 50 52)"/>
+            <use href="#pt" transform="rotate(257 50 52)"/>
+            <use href="#pt" transform="rotate(308.4 50 52)"/>
+          </g>
+          <g fill="url(#gRoseMid)" transform="translate(50 52) scale(0.72) translate(-50 -52)">
+            <use href="#pt" transform="rotate(26 50 52)"/>
+            <use href="#pt" transform="rotate(86 50 52)"/>
+            <use href="#pt" transform="rotate(146 50 52)"/>
+            <use href="#pt" transform="rotate(206 50 52)"/>
+            <use href="#pt" transform="rotate(266 50 52)"/>
+            <use href="#pt" transform="rotate(326 50 52)"/>
+          </g>
+          <g fill="url(#gRoseIn)" transform="translate(50 52) scale(0.44) translate(-50 -52)">
+            <use href="#pt" transform="rotate(10 50 52)"/>
+            <use href="#pt" transform="rotate(82 50 52)"/>
+            <use href="#pt" transform="rotate(154 50 52)"/>
+            <use href="#pt" transform="rotate(226 50 52)"/>
+            <use href="#pt" transform="rotate(298 50 52)"/>
+          </g>
+          <ellipse cx="50" cy="50" rx="7.5" ry="7" fill="#38597B"/>
+          <path d="M44 51 C45.5 45 55 44.5 57 49.5 C58.4 53.6 51 56.5 46.8 53.6"
+                fill="none" stroke="#96B6CE" stroke-width="1.4" opacity="0.65"/>
+          <ellipse cx="37" cy="28" rx="17" ry="12" fill="#FFFFFF" opacity="0.2"/>
+        </symbol>
+
+        <!-- White peony with gold stamens -->
+        <symbol id="peony-white" viewBox="0 0 100 104">
+          <g fill="url(#gPeonyOut)">
+            <use href="#pt" transform="rotate(0 50 52)"/>
+            <use href="#pt" transform="rotate(51.4 50 52)"/>
+            <use href="#pt" transform="rotate(102.8 50 52)"/>
+            <use href="#pt" transform="rotate(154.2 50 52)"/>
+            <use href="#pt" transform="rotate(205.6 50 52)"/>
+            <use href="#pt" transform="rotate(257 50 52)"/>
+            <use href="#pt" transform="rotate(308.4 50 52)"/>
+          </g>
+          <g fill="url(#gPeonyMid)" transform="translate(50 52) scale(0.7) translate(-50 -52)">
+            <use href="#pt" transform="rotate(30 50 52)"/>
+            <use href="#pt" transform="rotate(90 50 52)"/>
+            <use href="#pt" transform="rotate(150 50 52)"/>
+            <use href="#pt" transform="rotate(210 50 52)"/>
+            <use href="#pt" transform="rotate(270 50 52)"/>
+            <use href="#pt" transform="rotate(330 50 52)"/>
+          </g>
+          <g fill="url(#gPeonyIn)" transform="translate(50 52) scale(0.42) translate(-50 -52)">
+            <use href="#pt" transform="rotate(14 50 52)"/>
+            <use href="#pt" transform="rotate(86 50 52)"/>
+            <use href="#pt" transform="rotate(158 50 52)"/>
+            <use href="#pt" transform="rotate(230 50 52)"/>
+            <use href="#pt" transform="rotate(302 50 52)"/>
+          </g>
+          <circle cx="50" cy="50" r="7" fill="#F1E5C8"/>
+          <g stroke="#C5A059" stroke-width="0.9" opacity="0.8" fill="none">
+            <path d="M50 50 L46 42.5"/><path d="M50 50 L52 41.5"/><path d="M50 50 L57.5 44.5"/>
+            <path d="M50 50 L43.5 55.5"/><path d="M50 50 L55.5 57.5"/>
+          </g>
+          <g fill="#C5A059" opacity="0.9">
+            <circle cx="46" cy="42.5" r="1.3"/><circle cx="52" cy="41.5" r="1.3"/>
+            <circle cx="57.5" cy="44.5" r="1.3"/><circle cx="43.5" cy="55.5" r="1.3"/>
+            <circle cx="55.5" cy="57.5" r="1.3"/>
+          </g>
+        </symbol>
+
+        <!-- Single sage leaf -->
+        <symbol id="leaf" viewBox="0 0 62 36">
+          <path d="M2 18 C14 3 40 -1 60 11 C43 31 14 33 2 18 Z" fill="url(#gLeaf)"/>
+          <path d="M4 18 C21 15 41 13 57 12" fill="none" stroke="#4C6E72" stroke-width="0.9" opacity="0.4"/>
+        </symbol>
+
+        <!-- Leafed branch -->
+        <symbol id="sprig" viewBox="0 0 210 130">
+          <path d="M4 122 C48 104 104 74 200 12" fill="none" stroke="#5F8083" stroke-width="2" opacity="0.5"/>
+          <g transform="translate(28 110) rotate(-72) scale(0.58)"><use href="#leaf" width="62" height="36"/></g>
+          <g transform="translate(46 100) rotate(-14) scale(0.66)"><use href="#leaf" width="62" height="36"/></g>
+          <g transform="translate(74 84)  rotate(-78) scale(0.62)"><use href="#leaf" width="62" height="36"/></g>
+          <g transform="translate(96 74)  rotate(-18) scale(0.72)"><use href="#leaf" width="62" height="36"/></g>
+          <g transform="translate(124 56) rotate(-84) scale(0.60)"><use href="#leaf" width="62" height="36"/></g>
+          <g transform="translate(146 44) rotate(-22) scale(0.66)"><use href="#leaf" width="62" height="36"/></g>
+          <g transform="translate(174 24) rotate(-70) scale(0.50)"><use href="#leaf" width="62" height="36"/></g>
+          <g transform="translate(188 14) rotate(-26) scale(0.50)"><use href="#leaf" width="62" height="36"/></g>
+        </symbol>
+
+        <!-- Gold leaf branch -->
+        <symbol id="sprig-gold" viewBox="0 0 220 120">
+          <path d="M2 108 C56 92 120 60 216 6" fill="none" stroke="#C5A059" stroke-width="1.5" opacity="0.7"/>
+          <g fill="#C5A059" opacity="0.62">
+            <ellipse cx="30" cy="96"  rx="11" ry="4.6" transform="rotate(-40 30 96)"/>
+            <ellipse cx="52" cy="88"  rx="12" ry="5"   transform="rotate(-8 52 88)"/>
+            <ellipse cx="82" cy="74"  rx="11" ry="4.6" transform="rotate(-46 82 74)"/>
+            <ellipse cx="108" cy="62" rx="12" ry="5"   transform="rotate(-12 108 62)"/>
+            <ellipse cx="140" cy="46" rx="10" ry="4.4" transform="rotate(-50 140 46)"/>
+            <ellipse cx="168" cy="32" rx="11" ry="4.6" transform="rotate(-16 168 32)"/>
+            <ellipse cx="196" cy="16" rx="9"  ry="4"   transform="rotate(-46 196 16)"/>
+          </g>
+          <g fill="#C5A059" opacity="0.85">
+            <circle cx="216" cy="6" r="2.2"/>
+            <circle cx="120" cy="57" r="1.8"/>
+            <circle cx="64" cy="85" r="1.6"/>
+          </g>
+        </symbol>
+      </defs>
+    </svg>
+
+    <!-- ---------- WATERCOLOR SEASCAPE ---------- -->
+    <svg class="cover-scene" viewBox="0 0 1000 1280"
+         preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="sSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#E4EFF7"/>
+          <stop offset="0.34" stop-color="#F4F9FC"/>
+          <stop offset="0.72" stop-color="#E8F1F7"/>
+          <stop offset="1"    stop-color="#DBE9F3"/>
+        </linearGradient>
+        <linearGradient id="sSea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#D9E8F1"/>
+          <stop offset="0.22" stop-color="#BFD6E4"/>
+          <stop offset="0.58" stop-color="#A2C0D5"/>
+          <stop offset="1"    stop-color="#7FA5C1"/>
+        </linearGradient>
+        <linearGradient id="sReflect" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#FFFFFF" stop-opacity="0.8"/>
+          <stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.32"/>
+          <stop offset="1"    stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="sW1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#96B5CD"/><stop offset="1" stop-color="#7098B7"/>
+        </linearGradient>
+        <linearGradient id="sW2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#6E96B7"/><stop offset="1" stop-color="#4E769A"/>
+        </linearGradient>
+        <linearGradient id="sW3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#4C7198" stop-opacity="0.97"/><stop offset="1" stop-color="#345A80"/>
+        </linearGradient>
+        <linearGradient id="sW4" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#305278"/><stop offset="1" stop-color="#21405F"/>
+        </linearGradient>
+        <linearGradient id="sLand" x1="0" y1="0" x2="0.3" y2="1">
+          <stop offset="0" stop-color="#7D9FAE"/><stop offset="1" stop-color="#547785"/>
+        </linearGradient>
+        <linearGradient id="sWall" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FDFEFE"/><stop offset="1" stop-color="#DDE8F0"/>
+        </linearGradient>
+        <linearGradient id="sDome" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#F6FAFC"/><stop offset="1" stop-color="#BFD3E1"/>
+        </linearGradient>
+        <linearGradient id="gShirt" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#F2F7FA"/>
+          <stop offset="0.6" stop-color="#DEE8F0"/>
+          <stop offset="1"   stop-color="#BACDDC"/>
+        </linearGradient>
+        <linearGradient id="gDress" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#EDF3F8"/>
+          <stop offset="0.6" stop-color="#D6E2EC"/>
+          <stop offset="1"   stop-color="#B2C7D8"/>
+        </linearGradient>
+        <linearGradient id="gHair" x1="0" y1="0" x2="0.3" y2="1">
+          <stop offset="0"   stop-color="#333F4B"/>
+          <stop offset="0.7" stop-color="#25313D"/>
+          <stop offset="1"   stop-color="#2E3E4C"/>
+        </linearGradient>
+
+        <filter id="fSoft" x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur stdDeviation="1.9"/>
+        </filter>
+        <filter id="fBlurS" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="7"/>
+        </filter>
+        <filter id="fBlurL" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="20"/>
+        </filter>
+
+        <!-- The couple dissolves into the water toward the bottom -->
+        <linearGradient id="gFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#FFFFFF" stop-opacity="1"/>
+          <stop offset="0.5"  stop-color="#FFFFFF" stop-opacity="0.95"/>
+          <stop offset="0.78" stop-color="#FFFFFF" stop-opacity="0.5"/>
+          <stop offset="1"    stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="mCoupleFade">
+          <rect x="250" y="286" width="250" height="390" fill="url(#gFade)"/>
+        </mask>
+      </defs>
+
+      <!-- Sky -->
+      <rect x="0" y="0" width="1000" height="520" fill="url(#sSky)"/>
+
+      <!-- Soft cloud banks -->
+      <g fill="#FFFFFF" filter="url(#fBlurL)">
+        <ellipse cx="250" cy="150" rx="210" ry="72" opacity="0.7"/>
+        <ellipse cx="720" cy="112" rx="240" ry="60" opacity="0.62"/>
+        <ellipse cx="480" cy="268" rx="300" ry="58" opacity="0.5"/>
+        <ellipse cx="90"  cy="330" rx="180" ry="50" opacity="0.45"/>
+      </g>
+
+      <!-- Distant ranges -->
+      <g class="scene-parallax-far">
+        <path d="M0 474 L90 428 L162 452 L252 406 L332 454 L420 424 L500 460 L600 418
+                 L700 456 L800 428 L900 462 L1000 432 L1000 500 L0 500 Z"
+              fill="#B4CADC" opacity="0.42"/>
+        <path d="M0 486 L120 452 L210 476 L310 444 L410 480 L520 450 L640 482 L760 452
+                 L880 484 L1000 456 L1000 508 L0 508 Z"
+              fill="#9EBBD1" opacity="0.36"/>
+      </g>
+
+      <!-- Horizon light band -->
+      <ellipse cx="500" cy="472" rx="540" ry="34" fill="#FFFFFF" opacity="0.8" filter="url(#fBlurS)"/>
+
+      <!-- Sea -->
+      <rect x="0" y="470" width="1000" height="620" fill="url(#sSea)"/>
+
+      <!-- Column of light on the water -->
+      <rect x="388" y="470" width="224" height="600" fill="url(#sReflect)" filter="url(#fBlurL)"/>
+
+      <!-- Painted swell lines -->
+      <g stroke="#FFFFFF" fill="none" stroke-linecap="round">
+        <path d="M60 560 C140 552 220 566 300 558"  stroke-width="3" opacity="0.32"/>
+        <path d="M640 592 C720 584 800 598 890 588"  stroke-width="3" opacity="0.28"/>
+        <path d="M140 664 C260 654 360 672 470 660"  stroke-width="4" opacity="0.26"/>
+        <path d="M540 736 C660 726 770 744 900 730"  stroke-width="4" opacity="0.22"/>
+        <path d="M40 812 C190 800 320 822 460 806"   stroke-width="5" opacity="0.2"/>
+        <path d="M520 900 C680 886 820 908 980 890"  stroke-width="5" opacity="0.18"/>
+      </g>
+
+      <!-- Left headland, barely there -->
+      <path d="M0 468 C46 460 96 470 148 488 C176 498 196 506 208 516 L208 552 L0 552 Z"
+            fill="#93B2C6" opacity="0.32"/>
+
+      <!-- ---------- RIGHT HEADLAND + CHURCH ---------- -->
+      <g class="scene-headland">
+        <path d="M1000 392 C946 412 898 438 852 470 C806 502 758 528 706 546
+                 C688 552 676 560 672 572 C702 598 762 614 830 620
+                 C892 626 952 618 1000 606 Z"
+              fill="url(#sLand)"/>
+        <path d="M1000 470 C948 484 894 500 846 520 C800 540 750 556 706 566
+                 C692 570 682 576 678 584 C706 604 764 616 830 620
+                 C892 626 952 618 1000 606 Z"
+              fill="#4B6E7C" opacity="0.45"/>
+
+        <!-- Cypress and palm cluster along the ridge -->
+        <g fill="#41666F" opacity="0.75">
+          <ellipse cx="716" cy="536" rx="16" ry="26"/>
+          <ellipse cx="748" cy="524" rx="13" ry="22"/>
+          <ellipse cx="778" cy="512" rx="17" ry="28"/>
+          <ellipse cx="812" cy="498" rx="12" ry="20"/>
+          <ellipse cx="960" cy="446" rx="18" ry="30"/>
+          <ellipse cx="992" cy="432" rx="14" ry="24"/>
+        </g>
+
+        <!-- Church -->
+        <g transform="translate(830 292)">
+          <!-- Towers -->
+          <rect x="4"   y="80" width="30" height="98" fill="url(#sWall)"/>
+          <rect x="116" y="70" width="36" height="108" fill="url(#sWall)"/>
+          <!-- Nave -->
+          <rect x="20" y="96" width="112" height="82" fill="url(#sWall)"/>
+          <!-- Drum and central dome -->
+          <rect x="54" y="62" width="44" height="38" fill="url(#sWall)"/>
+          <path d="M52 64 C52 28 100 28 100 64 Z" fill="url(#sDome)"/>
+          <circle cx="76" cy="26" r="4.2" fill="#DCE8F0"/>
+          <path d="M76 6 V22 M69 12 H83" stroke="#8FA9BC" stroke-width="2.4" stroke-linecap="round"/>
+          <!-- Tower cupolas -->
+          <path d="M3 81 C3 62 35 62 35 81 Z" fill="url(#sDome)"/>
+          <path d="M19 58 V72 M13 63 H25" stroke="#8FA9BC" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M115 71 C115 50 153 50 153 71 Z" fill="url(#sDome)"/>
+          <path d="M134 44 V60 M127 50 H141" stroke="#8FA9BC" stroke-width="2" stroke-linecap="round"/>
+          <!-- Arched openings -->
+          <g fill="#A9C5D8" opacity="0.85">
+            <path d="M40 130 C40 121 52 121 52 130 L52 158 L40 158 Z"/>
+            <path d="M70 126 C70 116 82 116 82 126 L82 158 L70 158 Z"/>
+            <path d="M100 130 C100 121 112 121 112 130 L112 158 L100 158 Z"/>
+            <path d="M13 118 C13 111 25 111 25 118 L25 138 L13 138 Z"/>
+            <path d="M127 108 C127 100 141 100 141 108 L141 132 L127 132 Z"/>
+          </g>
+          <!-- Plinth -->
+          <rect x="12" y="176" width="132" height="8" fill="#D3E0E9"/>
+        </g>
+      </g>
+
+      <!-- ---------- THE COUPLE, BACK VIEW ---------- -->
+      <g class="scene-couple" mask="url(#mCoupleFade)" filter="url(#fSoft)" opacity="0.8">
+        <!-- Groom -->
+        <rect x="320" y="346" width="20" height="20" fill="#C6D3DD"/>
+        <path d="M294 378 C302 366 318 359 330 359 C342 359 358 366 366 378
+                 C376 394 380 416 381 440 L384 664 L276 664 L279 440
+                 C280 416 284 394 294 378 Z" fill="url(#gShirt)"/>
+        <path d="M330 368 V646" stroke="#BCCEDC" stroke-width="1.6" opacity="0.55"/>
+        <path d="M313 366 C320 377 340 377 347 366" fill="none" stroke="#BCCEDC" stroke-width="2"/>
+        <ellipse cx="330" cy="322" rx="28" ry="32" fill="url(#gHair)"/>
+        <path d="M304 316 C310 300 350 300 356 316" fill="none" stroke="#1E2A35" stroke-width="3" opacity="0.5"/>
+
+        <!-- Bride -->
+        <path d="M406 386 C412 375 424 368 434 368 C446 368 456 375 461 386
+                 C468 404 471 426 472 450 L474 664 L392 664 L394 450
+                 C395 426 399 404 406 386 Z" fill="url(#gDress)"/>
+        <ellipse cx="433" cy="344" rx="24" ry="27" fill="url(#gHair)"/>
+        <path d="M409 344 C407 320 415 306 433 306 C451 306 459 320 457 344
+                 C459 372 465 404 463 438 C461 472 453 502 441 524
+                 C429 514 417 510 406 514 C400 482 402 442 406 406
+                 C408 382 409 362 409 344 Z" fill="url(#gHair)"/>
+        <path d="M420 316 C426 344 424 380 418 414" fill="none" stroke="#3C4C5A" stroke-width="2" opacity="0.5"/>
+        <path d="M446 320 C452 350 452 388 446 422" fill="none" stroke="#3C4C5A" stroke-width="2" opacity="0.4"/>
+      </g>
+
+      <!-- ---------- DEEP WATER ----------
+           Each swell is grouped with its own foam crest so the two stay
+           locked together as the group sways. Every path runs from
+           x=-100 to x=1100 so the sway never exposes an edge. -->
+      <g class="scene-parallax-near">
+        <g class="scene-wave-1">
+          <path d="M-100 1058 C60 1022 200 1050 340 1042 C500 1032 620 1064 760 1050
+                   C880 1038 1000 1058 1100 1038 L1100 1290 L-100 1290 Z"
+                fill="url(#sW1)" opacity="0.9"/>
+          <path d="M-100 1060 C60 1024 200 1052 340 1044 C500 1034 620 1066 760 1052
+                   C880 1040 1000 1060 1100 1040"
+                fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.35"/>
+        </g>
+
+        <g class="scene-wave-2">
+          <path d="M-100 1120 C80 1080 220 1112 380 1104 C540 1096 660 1130 800 1112
+                   C910 1098 1010 1120 1100 1100 L1100 1290 L-100 1290 Z"
+                fill="url(#sW2)"/>
+          <path d="M-100 1122 C80 1082 220 1114 380 1106 C540 1098 660 1132 800 1114
+                   C910 1100 1010 1122 1100 1102"
+                fill="none" stroke="#FFFFFF" stroke-width="3.4" opacity="0.3"/>
+        </g>
+
+        <!-- Sailboat rides between the swells -->
+        <g class="scene-boat-group">
+          <g class="scene-boat">
+            <path d="M782 1052 V1128" stroke="#5C7C96" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M784 1058 C808 1090 812 1112 784 1124 Z" fill="#FBFDFE" opacity="0.95"/>
+            <path d="M778 1062 C760 1092 758 1112 778 1124 Z" fill="#E8F1F7" opacity="0.95"/>
+            <path d="M750 1126 C766 1140 800 1140 814 1126 Z" fill="#3E6382"/>
+          </g>
+        </g>
+
+        <g class="scene-wave-3">
+          <path d="M-100 1186 C60 1146 240 1180 400 1172 C560 1164 700 1196 840 1178
+                   C940 1164 1020 1186 1100 1166 L1100 1290 L-100 1290 Z"
+                fill="url(#sW3)"/>
+          <path d="M-100 1188 C60 1148 240 1182 400 1174 C560 1166 700 1198 840 1180
+                   C940 1166 1020 1188 1100 1168"
+                fill="none" stroke="#FFFFFF" stroke-width="3.6" opacity="0.26"/>
+        </g>
+
+        <g class="scene-wave-4">
+          <path d="M-100 1246 C100 1208 260 1242 420 1234 C580 1226 740 1254 880 1240
+                   C960 1232 1030 1248 1100 1230 L1100 1290 L-100 1290 Z"
+                fill="url(#sW4)"/>
+        </g>
+      </g>
+    </svg>
+
+    <!-- ---------- LIGHT WASH + PAINTED EDGES ---------- -->
+    <div class="cover-haze"></div>
+    <div class="cover-vignette"></div>
+
+    <!-- ---------- WATERCOLOR FLORAL CORNERS ---------- -->
+    <svg class="cover-flora flora-tl" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+      <g filter="url(#wcPaint)" opacity="0.85">
+        <g transform="translate(4 24) rotate(34) scale(0.86)"><use href="#sprig-gold" width="220" height="120"/></g>
+        <g transform="translate(70 4) rotate(64) scale(0.6)"><use href="#sprig-gold" width="220" height="120"/></g>
+      </g>
+    </svg>
+
+    <svg class="cover-flora flora-tr" viewBox="0 0 420 420" aria-hidden="true" focusable="false">
+      <g filter="url(#wcPaint)">
+        <g transform="translate(14 46) rotate(6) scale(1.02)"><use href="#sprig-gold" width="220" height="120"/></g>
+        <g transform="translate(120 16) rotate(26) scale(1.15)"><use href="#sprig" width="210" height="130"/></g>
+        <g transform="translate(316 118) rotate(98) scale(1.08)"><use href="#sprig" width="210" height="130"/></g>
+        <g transform="translate(196 136) rotate(152) scale(0.9)"><use href="#sprig" width="210" height="130"/></g>
+        <use href="#peony-white" x="146" y="118" width="132" height="137"/>
+        <use href="#rose-blue"   x="248" y="26"  width="164" height="171"/>
+        <use href="#rose-blue"   x="192" y="200" width="96"  height="100"/>
+        <use href="#peony-white" x="298" y="178" width="112" height="116"/>
+        <use href="#rose-blue"   x="366" y="150" width="74"  height="77"/>
+      </g>
+    </svg>
+
+    <svg class="cover-flora flora-lm" viewBox="0 0 200 300" aria-hidden="true" focusable="false">
+      <g filter="url(#wcPaint)" opacity="0.9">
+        <g transform="translate(-12 18) rotate(54) scale(1)"><use href="#sprig" width="210" height="130"/></g>
+        <g transform="translate(8 152) rotate(22) scale(0.86)"><use href="#sprig" width="210" height="130"/></g>
+        <g transform="translate(2 62) rotate(72) scale(0.68)"><use href="#sprig-gold" width="220" height="120"/></g>
+        <use href="#peony-white" x="-16" y="88" width="88" height="92"/>
+        <use href="#rose-blue"   x="30"  y="196" width="70" height="73"/>
+      </g>
+    </svg>
+
+    <svg class="cover-flora flora-bl" viewBox="0 0 420 460" aria-hidden="true" focusable="false">
+      <g filter="url(#wcPaint)">
+        <g transform="translate(64 62) rotate(-28) scale(1.2)"><use href="#sprig" width="210" height="130"/></g>
+        <g transform="translate(28 206) rotate(32) scale(1.15)"><use href="#sprig" width="210" height="130"/></g>
+        <g transform="translate(152 336) rotate(-68) scale(1.05)"><use href="#sprig" width="210" height="130"/></g>
+        <g transform="translate(74 34) rotate(56) scale(0.92)"><use href="#sprig-gold" width="220" height="120"/></g>
+        <use href="#peony-white" x="2"   y="84"  width="98"  height="102"/>
+        <use href="#rose-blue"   x="8"   y="150" width="172" height="179"/>
+        <use href="#peony-white" x="118" y="248" width="142" height="148"/>
+        <use href="#rose-blue"   x="28"  y="318" width="132" height="137"/>
+        <use href="#rose-blue"   x="156" y="176" width="78"  height="81"/>
+      </g>
+    </svg>
+
+    <svg class="cover-flora flora-br" viewBox="0 0 260 260" aria-hidden="true" focusable="false">
+      <g filter="url(#wcPaint)">
+        <g transform="translate(212 44) rotate(122) scale(0.9)"><use href="#sprig" width="210" height="130"/></g>
+        <use href="#rose-blue"   x="152" y="122" width="102" height="106"/>
+        <use href="#peony-white" x="88"  y="172" width="82"  height="85"/>
+      </g>
+    </svg>
+
+    <!-- ---------- TYPOGRAPHIC CONTENT ---------- -->
+    <div class="cover-content">
+
+      <!-- Gold cross and flourish -->
+      <svg class="cover-cross" viewBox="0 0 30 46" fill="none" aria-hidden="true" focusable="false" data-reveal>
+        <path d="M15 1 V45 M5 14 H25" stroke="#C5A059" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+      <svg class="cover-cross-flourish" viewBox="0 0 140 16" fill="none" aria-hidden="true" focusable="false" data-reveal>
+        <path d="M4 8 C22 1 40 15 58 8" stroke="#C5A059" stroke-width="1.1" opacity="0.75"/>
+        <path d="M136 8 C118 1 100 15 82 8" stroke="#C5A059" stroke-width="1.1" opacity="0.75"/>
+        <path d="M58 8 C64 3 76 3 82 8 C76 13 64 13 58 8 Z" fill="#C5A059" opacity="0.85"/>
+        <circle cx="70" cy="8" r="1.5" fill="#FFFDF8"/>
+      </svg>
+
+      <!-- Headline -->
+      <h1 class="cover-title" data-reveal>
+        Two Hearts. Two Oceans.
+        <span class="cover-promise">One Promise.</span>
+        <span class="sr-only">Sini and Martin, 24 August 2026</span>
+      </h1>
+
+      <svg class="cover-divider" viewBox="0 0 180 12" fill="none" aria-hidden="true" focusable="false" data-reveal>
+        <line x1="2" y1="6" x2="72" y2="6" stroke="#C5A059" stroke-width="1" opacity="0.6"/>
+        <line x1="108" y1="6" x2="178" y2="6" stroke="#C5A059" stroke-width="1" opacity="0.6"/>
+        <circle cx="78" cy="6" r="1.5" fill="#C5A059" opacity="0.8"/>
+        <path d="M90 1.5 L94.5 6 L90 10.5 L85.5 6 Z" fill="#C5A059"/>
+        <circle cx="102" cy="6" r="1.5" fill="#C5A059" opacity="0.8"/>
+      </svg>
+
+      <!-- Breathing room so the couple and the church stay visible -->
+      <div class="cover-gap" aria-hidden="true"></div>
+
+      <!-- Poem -->
+      <p class="cover-poem" data-reveal>
+        From different shores, our paths were<br>
+        guided by faith, across oceans and time,<br>
+        He brought our hearts together in His perfect plan.
+      </p>
+
+      <!-- Four pillars of the story -->
+      <div class="cover-pillars" data-reveal>
+        <div class="pillar">
+          <svg class="pillar-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <circle cx="16" cy="9" r="4"/>
+            <path d="M9 24v-2.5a4.5 4.5 0 0 1 4.5-4.5h5a4.5 4.5 0 0 1 4.5 4.5V24"/>
+            <circle cx="6.5" cy="13" r="3"/>
+            <path d="M1.5 24v-2a4 4 0 0 1 4-4"/>
+            <circle cx="25.5" cy="13" r="3"/>
+            <path d="M30.5 24v-2a4 4 0 0 0-4-4"/>
           </svg>
-          <svg class="glow-cross" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0 V36 M4 10 H20" stroke="#FCFBF8" stroke-width="2.5" stroke-linecap="round"/>
+          <h2 class="pillar-title">Families United</h2>
+          <p class="pillar-text">With blessings<br>and prayers</p>
+        </div>
+
+        <div class="pillar">
+          <svg class="pillar-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <path d="M16 26S5 19.6 5 12.8A5.6 5.6 0 0 1 16 10.1 5.6 5.6 0 0 1 27 12.8C27 19.6 16 26 16 26Z"/>
           </svg>
+          <h2 class="pillar-title">A Beautiful Meeting</h2>
+          <p class="pillar-text">Where strangers<br>became friends</p>
         </div>
 
-        <blockquote class="scripture-quote">
-          “What God has joined together, let no one separate.”
-        </blockquote>
-        <p class="scripture-reference">— Mark 10:9 —</p>
-
-        <div class="tap-to-begin-container">
-          <h2 class="couple-names" style="font-size: 3.5rem; margin-bottom: 24px;">Sini & Martin</h2>
-          <button id="tap-to-begin-btn" class="btn-cinematic">
-            <span class="pulse-ring"></span>
-            Tap to Begin
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 2: HERO -->
-    <section id="chapter-hero" class="chapter" aria-label="Chapter 2: Hero">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(ellipse at top, rgba(35,72,106,0.7) 0%, rgba(10,15,22,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">A Sacred Union</span>
-        <div class="hero-names-wrapper">
-          <span class="hero-name couple-names text-light-sweep">Sini</span>
-          <span class="hero-ampersand">&amp;</span>
-          <span class="hero-name couple-names text-light-sweep">Martin</span>
-        </div>
-        <p class="hero-tagline">Two Hearts &bull; Two Countries &bull; One Journey</p>
-        <div class="hero-date-badge">24 AUGUST 2026</div>
-
-        <div>
-          <button id="begin-story-btn" class="btn-cinematic">Begin Our Story</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 3: OUR JOURNEY TIMELINE -->
-    <section id="chapter-journey" class="chapter" aria-label="Chapter 3: Our Journey">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 30% 50%, rgba(107,142,139,0.3) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">The Map of Providence</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 16px;">Our Journey</h2>
-        <p style="max-width: 600px; margin: 0 auto; color: var(--color-beige); font-size: 1.05rem;">
-          Not a biography, but a unfolding story written by grace, faith, and ocean currents.
-        </p>
-
-        <div class="timeline-container">
-          <svg class="timeline-line-svg" preserveAspectRatio="none" viewBox="0 0 4 1000">
-            <line class="timeline-path" x1="2" y1="0" x2="2" y2="1000" stroke-width="4"/>
-            <line class="timeline-progress-path" x1="2" y1="0" x2="2" y2="1000" stroke-width="4"/>
+        <div class="pillar">
+          <svg class="pillar-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <path d="M27 19.5A2.5 2.5 0 0 1 24.5 22H11l-5 5V9a2.5 2.5 0 0 1 2.5-2.5h16A2.5 2.5 0 0 1 27 9Z"/>
+            <circle cx="11.5" cy="14.2" r="1.05" fill="#C5A059" stroke="none"/>
+            <circle cx="16.5" cy="14.2" r="1.05" fill="#C5A059" stroke="none"/>
+            <circle cx="21.5" cy="14.2" r="1.05" fill="#C5A059" stroke="none"/>
           </svg>
-
-          <!-- Timeline Items -->
-          <div class="timeline-item reveal-up">
-            <div class="timeline-node"></div>
-            <div class="timeline-content glass-card">
-              <span class="section-subtitle">Chapter I</span>
-              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">Family Roots &amp; Foundations</h3>
-              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
-                Grounded in the warmth of faithful homes in Kerala, learning compassion, dedication, and trust in divine timing.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item reveal-up">
-            <div class="timeline-node"></div>
-            <div class="timeline-content glass-card">
-              <span class="section-subtitle">Chapter II</span>
-              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">First Connection</h3>
-              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
-                A single conversation across oceans sparked an unspoken bond of prayer, mutual respect, and quiet understanding.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item reveal-up">
-            <div class="timeline-node"></div>
-            <div class="timeline-content glass-card">
-              <span class="section-subtitle">Chapter III</span>
-              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">Across Oceans</h3>
-              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
-                Between hospital shifts in Ireland and culinary voyages aboard cruise liners in the UK, distant miles brought their hearts closer.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item reveal-up">
-            <div class="timeline-node"></div>
-            <div class="timeline-content glass-card">
-              <span class="section-subtitle">Chapter IV</span>
-              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">One Year Together</h3>
-              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
-                Countless video calls, shared prayers, and silent hope solidified their promise for a shared future.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item reveal-up">
-            <div class="timeline-node"></div>
-            <div class="timeline-content glass-card">
-              <span class="section-subtitle">Chapter V</span>
-              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">The Betrothal</h3>
-              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
-                Surrounded by family blessings at St. Mary's Church, sealing their commitment before God.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item reveal-up">
-            <div class="timeline-node"></div>
-            <div class="timeline-content glass-card">
-              <span class="section-subtitle">Chapter VI</span>
-              <h3 style="font-size: 1.4rem; color: var(--color-gold); margin-bottom: 8px;">The Holy Matrimony</h3>
-              <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-ivory);">
-                Two worlds becoming one in Kerala at Mar Sleeva Church on 24 August 2026.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 4: TWO DIFFERENT WORLDS -->
-    <section id="chapter-worlds" class="chapter" aria-label="Chapter 4: Two Different Worlds">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(ellipse at center, rgba(35,72,106,0.6) 0%, rgba(13,27,42,0.95) 90%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Individual Callings</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">Two Different Worlds</h2>
-
-        <div class="split-worlds-grid">
-          <!-- LEFT: SINI (NURSE - IRELAND) -->
-          <div class="world-card glass-card reveal-up">
-            <div class="world-illustration-container">
-              <svg class="world-svg-art" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="400" height="240" fill="url(#irelandGrad)"/>
-                <!-- Irish rolling green hills -->
-                <path d="M0 180 Q100 130 200 160 T400 150 V240 H0 Z" fill="#2E5A44" opacity="0.7"/>
-                <path d="M0 200 Q150 160 300 190 T400 180 V240 H0 Z" fill="#1E3E2E"/>
-                <!-- Soft hospital cross outline -->
-                <path d="M200 60 V120 M170 90 H230" stroke="#D4AF6A" stroke-width="4" stroke-linecap="round"/>
-                <circle cx="200" cy="90" r="45" stroke="#D4AF6A" stroke-width="1.5" stroke-dasharray="4 4"/>
-                <!-- Animated heartbeat pulse -->
-                <path class="pulse-heart" d="M120 180 H160 L170 160 L185 200 L200 140 L215 190 L225 175 L235 180 H280" stroke="#F8F6F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <defs>
-                  <linearGradient id="irelandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#1B3B2B"/>
-                    <stop offset="100%" stop-color="#12151A"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-
-            <div class="world-header">
-              <span class="world-icon">🩺</span>
-              <div>
-                <span class="world-profession">Nurse &bull; Ireland</span>
-                <h3 class="world-title">A Heart That Heals</h3>
-              </div>
-            </div>
-
-            <p class="world-description">
-              Sini serves with compassion as a nurse in Ireland, dedicating her life to caring for others. Every act of kindness reflects the love and faith she carries into this new chapter.
-            </p>
-
-            <div class="world-badges">
-              <span class="world-badge">🩺 Healthcare</span>
-              <span class="world-badge">🇮🇪 Ireland</span>
-              <span class="world-badge">❤️ Healing</span>
-            </div>
-          </div>
-
-          <!-- RIGHT: MARTIN (CHEF - CRUISE SHIP UK) -->
-          <div class="world-card glass-card reveal-up delay-1">
-            <div class="world-illustration-container">
-              <svg class="world-svg-art" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="400" height="240" fill="url(#ukGrad)"/>
-                <!-- Ocean waves -->
-                <path d="M0 190 C100 175 200 205 300 185 C350 175 400 195 400 195 V240 H0 Z" fill="#1C3A56"/>
-                <path d="M0 210 C120 195 240 220 360 205 L400 215 V240 H0 Z" fill="#0F2338"/>
-                <!-- Cruise ship silhouette -->
-                <g class="floating-ship">
-                  <path d="M120 165 L280 165 L260 190 L140 190 Z" fill="#FCFBF8" opacity="0.9"/>
-                  <rect x="150" y="145" width="100" height="20" rx="3" fill="#D4AF6A"/>
-                  <rect x="170" y="130" width="60" height="15" rx="2" fill="#FCFBF8"/>
-                  <line x1="200" y1="130" x2="200" y2="115" stroke="#D4AF6A" stroke-width="2"/>
-                </g>
-                <defs>
-                  <linearGradient id="ukGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#23486A"/>
-                    <stop offset="100%" stop-color="#0D1B2A"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-
-            <div class="world-header">
-              <span class="world-icon">👨‍🍳</span>
-              <div>
-                <span class="world-profession">Chef &bull; Cruise Ship UK</span>
-                <h3 class="world-title">A Journey Across Seas</h3>
-              </div>
-            </div>
-
-            <p class="world-description">
-              Martin works as a chef aboard a cruise ship in the United Kingdom, travelling across the oceans while bringing joy through his culinary craft. Every voyage became another step toward the greatest journey of his life.
-            </p>
-
-            <div class="world-badges">
-              <span class="world-badge">👨‍🍳 Culinary Art</span>
-              <span class="world-badge">🚢 Ocean Voyages</span>
-              <span class="world-badge">🇬🇧 United Kingdom</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 5: LOVE BEYOND DISTANCE -->
-    <section id="chapter-distance" class="chapter" aria-label="Chapter 5: Love Beyond Distance">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 70% 30%, rgba(35,72,106,0.5) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Bridging the Distance</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 12px;">Love Beyond Distance</h2>
-        <p style="max-width: 650px; margin: 0 auto 24px auto; color: var(--color-ivory);">
-          Different countries. Different schedules. One year of conversations. One promise. One future.
-        </p>
-
-        <!-- Canvas Animated Map -->
-        <div class="map-canvas-wrapper">
-          <canvas id="map-canvas"></canvas>
+          <h2 class="pillar-title">One Year Together</h2>
+          <p class="pillar-text">Filled with trust,<br>love and faith</p>
         </div>
 
-        <div class="glass-card map-quote-card reveal-up">
-          <p style="font-family: var(--font-heading); font-size: 1.35rem; font-style: italic; color: var(--color-gold);">
-            “Distance means so little when someone means so much. Guided by faith, their paths converge at home.”
-          </p>
+        <div class="pillar">
+          <svg class="pillar-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <circle cx="16" cy="20.5" r="7.5"/>
+            <path d="M16 5.2 L20.2 10 L16 13.8 L11.8 10 Z"/>
+          </svg>
+          <h2 class="pillar-title">Forever Begins</h2>
+          <p class="pillar-text">A promise of a<br>lifetime together</p>
         </div>
       </div>
-    </section>
 
-    <!-- CHAPTER 6: COUNTDOWN -->
-    <section id="chapter-countdown" class="chapter" aria-label="Chapter 6: Countdown">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(ellipse at bottom, rgba(212,175,106,0.35) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
+      <!-- Invitation -->
+      <p class="cover-invite" data-reveal>
+        We invite you to be a part of<br>our blessed journey.
+      </p>
 
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Counting Down to Forever</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">The Celebration Begins In</h2>
+      <svg class="cover-heart-flourish" viewBox="0 0 140 22" fill="none" aria-hidden="true" focusable="false" data-reveal>
+        <path d="M70 17 C65 10 57 10 57 14.4 C57 18.4 70 21 70 21 C70 21 83 18.4 83 14.4 C83 10 75 10 70 17 Z"
+              stroke="#C5A059" stroke-width="1.1"/>
+        <path d="M53 14.6 C42 10.6 28 12.6 18 17.6" stroke="#C5A059" stroke-width="1" opacity="0.6"/>
+        <path d="M87 14.6 C98 10.6 112 12.6 122 17.6" stroke="#C5A059" stroke-width="1" opacity="0.6"/>
+      </svg>
 
-        <div class="glass-card" style="max-width: 750px; margin: 0 auto; padding: 48px 24px;">
-          <div class="countdown-grid">
-            <div class="countdown-box">
-              <span id="cd-days" class="countdown-number">00</span>
-              <span class="countdown-label">Days</span>
-            </div>
-            <div class="countdown-box">
-              <span id="cd-hours" class="countdown-number">00</span>
-              <span class="countdown-label">Hours</span>
-            </div>
-            <div class="countdown-box">
-              <span id="cd-minutes" class="countdown-number">00</span>
-              <span class="countdown-label">Minutes</span>
-            </div>
-            <div class="countdown-box">
-              <span id="cd-seconds" class="countdown-number">00</span>
-              <span class="countdown-label">Seconds</span>
-            </div>
-          </div>
-          <p style="margin-top: 24px; font-family: var(--font-body); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-gold); font-size: 0.9rem;">
-            24 AUGUST 2026 &bull; KERALA, INDIA
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 7: BRIDE'S FAMILY -->
-    <section id="chapter-bride-family" class="chapter" aria-label="Chapter 7: Bride's Family">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 20% 40%, rgba(107,142,139,0.4) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Heritage &amp; Blessings</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 32px;">Bride's Family</h2>
-
-        <div class="glass-card family-profile-card">
-          <div class="family-portrait-frame">
-            <!-- Blurred portrait placeholder per guidelines -->
-            <svg class="family-portrait-img" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="100" cy="100" r="100" fill="url(#brideFamilyGrad)"/>
-              <path d="M100 50 C80 50 65 65 65 85 C65 110 100 135 100 135 C100 135 135 110 135 85 C135 65 120 50 100 50 Z" fill="#D4AF6A" opacity="0.6"/>
-              <defs>
-                <linearGradient id="brideFamilyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#6B8E8B"/>
-                  <stop offset="100%" stop-color="#23486A"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          <div>
-            <h3 style="font-size: 2rem; color: var(--color-warm-white); margin-bottom: 8px;">The Family of Sini</h3>
-            <p style="font-size: 1rem; color: var(--color-beige); margin-bottom: 16px;">
-              With heart-filled gratitude to her parents and loved ones whose unconditional love, guidance, and prayers paved the path to this blessed day.
-            </p>
-            <ul class="family-members-list">
-              <li class="family-member-item">
-                <span class="family-role">Daughter of:</span> Mr. &amp; Mrs. Family Name
-              </li>
-              <li class="family-member-item">
-                <span class="family-role">Home Town:</span> Kottayam, Kerala
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 8: GROOM'S FAMILY -->
-    <section id="chapter-groom-family" class="chapter" aria-label="Chapter 8: Groom's Family">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 80% 60%, rgba(35,72,106,0.5) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Heritage &amp; Blessings</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 32px;">Groom's Family</h2>
-
-        <div class="glass-card family-profile-card">
-          <div class="family-portrait-frame">
-            <svg class="family-portrait-img" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="100" cy="100" r="100" fill="url(#groomFamilyGrad)"/>
-              <path d="M100 50 C80 50 65 65 65 85 C65 110 100 135 100 135 C100 135 135 110 135 85 C135 65 120 50 100 50 Z" fill="#D4AF6A" opacity="0.6"/>
-              <defs>
-                <linearGradient id="groomFamilyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#23486A"/>
-                  <stop offset="100%" stop-color="#12151A"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          <div>
-            <h3 style="font-size: 2rem; color: var(--color-warm-white); margin-bottom: 8px;">The Family of Martin</h3>
-            <p style="font-size: 1rem; color: var(--color-beige); margin-bottom: 16px;">
-              With profound appreciation to his parents and family for instilling values of faith, perseverance, and dedication across every voyage.
-            </p>
-            <ul class="family-members-list">
-              <li class="family-member-item">
-                <span class="family-role">Son of:</span> Mr. &amp; Mrs. Family Name
-              </li>
-              <li class="family-member-item">
-                <span class="family-role">Home Town:</span> Kottayam, Kerala
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 9: BETROTHAL -->
-    <section id="chapter-betrothal" class="chapter" aria-label="Chapter 9: Betrothal">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(ellipse at top, rgba(212,175,106,0.3) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Sacred Promise</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">The Betrothal Ceremony</h2>
-
-        <div class="glass-card ceremony-card">
-          <!-- St Mary's Church Sketch SVG -->
-          <div class="church-sketch-container">
-            <svg class="church-sketch-svg dash-drawing" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M200 20 L240 70 H160 Z" stroke="#D4AF6A" stroke-width="2"/>
-              <rect x="175" y="70" width="50" height="110" stroke="#D4AF6A" stroke-width="2"/>
-              <path d="M190 130 A10 10 0 0 1 210 130 V180 H190 Z" stroke="#D4AF6A" stroke-width="1.5"/>
-              <path d="M200 0 V20 M193 7 H207" stroke="#D4AF6A" stroke-width="2"/>
-              <!-- Side wings -->
-              <path d="M80 110 L160 110 V180 H80 Z M240 110 L320 110 V180 H240 Z" stroke="#D4AF6A" stroke-width="1.5"/>
-            </svg>
-          </div>
-
-          <h3 style="font-size: 2.2rem; color: var(--color-warm-white); margin-bottom: 8px;">St. Mary's Church</h3>
-          <p style="font-size: 1.05rem; color: var(--color-gold);">Kottayam, Kerala</p>
-
-          <div class="ceremony-meta-grid">
-            <div>
-              <div class="meta-item-title">DATE</div>
-              <div class="meta-item-value">August 2026</div>
-            </div>
-            <div>
-              <div class="meta-item-title">TIME</div>
-              <div class="meta-item-value">10:00 AM</div>
-            </div>
-            <div>
-              <div class="meta-item-title">CEREMONY</div>
-              <div class="meta-item-value">Betrothal</div>
-            </div>
-          </div>
-
-          <button class="btn-cinematic" data-nav-venue="betrothal">Navigate to St. Mary's</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 10: WEDDING CEREMONY -->
-    <section id="chapter-wedding" class="chapter" aria-label="Chapter 10: Wedding Ceremony">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(ellipse at center, rgba(212,175,106,0.4) 0%, rgba(13,27,42,0.95) 85%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Holy Matrimony</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">The Wedding Ceremony</h2>
-
-        <div class="glass-card ceremony-card">
-          <!-- Mar Sleeva Church Line Drawing SVG -->
-          <div class="church-sketch-container">
-            <svg class="church-sketch-svg dash-drawing" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M200 10 L250 60 H150 Z" stroke="#D4AF6A" stroke-width="2.5"/>
-              <rect x="165" y="60" width="70" height="120" stroke="#D4AF6A" stroke-width="2"/>
-              <circle cx="200" cy="95" r="15" stroke="#D4AF6A" stroke-width="1.5"/>
-              <path d="M185 140 A15 15 0 0 1 215 140 V180 H185 Z" stroke="#D4AF6A" stroke-width="2"/>
-              <path d="M200 -5 V10 M190 0 H210" stroke="#D4AF6A" stroke-width="3"/>
-              <!-- Symmetrical Spire Arches -->
-              <path d="M60 100 L150 100 V180 H60 Z M250 100 L340 100 V180 H250 Z" stroke="#D4AF6A" stroke-width="1.5"/>
-            </svg>
-          </div>
-
-          <h3 style="font-size: 2.4rem; color: var(--color-warm-white); margin-bottom: 8px;">Mar Sleeva Forane Church</h3>
-          <p style="font-size: 1.1rem; color: var(--color-gold);">Cherpunkal, Kottayam, Kerala</p>
-
-          <div class="ceremony-meta-grid">
-            <div>
-              <div class="meta-item-title">DATE</div>
-              <div class="meta-item-value">24 August 2026</div>
-            </div>
-            <div>
-              <div class="meta-item-title">TIME</div>
-              <div class="meta-item-value">11:00 AM</div>
-            </div>
-            <div>
-              <div class="meta-item-title">FEAST &amp; RECEPTION</div>
-              <div class="meta-item-value">To Follow</div>
-            </div>
-          </div>
-
-          <button class="btn-cinematic" data-nav-venue="wedding">Navigate to Mar Sleeva</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 11: NAVIGATE -->
-    <section id="chapter-navigate" class="chapter" aria-label="Chapter 11: Navigate">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(circle at 50% 80%, rgba(107,142,139,0.3) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Directions &amp; Locations</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">Navigate</h2>
-
-        <div class="navigate-cards-grid">
-          <!-- CARD 1: BETROTHAL NAVIGATE -->
-          <div class="glass-card reveal-up">
-            <h3 class="nav-card-title">Betrothal Location</h3>
-            <p class="nav-card-location">St. Mary's Church &bull; Kottayam</p>
-            <div class="map-preview-frame" style="background-image: linear-gradient(135deg, rgba(35,72,106,0.6), rgba(13,27,42,0.8)); display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 2.5rem;">📍</span>
-            </div>
-            <button class="btn-cinematic" data-nav-venue="betrothal">Open Google Maps</button>
-          </div>
-
-          <!-- CARD 2: WEDDING NAVIGATE -->
-          <div class="glass-card reveal-up delay-1">
-            <h3 class="nav-card-title">Wedding Location</h3>
-            <p class="nav-card-location">Mar Sleeva Church &bull; Cherpunkal</p>
-            <div class="map-preview-frame" style="background-image: linear-gradient(135deg, rgba(107,142,139,0.6), rgba(13,27,42,0.8)); display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 2.5rem;">💒</span>
-            </div>
-            <button class="btn-cinematic" data-nav-venue="wedding">Open Google Maps</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHAPTER 12: MEMORIES (ONLY HERE SHOW ORIGINAL CLEAR PHOTOGRAPHS) -->
-    <section id="chapter-memories" class="chapter" aria-label="Chapter 12: Memories Gallery">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(ellipse at center, rgba(35,72,106,0.4) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
-      </div>
-
-      <div class="chapter-content reveal-up">
-        <span class="section-subtitle">Moments Captured</span>
-        <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 12px;">Memories</h2>
-        <p style="color: var(--color-beige); max-width: 600px; margin: 0 auto 32px auto;">
-          Click any photograph to view in full resolution lightbox.
-        </p>
-
-        <!-- MASONRY GALLERY WITH HIGH QUALITY CLEAR IMAGES -->
-        <div class="gallery-masonry-grid">
-          <!-- Gallery Item 1 -->
-          <div class="gallery-item">
-            <svg class="gallery-img" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="400" height="500" fill="url(#g1)"/>
-              <circle cx="200" cy="200" r="80" fill="#D4AF6A" opacity="0.3"/>
-              <path d="M150 350 Q200 280 250 350" stroke="#FCFBF8" stroke-width="4" stroke-linecap="round"/>
-              <text x="50%" y="90%" text-anchor="middle" fill="#FCFBF8" font-family="Cormorant Garamond" font-size="24">Ireland &bull; Spring Walk</text>
-              <defs>
-                <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#2E5A44"/>
-                  <stop offset="100%" stop-color="#1C3A56"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div class="gallery-overlay">
-              <span class="gallery-caption">Spring Walk in Ireland</span>
-            </div>
-          </div>
-
-          <!-- Gallery Item 2 -->
-          <div class="gallery-item">
-            <svg class="gallery-img" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="400" height="500" fill="url(#g2)"/>
-              <circle cx="280" cy="120" r="60" fill="#D4AF6A" opacity="0.5"/>
-              <path d="M0 380 Q200 320 400 380 V500 H0 Z" fill="#0F2338"/>
-              <text x="50%" y="90%" text-anchor="middle" fill="#FCFBF8" font-family="Cormorant Garamond" font-size="24">Sunset Over the UK Seas</text>
-              <defs>
-                <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#23486A"/>
-                  <stop offset="100%" stop-color="#6B8E8B"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div class="gallery-overlay">
-              <span class="gallery-caption">Sunset Over the UK Seas</span>
-            </div>
-          </div>
-
-          <!-- Gallery Item 3 -->
-          <div class="gallery-item">
-            <svg class="gallery-img" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="400" height="500" fill="url(#g3)"/>
-              <path d="M200 150 C160 150 130 180 130 220 C130 270 200 320 200 320 C200 320 270 270 270 220 C270 180 240 150 200 150 Z" fill="#D4AF6A"/>
-              <text x="50%" y="90%" text-anchor="middle" fill="#FCFBF8" font-family="Cormorant Garamond" font-size="24">The Promise Sealed</text>
-              <defs>
-                <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#3A2E4B"/>
-                  <stop offset="100%" stop-color="#12151A"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div class="gallery-overlay">
-              <span class="gallery-caption">The Promise Sealed</span>
-            </div>
-          </div>
-
-          <!-- Gallery Item 4 -->
-          <div class="gallery-item">
-            <svg class="gallery-img" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="400" height="500" fill="url(#g4)"/>
-              <path d="M100 250 H300 M200 150 V350" stroke="#FCFBF8" stroke-width="3"/>
-              <text x="50%" y="90%" text-anchor="middle" fill="#FCFBF8" font-family="Cormorant Garamond" font-size="24">Guided by Faith</text>
-              <defs>
-                <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#1B3B2B"/>
-                  <stop offset="100%" stop-color="#D4AF6A" stop-opacity="0.5"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div class="gallery-overlay">
-              <span class="gallery-caption">Guided by Faith</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- LIGHTBOX MODAL FOR GALLERY -->
-    <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true" role="dialog">
-      <div class="lightbox-content">
-        <button id="lightbox-close" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
-        <img id="lightbox-img" class="lightbox-img" src="" alt="Enlarged Memory Photo">
-        <p id="lightbox-caption" style="margin-top: 16px; font-family: var(--font-heading); font-size: 1.4rem; color: var(--color-gold);"></p>
+      <!-- Entry into the site -->
+      <div class="cover-enter-wrap" data-reveal>
+        <button id="btn-begin-journey" class="cover-enter" type="button">
+          Enter Our Journey
+        </button>
       </div>
     </div>
 
-    <!-- CHAPTER 13: BLESSINGS -->
-    <section id="chapter-blessings" class="chapter" aria-label="Chapter 13: Blessings">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg ken-burns" style="background-image: radial-gradient(circle at center, rgba(212,175,106,0.3) 0%, rgba(13,27,42,0.95) 80%);"></div>
-        <div class="chapter-gradient-overlay"></div>
+   </div><!-- /.cover-card -->
+  </section>
+
+  <!-- MAIN SCROLLABLE CONTENT -->
+  <main id="main-content">
+
+    <!-- =================================================================
+         PAGE 2: HERO — THE MONOGRAM
+         Twilight counterpoint to the pale cover: gold crest, the names,
+         the date, and the countdown to the wedding.
+         ================================================================= -->
+    <section id="page-hero-landing" class="monogram-hero" aria-label="Sini and Martin">
+
+      <!-- Twilight ocean backdrop -->
+      <svg class="mono-bg" viewBox="0 0 1440 900"
+           preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="mDeep" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0"    stop-color="#14273A"/>
+            <stop offset="0.34" stop-color="#21405F"/>
+            <stop offset="0.62" stop-color="#2F5779"/>
+            <stop offset="0.84" stop-color="#26466A"/>
+            <stop offset="1"    stop-color="#152839"/>
+          </linearGradient>
+          <radialGradient id="mHalo" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0"   stop-color="#C5A059" stop-opacity="0.3"/>
+            <stop offset="0.5" stop-color="#C5A059" stop-opacity="0.1"/>
+            <stop offset="1"   stop-color="#C5A059" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="mMist" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#DCEAF5" stop-opacity="0.22"/>
+            <stop offset="1" stop-color="#DCEAF5" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="mBlur" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="26"/>
+          </filter>
+        </defs>
+
+        <rect x="0" y="0" width="1440" height="900" fill="url(#mDeep)"/>
+
+        <!-- Light pooling behind the crest -->
+        <ellipse cx="720" cy="300" rx="520" ry="330" fill="url(#mHalo)"/>
+        <ellipse cx="720" cy="150" rx="700" ry="220" fill="url(#mMist)"/>
+
+        <!-- Distant drifting light -->
+        <g fill="#DCEAF5" filter="url(#mBlur)" opacity="0.16">
+          <ellipse cx="240" cy="220" rx="220" ry="90"/>
+          <ellipse cx="1220" cy="330" rx="250" ry="80"/>
+        </g>
+
+        <!-- Faraway swell crests -->
+        <g fill="none" stroke="#9EC0D9" stroke-linecap="round" opacity="0.3">
+          <path d="M-40 700 C220 672 420 712 700 690 C960 670 1180 706 1480 682" stroke-width="2.5"/>
+          <path d="M-40 772 C260 742 480 784 780 760 C1040 740 1240 778 1480 752" stroke-width="3"/>
+          <path d="M-40 846 C300 814 540 858 840 832 C1100 810 1280 850 1480 824" stroke-width="3.5"/>
+        </g>
+      </svg>
+
+      <!-- Watercolor florals, reusing the shared library -->
+      <svg class="mono-flora mono-flora-tr" viewBox="0 0 420 420" aria-hidden="true" focusable="false">
+        <g filter="url(#wcPaint)">
+          <g transform="translate(120 16) rotate(26) scale(1.15)"><use href="#sprig" width="210" height="130"/></g>
+          <g transform="translate(316 118) rotate(98) scale(1.08)"><use href="#sprig" width="210" height="130"/></g>
+          <use href="#peony-white" x="146" y="118" width="132" height="137"/>
+          <use href="#rose-blue"   x="248" y="26"  width="164" height="171"/>
+          <use href="#peony-white" x="298" y="178" width="112" height="116"/>
+        </g>
+      </svg>
+
+      <svg class="mono-flora mono-flora-bl" viewBox="0 0 420 460" aria-hidden="true" focusable="false">
+        <g filter="url(#wcPaint)">
+          <g transform="translate(64 62) rotate(-28) scale(1.2)"><use href="#sprig" width="210" height="130"/></g>
+          <g transform="translate(28 206) rotate(32) scale(1.15)"><use href="#sprig" width="210" height="130"/></g>
+          <use href="#rose-blue"   x="8"   y="150" width="172" height="179"/>
+          <use href="#peony-white" x="118" y="248" width="142" height="148"/>
+          <use href="#rose-blue"   x="28"  y="318" width="132" height="137"/>
+        </g>
+      </svg>
+
+      <div class="mono-content">
+
+        <!-- Gold cross -->
+        <svg class="mono-cross reveal-on-scroll" viewBox="0 0 24 36" fill="none" aria-hidden="true" focusable="false">
+          <path d="M12 1 V35 M4 11 H20" stroke="#C5A059" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+
+        <!-- Monogram crest -->
+        <div class="mono-crest reveal-on-scroll delay-1">
+          <svg class="mono-crest-frame" viewBox="0 0 160 160" fill="none" aria-hidden="true" focusable="false">
+            <g transform="rotate(45 80 80)">
+              <rect x="28" y="28" width="104" height="104" rx="16"
+                    stroke="#C5A059" stroke-width="1.4"/>
+              <rect x="37" y="37" width="86" height="86" rx="11"
+                    stroke="#C5A059" stroke-width="0.7" opacity="0.55"/>
+            </g>
+            <g fill="#C5A059">
+              <circle cx="80" cy="6.5" r="2.4"/>
+              <circle cx="80" cy="153.5" r="2.4"/>
+              <circle cx="6.5" cy="80" r="2.4"/>
+              <circle cx="153.5" cy="80" r="2.4"/>
+            </g>
+          </svg>
+          <span class="mono-letters">
+            <span class="mono-letter">S</span>
+            <span class="mono-slash" aria-hidden="true"></span>
+            <span class="mono-letter">M</span>
+          </span>
+        </div>
+
+        <!-- Names and date -->
+        <h2 class="mono-names reveal-on-scroll delay-2">Sini &amp; Martin</h2>
+        <span class="mono-rule reveal-on-scroll delay-2" aria-hidden="true"></span>
+        <p class="mono-date reveal-on-scroll delay-2">24 August 2026</p>
+
+        <!-- Countdown. The target lives here, beside the date it counts to,
+             rather than hardcoded in countdown.js. ISO 8601 with offset. -->
+        <div class="mono-countdown reveal-on-scroll delay-3"
+             data-target="2026-08-24T11:00:00+05:30">
+          <div class="cd-unit">
+            <span class="cd-value" id="cd-days">00</span>
+            <span class="cd-label">Days</span>
+          </div>
+          <span class="cd-split" aria-hidden="true"></span>
+          <div class="cd-unit">
+            <span class="cd-value" id="cd-hours">00</span>
+            <span class="cd-label">Hours</span>
+          </div>
+          <span class="cd-split" aria-hidden="true"></span>
+          <div class="cd-unit">
+            <span class="cd-value" id="cd-minutes">00</span>
+            <span class="cd-label">Minutes</span>
+          </div>
+          <span class="cd-split" aria-hidden="true"></span>
+          <div class="cd-unit">
+            <span class="cd-value" id="cd-seconds">00</span>
+            <span class="cd-label">Seconds</span>
+          </div>
+        </div>
+
+        <p class="mono-caption reveal-on-scroll delay-3">Every sunrise brings us closer.</p>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PAGE 3: OUR JOURNEY (TIMELINE)
+         ================================================================= -->
+    <section id="page-our-journey" class="page-section" aria-label="Our Journey">
+      <div class="page-bg-wrapper">
+        <div class="page-blurred-photo" style="background-image: url('assets/images/client_photo_hands_camera.jpg');"></div>
+        <div class="page-watercolor-overlay"></div>
       </div>
 
-      <div class="chapter-content reveal-up">
-        <div class="glass-card blessings-card">
-          <span class="section-subtitle">Divine Grace</span>
-          <h2 class="chapter-title" style="font-size: 2.8rem; margin-bottom: 24px;">Blessings &amp; Prayers</h2>
-          <blockquote class="scripture-quote" style="font-size: 1.8rem;">
-            “Love is patient, love is kind. It always protects, always trusts, always hopes, always perseveres. Love never fails.”
-          </blockquote>
-          <p class="scripture-reference">— 1 Corinthians 13:4, 7-8 —</p>
-          <p style="margin-top: 32px; font-size: 1.1rem; line-height: 1.7; color: var(--color-ivory);">
-            We humbly request your prayers, blessings, and presence as we step into this sacred covenant ordained by God.
-          </p>
+      <div class="page-content">
+        <div class="story-header reveal-on-scroll" style="text-align: center; margin-bottom: 60px;">
+          <span class="section-subtitle">THE MAP OF OUR JOURNEY</span>
+          <h2 class="serif-heading" style="font-size: 3.2rem;">Our Journey</h2>
+          <div class="thin-gold-divider"></div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 48px; max-width: 800px; margin: 0 auto;">
+          <div class="reveal-on-scroll" style="background: rgba(255,255,255,0.7); border: 1px solid var(--color-border-gold); padding: 32px; text-align: center;">
+            <span class="section-subtitle">CHAPTER 1</span>
+            <h3 class="serif-heading" style="font-size: 1.8rem; color: var(--color-gold-dark); margin-bottom: 8px;">Family Roots &amp; Foundations</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.15rem;">Grounded in the warmth of faithful homes and loving families in Kerala.</p>
+          </div>
+
+          <div class="reveal-on-scroll delay-1" style="background: rgba(255,255,255,0.7); border: 1px solid var(--color-border-gold); padding: 32px; text-align: center;">
+            <span class="section-subtitle">CHAPTER 2</span>
+            <h3 class="serif-heading" style="font-size: 1.8rem; color: var(--color-gold-dark); margin-bottom: 8px;">First Connection</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.15rem;">A simple conversation across oceans sparked an unspoken bond of prayer and respect.</p>
+          </div>
+
+          <div class="reveal-on-scroll delay-2" style="background: rgba(255,255,255,0.7); border: 1px solid var(--color-border-gold); padding: 32px; text-align: center;">
+            <span class="section-subtitle">CHAPTER 3</span>
+            <h3 class="serif-heading" style="font-size: 1.8rem; color: var(--color-gold-dark); margin-bottom: 8px;">Across Oceans</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.15rem;">Different languages, different lands and time zones — yet our hearts learned to talk.</p>
+          </div>
+
+          <div class="reveal-on-scroll" style="background: rgba(255,255,255,0.7); border: 1px solid var(--color-border-gold); padding: 32px; text-align: center;">
+            <span class="section-subtitle">CHAPTER 4</span>
+            <h3 class="serif-heading" style="font-size: 1.8rem; color: var(--color-gold-dark); margin-bottom: 8px;">One Year Together</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.15rem;">Countless memories, deep talks, prayers, and silent hopes solidified our promise.</p>
+          </div>
+
+          <div class="reveal-on-scroll delay-1" style="background: rgba(255,255,255,0.7); border: 1px solid var(--color-border-gold); padding: 32px; text-align: center;">
+            <span class="section-subtitle">CHAPTER 5</span>
+            <h3 class="serif-heading" style="font-size: 1.8rem; color: var(--color-gold-dark); margin-bottom: 8px;">The Betrothal</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.15rem;">Surrounded by family blessings at St. Mary's Church, sealing our commitment before God on 15 August 2026.</p>
+          </div>
+
+          <div class="reveal-on-scroll delay-2" style="background: rgba(255,255,255,0.7); border: 1px solid var(--color-border-gold); padding: 32px; text-align: center;">
+            <span class="section-subtitle">CHAPTER 6</span>
+            <h3 class="serif-heading" style="font-size: 1.8rem; color: var(--color-gold-dark); margin-bottom: 8px;">The Holy Matrimony</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.15rem;">Two souls becoming one in Kerala at Mar Sleeva Church on 24 August 2026.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 14: THANK YOU -->
-    <section id="chapter-thankyou" class="chapter" aria-label="Chapter 14: Thank You">
-      <div class="chapter-bg-wrapper">
-        <div class="chapter-blurred-bg" style="background-image: radial-gradient(ellipse at center, rgba(35,72,106,0.6) 0%, rgba(10,15,22,0.98) 90%);"></div>
-        <div class="chapter-gradient-overlay"></div>
+    <!-- =================================================================
+         PAGE 4: EVENT DETAILS (BETROTHAL & WEDDING)
+         ================================================================= -->
+    <section id="page-event-details" class="page-section" aria-label="Event Details">
+      <div class="page-bg-wrapper">
+        <div class="page-blurred-photo" style="background-image: url('assets/images/client_photo_pathway.jpg');"></div>
+        <div class="page-watercolor-overlay"></div>
       </div>
 
-      <div class="chapter-content reveal-up">
-        <div class="glass-card thankyou-card">
-          <span class="section-subtitle">With Heartfelt Love</span>
-          <h2 class="chapter-title" style="font-size: 3.5rem; margin-bottom: 16px;">Thank You</h2>
-          <p style="font-size: 1.25rem; color: var(--color-beige); margin-bottom: 32px;">
-            We can't wait to celebrate with you.
-          </p>
-          <h3 class="couple-names" style="font-size: 4rem;">Sini ❤️ Martin</h3>
+      <div class="page-content reveal-on-scroll" style="text-align: center;">
+        <span class="section-subtitle">WITH JOYFUL HEARTS</span>
+        <h2 class="serif-heading" style="font-size: 2.8rem;">WE INVITE YOU TO CELEBRATE WITH US</h2>
+        <div class="thin-gold-divider"></div>
+
+        <div class="events-split-grid">
+          <!-- BETROTHAL -->
+          <div class="event-details-box">
+            <div class="event-church-img-container">
+              <img src="assets/images/church_konnakkad.jpg" alt="St. Mary's Church Konnakkad">
+            </div>
+            <span class="section-subtitle">BETROTHAL</span>
+            <h3 class="serif-heading" style="font-size: 1.8rem; color: var(--color-navy-ink);">SATURDAY, 15 AUGUST 2026</h3>
+            <p style="font-family: var(--font-sans); font-size: 0.85rem; letter-spacing: 2px; color: var(--color-gold-dark); margin-bottom: 12px;">AT 11:00 AM</p>
+            <p style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 600; color: var(--color-navy-ink);">ST. MARY'S CHURCH</p>
+            <p style="font-family: var(--font-serif); font-size: 1.1rem; font-style: italic; color: var(--color-text-muted); margin-bottom: 24px;">Konnakkad, Kerala</p>
+
+            <a href="https://maps.google.com/?q=St.+Mary's+Church+Konnakkad" target="_blank" rel="noopener noreferrer" class="btn-editorial">
+              <span>NAVIGATE</span>
+            </a>
+          </div>
+
+          <!-- WEDDING -->
+          <div class="event-details-box">
+            <div class="event-church-img-container">
+              <img src="assets/images/church_vannappuram.jpg" alt="Mar Sleeva Church Vannappuram">
+            </div>
+            <span class="section-subtitle">WEDDING</span>
+            <h3 class="serif-heading" style="font-size: 1.8rem; color: var(--color-navy-ink);">MONDAY, 24 AUGUST 2026</h3>
+            <p style="font-family: var(--font-sans); font-size: 0.85rem; letter-spacing: 2px; color: var(--color-gold-dark); margin-bottom: 12px;">AT 11:00 AM</p>
+            <p style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 600; color: var(--color-navy-ink);">MAR SLEEVA CHURCH</p>
+            <p style="font-family: var(--font-serif); font-size: 1.1rem; font-style: italic; color: var(--color-text-muted); margin-bottom: 24px;">Vannappuram, Kerala</p>
+
+            <a href="https://maps.google.com/?q=Mar+Sleeva+Church+Vannappuram" target="_blank" rel="noopener noreferrer" class="btn-editorial">
+              <span>NAVIGATE</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PAGE 5: FAMILIES
+         ================================================================= -->
+    <section id="page-families" class="page-section" aria-label="Families">
+      <div class="page-bg-wrapper">
+        <div class="page-blurred-photo" style="background-image: url('assets/images/client_photo_resort.jpg');"></div>
+        <div class="page-watercolor-overlay"></div>
+      </div>
+
+      <div class="page-content reveal-on-scroll" style="text-align: center;">
+        <span class="section-subtitle">HERITAGE &amp; BLESSINGS</span>
+        <h2 class="serif-heading" style="font-size: 3rem;">OUR FAMILIES</h2>
+        <div class="thin-gold-divider"></div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 900px; margin: 40px auto 0 auto;">
+          <div style="background: rgba(255,255,255,0.65); border: 1px solid var(--color-border-gold); padding: 36px 24px;">
+            <span class="section-subtitle">BRIDE'S FAMILY</span>
+            <h3 class="serif-heading" style="font-size: 1.6rem; color: var(--color-navy-ink); margin-bottom: 6px;">JOSEPH PM &amp; JESSY JOSEPH</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.15rem; font-style: italic; color: var(--color-gold-dark);">Ponthottiyil House</p>
+            <p style="font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-muted);">Konnakkad, Kerala</p>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.65); border: 1px solid var(--color-border-gold); padding: 36px 24px;">
+            <span class="section-subtitle">GROOM'S FAMILY</span>
+            <h3 class="serif-heading" style="font-size: 1.6rem; color: var(--color-navy-ink); margin-bottom: 6px;">BABY &amp; JESSY</h3>
+            <p style="font-family: var(--font-serif); font-size: 1.15rem; font-style: italic; color: var(--color-gold-dark);">Anchukandathil</p>
+            <p style="font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-muted);">Vannappuram, Kerala</p>
+          </div>
+        </div>
+
+        <p class="script-accent" style="font-size: 2.2rem; margin-top: 40px; color: var(--color-gold-dark);">
+          With best compliments from Family, Relatives &amp; Friends
+        </p>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PAGE 6: GALLERY
+         ================================================================= -->
+    <section id="page-gallery" class="page-section" aria-label="Gallery">
+      <div class="page-bg-wrapper">
+        <div class="page-blurred-photo" style="background-image: url('assets/images/client_photo_resort.jpg');"></div>
+        <div class="page-watercolor-overlay"></div>
+      </div>
+
+      <div class="page-content reveal-on-scroll" style="text-align: center;">
+        <span class="section-subtitle">MEMORIES &amp; MOMENTS</span>
+        <h2 class="serif-heading" style="font-size: 3.2rem;">OUR GALLERY</h2>
+        <div class="thin-gold-divider"></div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: 1040px; margin: 40px auto 0 auto;">
+          <div class="gallery-item">
+            <img src="assets/images/client_photo_indoor.jpg" alt="Sini &amp; Martin indoor portrait">
+          </div>
+          <div class="gallery-item">
+            <img src="assets/images/client_photo_resort.jpg" alt="Sini &amp; Martin at resort">
+          </div>
+          <div class="gallery-item">
+            <img src="assets/images/client_photo_hands_camera.jpg" alt="Hands holding vintage camera">
+          </div>
+          <div class="gallery-item">
+            <img src="assets/images/client_photo_pathway.jpg" alt="Sini &amp; Martin along garden pathway">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         PAGE 7: BLESSINGS
+         ================================================================= -->
+    <section id="page-blessings" class="page-section" aria-label="Blessings">
+      <div class="page-bg-wrapper">
+        <div class="page-blurred-photo" style="background-image: url('assets/images/hero_couple.jpg');"></div>
+        <div class="page-watercolor-overlay"></div>
+      </div>
+
+      <div class="page-content reveal-on-scroll" style="text-align: center;">
+        <span class="section-subtitle">SHARE YOUR BLESSINGS</span>
+        <h2 class="serif-heading" style="font-size: 3.2rem;">PRAYERS &amp; WISHES</h2>
+        <div class="thin-gold-divider"></div>
+
+        <div style="max-width: 680px; margin: 0 auto; background: rgba(255,255,255,0.7); border: 1px solid var(--color-border-gold); padding: 40px;">
+          <form id="blessings-form" style="display: flex; flex-direction: column; gap: 20px; text-align: left;">
+            <div>
+              <label for="blessing-name" style="font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-gold-dark); display: block; margin-bottom: 6px;">Your Name</label>
+              <input type="text" id="blessing-name" style="width: 100%; padding: 14px 18px; background: rgba(252, 251, 248, 0.9); border: 1px solid var(--color-border-gold); font-family: var(--font-serif); font-size: 1.1rem; color: var(--color-navy-ink); outline: none;" placeholder="e.g. Uncle Thomas &amp; Family" required>
+            </div>
+
+            <div>
+              <label for="blessing-msg" style="font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-gold-dark); display: block; margin-bottom: 6px;">Your Blessing or Prayer</label>
+              <textarea id="blessing-msg" rows="3" style="width: 100%; padding: 14px 18px; background: rgba(252, 251, 248, 0.9); border: 1px solid var(--color-border-gold); font-family: var(--font-serif); font-size: 1.1rem; color: var(--color-navy-ink); outline: none;" placeholder="Write your warm wishes for Sini &amp; Martin..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-editorial" style="align-self: center;">
+              <span>SEND BLESSING</span>
+            </button>
+          </form>
+
+          <div id="blessings-feed" style="margin-top: 36px; display: flex; flex-direction: column; gap: 16px;">
+            <div style="background: rgba(255, 255, 255, 0.85); border-left: 3px solid var(--color-gold); padding: 16px 20px; text-align: left;">
+              <p style="font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-gold);">Joseph &amp; Family</p>
+              <p style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--color-text-dark); margin-top: 4px;">“May God abundantly bless your union with endless love, peace, and togetherness.”</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- MODULAR JAVASCRIPT IMPORTS (STATIC FILE:// COMPATIBLE) -->
+  <!-- EDITORIAL FOOTER -->
+  <footer class="editorial-footer">
+    <p class="footer-names">Sini &amp; Martin</p>
+    <p class="footer-date">24 August 2026</p>
+    <p class="footer-love">Made with Love</p>
+  </footer>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true">
+    <button id="lightbox-close" class="lightbox-close-btn" aria-label="Close Lightbox">&times;</button>
+    <img id="lightbox-img" class="lightbox-content-img" src="" alt="Enlarged photo view">
+  </div>
+
+  <!-- MASTER JS SCRIPTS -->
+  <script src="js/cover.js"></script>
   <script src="js/audioEngine.js"></script>
   <script src="js/scroll.js"></script>
   <script src="js/countdown.js"></script>
-  <script src="js/navigation.js"></script>
   <script src="js/gallery.js"></script>
-  <script src="js/animations.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
-
