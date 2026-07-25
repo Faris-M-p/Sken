@@ -4,7 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sini & Martin — Across Oceans, Guided by Faith | 24 August 2026</title>
-  <meta name="description" content="Official luxury wedding website of Sini & Martin. Celebrating their holy union on 24 August 2026 at Mar Sleeva Church, Vannappuram, Kerala.">
+  <meta name="description" content="With joyful hearts we invite you to celebrate the holy union of Sini & Martin — 24 August 2026.">
+
+  <!-- Favicon & share thumbnail -->
+  <link rel="icon" type="image/png" href="assets/images/share-thumbnail.png">
+  <link rel="apple-touch-icon" href="assets/images/share-thumbnail.png">
+
+  <!-- Open Graph — WhatsApp, Facebook, iMessage, LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sini & Martin Wedding">
+  <meta property="og:title" content="Sini & Martin — Wedding Invitation">
+  <meta property="og:description" content="With joyful hearts we invite you to celebrate our holy union. 24 August 2026.">
+  <meta property="og:image" content="assets/images/share-thumbnail.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="682">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="Sini & Martin wedding invitation — What God has joined together">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sini & Martin — Wedding Invitation">
+  <meta name="twitter:description" content="With joyful hearts we invite you to celebrate our holy union. 24 August 2026.">
+  <meta name="twitter:image" content="assets/images/share-thumbnail.png">
 
   <!-- Favicon & Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +39,27 @@
   <link rel="stylesheet" href="css/cover.css">
   <link rel="stylesheet" href="css/gallery.css">
   <link rel="stylesheet" href="css/particles.css">
+
+  <!-- Make share-image URLs absolute (required by WhatsApp / Facebook) -->
+  <script>
+    (function () {
+      var origin = window.location.href.split('#')[0];
+      var base = origin.replace(/[^/]*$/, '');
+      document.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]').forEach(function (meta) {
+        var src = meta.getAttribute('content');
+        if (src && src.indexOf('http') !== 0) {
+          meta.setAttribute('content', base + src.replace(/^\//, ''));
+        }
+      });
+      var ogUrl = document.querySelector('meta[property="og:url"]');
+      if (!ogUrl) {
+        ogUrl = document.createElement('meta');
+        ogUrl.setAttribute('property', 'og:url');
+        document.head.appendChild(ogUrl);
+      }
+      ogUrl.setAttribute('content', origin);
+    })();
+  </script>
 
   <!-- Without JS the cover can never be dismissed, so skip straight to the site -->
   <noscript>
