@@ -72,26 +72,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---- Blessings form ---- */
+  /* ---- Blessings → WhatsApp (wa.me) ---- */
   const blessingsForm = document.getElementById('blessings-form');
-  const blessingsFeed = document.getElementById('blessings-feed');
+  const WHATSAPP_NUMBER = '353892579257'; // +353 89 257 9257
 
-  if (blessingsForm && blessingsFeed) {
+  if (blessingsForm) {
     blessingsForm.addEventListener('submit', (e) => {
       e.preventDefault();
+
       const nameInput = document.getElementById('blessing-name');
       const msgInput = document.getElementById('blessing-msg');
+      const name = nameInput ? nameInput.value.trim() : '';
+      const message = msgInput ? msgInput.value.trim() : '';
 
-      if (nameInput.value.trim() && msgInput.value.trim()) {
+      if (!name || !message) return;
+
+      // Build a warm WhatsApp message with the guest's name signed at the end
+      let fullMessage = message;
+      if (!/with love and prayers/i.test(message) || !message.trim().endsWith(name)) {
+        // If they left the template ending, append their name; otherwise add a sign-off
+        if (/with love and prayers,?\s*$/i.test(message)) {
+          fullMessage = message.replace(/\s*$/, '') + '\n' + name;
+        } else if (!message.toLowerCase().includes(name.toLowerCase())) {
+          fullMessage = message + '\n\n— ' + name;
+        }
+      }
+
+      const waUrl =
+        'https://wa.me/' +
+        WHATSAPP_NUMBER +
+        '?text=' +
+        encodeURIComponent(fullMessage);
+
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+      // Also show it locally in the blessings feed
+      const blessingsFeed = document.getElementById('blessings-feed');
+      if (blessingsFeed) {
         const newItem = document.createElement('div');
         newItem.className = 'blessing-item';
         newItem.innerHTML = `
-          <p class="blessing-author">${escapeHtml(nameInput.value.trim())}</p>
-          <p class="blessing-text">“${escapeHtml(msgInput.value.trim())}”</p>
+          <p class="blessing-author">${escapeHtml(name)}</p>
+          <p class="blessing-text">“${escapeHtml(message)}”</p>
         `;
         blessingsFeed.prepend(newItem);
-        nameInput.value = '';
-        msgInput.value = '';
       }
     });
   }
