@@ -1,0 +1,305 @@
+/* ============================================================
+   Scene architecture
+   Every page block is one self-contained component:
+
+     .scene
+       .section-bg        ← real <img>, never CSS background-image
+       .section-overlay
+       .section-content   ← typography / cards / CTAs
+
+   Image + overlay + content share one grid cell (or one art frame),
+   so they scale together. Safe areas use % of the scene frame —
+   never viewport-fixed pixel offsets.
+   ============================================================ */
+
+:root{
+  --safe-x: clamp(1.1rem, 5.5vw, 2.75rem);
+  --safe-y: clamp(2.4rem, 7vw, 5.5rem);
+  --content-max: 42rem;
+  --content-wide: 68rem;
+  --art-ratio: 9 / 16;
+}
+
+/* ---------- Base scene ---------- */
+.scene{
+  position:relative;
+  isolation:isolate;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:minmax(0,1fr);
+  width:100%;
+  overflow:hidden;
+  color:var(--ink);
+}
+
+.scene > .section-bg,
+.scene > picture.section-bg,
+.scene > .section-overlay,
+.scene > .section-content{
+  grid-area:1 / 1;
+  min-width:0;
+}
+
+.section-bg,
+picture.section-bg{
+  display:block;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  user-select:none;
+}
+picture.section-bg img,
+img.section-bg{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.section-overlay{
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(251,247,239,.18),transparent 28%),
+    linear-gradient(0deg,rgba(251,247,239,.55),transparent 32%);
+}
+
+.section-content{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  max-width:var(--content-wide);
+  margin-inline:auto;
+  padding:
+    var(--safe-y)
+    var(--safe-x)
+    calc(var(--safe-y) + env(safe-area-inset-bottom, 0px));
+  box-sizing:border-box;
+}
+
+.section-content > .sec-head,
+.section-content > .lede,
+.section-content > .facts,
+.section-content > .countdown,
+.section-content > .story-grid,
+.section-content > .tl,
+.section-content > .couple-grid,
+.section-content > .family-grid,
+.section-content > .family-foot,
+.section-content > .temple-card,
+.section-content > .lux-card,
+.section-content > .venue-grid,
+.section-content > .contact,
+.section-content > .masonry,
+.section-content > .note-box,
+.section-content > .finale-stage,
+.section-content > .finale-sub,
+.section-content > .finale-ml{
+  width:100%;
+  max-width:var(--content-max);
+  margin-inline:auto;
+}
+.section-content > .facts,
+.section-content > .story-grid,
+.section-content > .couple-grid,
+.section-content > .family-grid,
+.section-content > .venue-grid,
+.section-content > .masonry,
+.section-content > .lux-card{
+  max-width:var(--content-wide);
+}
+
+/* Tone variants — plate colour when the SVG wash is soft */
+.scene--ivory{background:#F7F0E4;color:var(--ink)}
+.scene--beige{background:#EFE3CF;color:var(--ink)}
+.scene--dark{background:#150E07;color:#F3E9D6}
+.scene--finale{background:#0F0A05;color:#F3E9D6}
+.scene--note{background:#F3E9D8;color:var(--ink)}
+
+.scene--ivory .section-overlay{
+  background:
+    radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.45),transparent 55%),
+    linear-gradient(180deg,rgba(251,247,239,.2),rgba(251,247,239,.55));
+}
+.scene--beige .section-overlay{
+  background:
+    radial-gradient(90% 60% at 50% 0%,rgba(255,246,225,.35),transparent 60%),
+    linear-gradient(180deg,rgba(239,227,207,.15),rgba(239,227,207,.5));
+}
+.scene--dark .section-overlay{
+  background:
+    radial-gradient(90% 55% at 50% 0%,rgba(193,150,47,.16),transparent 62%),
+    linear-gradient(180deg,rgba(20,14,8,.2),rgba(20,14,8,.55));
+}
+.scene--finale .section-overlay{
+  background:
+    radial-gradient(80% 55% at 50% 45%,rgba(193,150,47,.14),transparent 66%),
+    linear-gradient(180deg,rgba(15,10,5,.1),rgba(15,10,5,.65));
+}
+
+/* ---------- Art scenes (cover / hero) ----------
+   The whole component is a portrait frame. On wide screens the frame
+   letterboxes as a centred panel; content % tracks the frame, not the
+   browser viewport — so type never drifts off the artwork. */
+.scene--art{
+  min-height:100svh;
+  min-height:100vh;
+  background:#120C07;
+  display:grid;
+  place-items:center;
+  padding:0;
+}
+.scene--art > .section-bg.scene-wash{
+  /* blurred fill behind the portrait panel on landscape */
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  transform:scale(1.2);
+  filter:blur(36px) saturate(1.05) brightness(.92);
+  opacity:.9;
+  z-index:0;
+}
+
+.scene-frame{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:8% minmax(0,1fr) 8%;
+  grid-template-rows:24% minmax(0,1fr) 18%;
+  width:min(100%, calc(100svh * 9 / 16));
+  max-width:100%;
+  aspect-ratio:var(--art-ratio);
+  max-height:100svh;
+  overflow:hidden;
+  background:#EBD9B6;
+}
+
+.scene-frame > .section-bg,
+.scene-frame > picture.section-bg,
+.scene-frame > .section-overlay{
+  grid-column:1 / -1;
+  grid-row:1 / -1;
+  width:100%;
+  height:100%;
+}
+
+.scene-frame > .section-content{
+  grid-column:2;
+  grid-row:2;
+  max-width:none;
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:clamp(0.4rem, 2.5%, 1rem) clamp(0.2rem, 1.5%, 0.6rem);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  box-sizing:border-box;
+}
+
+/* Phones taller than 9:16 — fill the viewport, keep the same grid safe zones */
+@media (max-aspect-ratio: 9/16){
+  .scene-frame{
+    width:100%;
+    height:100svh;
+    height:100vh;
+    aspect-ratio:auto;
+    max-height:none;
+    grid-template-columns:9% minmax(0,1fr) 9%;
+    grid-template-rows:26% minmax(0,1fr) 20%;
+  }
+}
+
+/* Very short landscape phones / foldables */
+@media (max-height: 480px) and (orientation:landscape){
+  .scene-frame{
+    width:min(100%, 56svh);
+    grid-template-rows:18% minmax(0,1fr) 14%;
+    grid-template-columns:6% minmax(0,1fr) 6%;
+  }
+}
+
+.scene--hero .section-overlay{
+  background:
+    radial-gradient(70% 40% at 50% 18%,rgba(255,240,210,.18),transparent 70%),
+    linear-gradient(180deg,rgba(255,246,225,.08) 0%,transparent 22%,transparent 70%,rgba(250,240,220,.35) 100%);
+}
+
+/* ---------- Flow scenes (story, timeline, …) ---------- */
+.scene--flow{
+  min-height:auto;
+}
+.scene--flow > .section-bg{
+  /* soft wash — content height drives the section; image covers it */
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+.scene--flow > .section-overlay{position:absolute;inset:0;z-index:1}
+.scene--flow > .section-content{
+  position:relative;
+  z-index:2;
+  grid-area:auto;
+}
+
+.section-content--center{
+  text-align:center;
+  justify-content:center;
+  align-items:center;
+  min-height:min(100svh, 40rem);
+}
+
+/* When flow scenes use the absolute bg pattern, the scene itself
+   must not rely on the bg for height — content does. */
+.scene--flow{
+  display:block;
+}
+
+/* ---------- Hero load gate (kept from prior work) ---------- */
+.scene--hero{
+  opacity:0;visibility:hidden;
+  transition:opacity .55s ease,visibility 0s linear .55s;
+}
+.scene--hero.loaded{
+  opacity:1;visibility:visible;
+  transition:opacity .55s ease,visibility 0s;
+}
+.scene--hero .section-bg,
+.scene--hero picture.section-bg img{
+  opacity:0;
+  transition:opacity .55s ease;
+}
+.scene--hero.loaded .section-bg,
+.scene--hero.loaded picture.section-bg img{
+  opacity:1;
+}
+.scene--hero .section-content{
+  opacity:0;
+  transform:translate3d(0,14px,0);
+  transition:opacity .7s var(--ease) .15s, transform .7s var(--ease) .15s;
+}
+.scene--hero.loaded.text-ready .section-content{
+  opacity:1;transform:none;
+}
+
+/* Scroll cue sits in the art frame's bottom safe row — scales with the frame */
+.scene-frame > .scroll-indicator{
+  grid-column:1 / -1;
+  grid-row:3;
+  justify-self:center;
+  align-self:end;
+  z-index:3;
+  margin-bottom:clamp(8px, 12%, 28px);
+  opacity:0;
+  transition:opacity .6s ease .3s;
+  position:relative;
+  left:auto;bottom:auto;transform:none;
+}
+.scene--hero.loaded.text-ready .scroll-indicator{opacity:1}

@@ -20,22 +20,20 @@ assets/
 
 ## Notes
 
-**Landing cover / hero** — these are looked up in order, first hit wins:
+**Landing cover / hero** — looked up in this order (first hit wins):
 
-| | first choice | then |
-|---|---|---|
-| cover | `cover entry.png` *(project root)* | `assets/img/cover.png` → `.jpg` → `.webp` |
-| hero | `landing after video.png` *(project root)* | `assets/img/hero.png` → `.jpg` → `.webp` |
+| | formats tried |
+|---|---|
+| cover | `cover entry.png` → `assets/img/cover.png` |
+| hero | `assets/img/hero.avif` → `assets/img/hero.webp` → `landing after video.png` → `assets/img/hero.png` |
 
-So the two files can simply sit in the project root under those exact names —
-no copying needed. The chain is declared in `data-fallbacks` on each `<img>` in
-`index.html`. Export at roughly 1600 px on the long edge, or supply a `.webp`
-for the smallest payload.
+Convert the tall PNG once for mobile-friendly sizes:
 
-Both are portrait artwork. On phones they fill the screen edge to edge. On
-anything wider than 5:7 the hero is letterboxed as a centred panel and the gap
-either side is filled with a blurred, over-scaled copy of the same image, so the
-decorative pillars and lamps never get cropped away.
+```powershell
+powershell -ExecutionPolicy Bypass -File .\convert-hero.ps1
+```
+
+Target ~300–500 KB WebP / AVIF (max ~800 KB). The Hero `<img>` has no `src` until JS finishes `Image()` load + `decode()`, so a half-painted bitmap never appears on screen.
 
 **Video** — `index.html` lists two sources: `assets/video/invitation-reveal.mp4`
 first, then the original file in the project root. Either one works, so you can

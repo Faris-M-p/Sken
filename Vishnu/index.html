@@ -15,7 +15,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Marcellus&family=Jost:wght@200;300;400;500&family=Noto+Sans+Malayalam:wght@300;400;500&display=swap">
 
+<!-- Critical media: cover first paint; intro video buffers silently behind it.
+     Hero formats are warmed in JS during the video (AVIF → WebP → PNG). -->
+<link rel="preload" as="image" href="cover%20entry.png" fetchpriority="high">
+<link rel="preload" as="video" href="assets/video/invitation-reveal.mp4" type="video/mp4">
+<link rel="preload" as="video" href="Wedding_invitation_reveal_luxury_202607241519%20(1).mp4" type="video/mp4">
+<link rel="preload" as="image" href="assets/img/hero.avif" type="image/avif">
+<link rel="preload" as="image" href="assets/img/hero.webp" type="image/webp">
+<link rel="preload" as="image" href="landing%20after%20video.png">
+
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/scenes.css">
 </head>
 
 <body class="is-locked">
@@ -178,7 +188,13 @@
        src="cover%20entry.png"
        data-fallbacks="assets/img/cover.png,assets/img/cover.jpg,assets/img/cover.webp"
        alt="" decoding="async">
-  <video id="revealVideo" playsinline webkit-playsinline preload="auto" disablepictureinpicture>
+  <video id="revealVideo"
+         muted
+         playsinline
+         webkit-playsinline
+         preload="auto"
+         disablepictureinpicture
+         controlslist="nodownload noplaybackrate noremoteplayback">
     <source src="assets/video/invitation-reveal.mp4" type="video/mp4">
     <source src="Wedding_invitation_reveal_luxury_202607241519%20(1).mp4" type="video/mp4">
   </video>
@@ -193,44 +209,56 @@
 <main id="site">
 
   <!-- ---------- HERO ---------- -->
-  <header id="hero" class="hero">
-    <div class="hero-media">
-      <!-- blurred copy fills the sides on landscape screens, because the
-           artwork is a portrait panel -->
-      <img class="bleed" aria-hidden="true"
-           src="landing%20after%20video.png"
-           data-fallbacks="assets/img/hero.png,assets/img/hero.jpg,assets/img/hero.webp"
-           alt="" decoding="async">
-      <img id="heroImg" class="hero-img"
-           src="landing%20after%20video.png"
-           data-fallbacks="assets/img/hero.png,assets/img/hero.jpg,assets/img/hero.webp"
-           alt="" decoding="async" fetchpriority="high">
-      <div class="hero-fallback" aria-hidden="true"></div>
+  <section id="hero" class="scene scene--art scene--hero" aria-busy="true">
+    <!-- Landscape wash behind the portrait art frame -->
+    <img class="section-bg scene-wash" aria-hidden="true"
+         data-hero-src decoding="async" alt="">
+
+    <div class="scene-frame">
+      <picture class="section-bg">
+        <source id="heroSourceAvif" type="image/avif" data-hero-srcset="assets/img/hero.avif">
+        <source id="heroSourceWebp" type="image/webp" data-hero-srcset="assets/img/hero.webp">
+        <img id="heroImg" class="section-bg"
+             data-candidates="assets/img/hero.avif,assets/img/hero.webp,landing%20after%20video.png,assets/img/hero.png"
+             alt=""
+             width="1080" height="1920"
+             decoding="async"
+             fetchpriority="high">
+      </picture>
+
+      <div class="section-overlay" aria-hidden="true"></div>
+
+      <div class="section-content">
+        <p class="hero-bless">
+          <span class="hero-bless__ml">ശ്രീ ഗുരുവായൂരപ്പൻ തുണ</span>
+          <span class="hero-bless__en">With the blessings of Lord Guruvayurappan</span>
+        </p>
+
+        <h1 class="hero-names">
+          <span class="hero-names__n">Vishnu</span>
+          <span class="hero-names__amp" aria-hidden="true">&amp;</span>
+          <span class="hero-names__n">Amruthanath</span>
+        </h1>
+
+        <p class="hero-date">
+          <span class="hero-date__en">Friday · 21 August 2026</span>
+          <span class="hero-date__ml">ചിങ്ങം 05, 1202 · 11:00 – 11:50 AM</span>
+        </p>
+      </div>
+
+      <a class="scroll-indicator" href="#details" aria-label="Scroll to wedding details">
+        <span class="scroll-indicator__word">Scroll</span>
+        <span class="scroll-indicator__rail"><span class="scroll-indicator__dot"></span></span>
+      </a>
     </div>
-
-    <div class="rays rays--hero" aria-hidden="true"></div>
-    <div class="hero-haze" aria-hidden="true"></div>
-
-    <div class="hero-inner">
-      <!-- ========================================================
-           CENTRE IS INTENTIONALLY EMPTY.
-           All hero typography will be added manually later.
-           Add it inside .hero-typo below.
-           ======================================================== -->
-      <div class="hero-typo"></div>
-    </div>
-
-    <a class="scroll-indicator" href="#details" aria-label="Scroll to wedding details">
-      <span class="scroll-indicator__word">Scroll</span>
-      <span class="scroll-indicator__rail"><span class="scroll-indicator__dot"></span></span>
-    </a>
-  </header>
+  </section>
 
 
   <!-- ---------- WEDDING DETAILS ---------- -->
-  <section id="details" class="section section--ivory">
-    <div class="mural-border mural-border--top" aria-hidden="true"></div>
-    <div class="wrap">
+  <section id="details" class="scene scene--flow scene--ivory">
+    <img class="section-bg" src="assets/img/wash-ivory.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
 
       <div class="sec-head reveal">
         <p class="kicker">ക്ഷണക്കത്ത്</p>
@@ -292,8 +320,10 @@
 
 
   <!-- ---------- WEDDING STORY ---------- -->
-  <section id="story" class="section section--beige">
-    <div class="wrap">
+  <section id="story" class="scene scene--flow scene--beige">
+    <img class="section-bg" src="assets/img/wash-beige.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="sec-head reveal">
         <p class="kicker">Our Story</p>
         <h2 class="sec-title">Two Families, One Journey</h2>
@@ -333,8 +363,10 @@
 
 
   <!-- ---------- TIMELINE ---------- -->
-  <section id="timeline" class="section section--ivory">
-    <div class="wrap">
+  <section id="timeline" class="scene scene--flow scene--ivory">
+    <img class="section-bg" src="assets/img/wash-ivory.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="sec-head reveal">
         <p class="kicker">The Celebrations</p>
         <h2 class="sec-title">Timeline</h2>
@@ -385,8 +417,10 @@
 
 
   <!-- ---------- BRIDE & GROOM ---------- -->
-  <section id="couple" class="section section--dark">
-    <div class="wrap">
+  <section id="couple" class="scene scene--flow scene--dark">
+    <img class="section-bg" src="assets/img/wash-dark.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="sec-head reveal">
         <p class="kicker">വധൂവരന്മാർ</p>
         <h2 class="sec-title">Bride &amp; Groom</h2>
@@ -443,8 +477,10 @@
 
 
   <!-- ---------- PARENTS & FAMILY ---------- -->
-  <section id="family" class="section section--beige">
-    <div class="wrap">
+  <section id="family" class="scene scene--flow scene--beige">
+    <img class="section-bg" src="assets/img/wash-beige.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="sec-head reveal">
         <p class="kicker">With Love &amp; Blessings</p>
         <h2 class="sec-title">Parents &amp; Family</h2>
@@ -486,8 +522,10 @@
 
 
   <!-- ---------- WEDDING CEREMONY ---------- -->
-  <section id="ceremony" class="section section--ivory">
-    <div class="wrap">
+  <section id="ceremony" class="scene scene--flow scene--ivory">
+    <img class="section-bg" src="assets/img/wash-ivory.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="sec-head reveal">
         <p class="kicker">വിവാഹം</p>
         <h2 class="sec-title">Wedding Ceremony</h2>
@@ -537,8 +575,10 @@
 
 
   <!-- ---------- RECEPTION ---------- -->
-  <section id="reception" class="section section--dark">
-    <div class="wrap">
+  <section id="reception" class="scene scene--flow scene--dark">
+    <img class="section-bg" src="assets/img/wash-dark.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="sec-head reveal">
         <p class="kicker">വിവാഹ സൽക്കാരം</p>
         <h2 class="sec-title">Reception</h2>
@@ -574,9 +614,10 @@
 
 
   <!-- ---------- VENUE ---------- -->
-  <section id="venue" class="section section--ivory section--tall">
-    <div class="mural-border mural-border--top" aria-hidden="true"></div>
-    <div class="wrap">
+  <section id="venue" class="scene scene--flow scene--ivory">
+    <img class="section-bg" src="assets/img/wash-ivory.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="sec-head reveal">
         <p class="kicker">Find Your Way</p>
         <h2 class="sec-title">Venue &amp; Directions</h2>
@@ -665,8 +706,10 @@
 
 
   <!-- ---------- GALLERY ---------- -->
-  <section id="gallery" class="section section--beige">
-    <div class="wrap">
+  <section id="gallery" class="scene scene--flow scene--beige">
+    <img class="section-bg" src="assets/img/wash-beige.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="sec-head reveal">
         <p class="kicker">Moments</p>
         <h2 class="sec-title">Gallery</h2>
@@ -698,8 +741,10 @@
 
 
   <!-- ---------- PENDING CONFIRMATIONS (delete before going live) ---------- -->
-  <section id="pending" class="section section--note">
-    <div class="wrap">
+  <section id="pending" class="scene scene--flow scene--note">
+    <img class="section-bg" src="assets/img/wash-ivory.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content">
       <div class="note-box reveal">
         <p class="note-head"><span class="sample">SAMPLE</span> Data still to be confirmed
           <span class="note-del">— delete this whole <code>&lt;section id="pending"&gt;</code> before publishing</span>
@@ -720,11 +765,12 @@
 
 
   <!-- ---------- THANK YOU ---------- -->
-  <section id="thankyou" class="section section--finale">
-    <div class="finale-glow" aria-hidden="true"></div>
-    <div class="wrap wrap--center">
+  <section id="thankyou" class="scene scene--flow scene--finale">
+    <img class="section-bg" src="assets/img/wash-finale.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content section-content--center">
+      <div class="finale-glow" aria-hidden="true"></div>
       <div class="finale-stage" id="finaleStage">
-        <!-- particles converge and form THANK YOU inside this area -->
         <p class="finale-fallback" id="finaleFallback">THANK YOU</p>
       </div>
       <p class="finale-sub reveal">for being a part of our story</p>
@@ -734,8 +780,10 @@
 
 
   <!-- ---------- FOOTER ---------- -->
-  <footer class="footer">
-    <div class="wrap wrap--center">
+  <footer id="footer" class="scene scene--flow scene--finale footer">
+    <img class="section-bg" src="assets/img/wash-finale.svg" alt="" loading="lazy" decoding="async">
+    <div class="section-overlay" aria-hidden="true"></div>
+    <div class="section-content section-content--center">
       <svg class="ico footer-crest" aria-hidden="true"><use href="#i-lamp"></use></svg>
       <p class="footer-blessing">ശ്രീ ഗുരുവായൂരപ്പൻ തുണ</p>
       <p class="footer-bless-en">
@@ -760,7 +808,8 @@
     #landing,#reveal{display:none!important}
     #site{opacity:1!important;visibility:visible!important}
     body{overflow:auto!important}
-    .reveal{opacity:1!important;transform:none!important}
+    .scene--hero{opacity:1!important;visibility:visible!important}
+    .scene--hero .section-bg,.scene--hero .section-content{opacity:1!important;transform:none!important}
   </style>
 </noscript>
 

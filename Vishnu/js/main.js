@@ -1,6 +1,9 @@
 /* ============================================================
    Cinematic flow controller
    Landing cover → invitation video → hero → scroll journey
+
+   Cover stays visible until the video can actually play, so the
+   visitor never sees a blank loading beat between tap and playback.
    ============================================================ */
 (function () {
   'use strict';
@@ -13,6 +16,10 @@
   var skipBtn = document.getElementById('skipBtn');
   var heroImg = document.getElementById('heroImg');
 
+  var COVER_FADE_MS = 420;
+  var READY_TIMEOUT_MS = 10000;
+  var PLAY_SAFETY_MS = 14000;
+
   /* ---------------------------------------------------------
      1 · Image fallback chain + graceful placeholders
      --------------------------------------------------------- */
@@ -21,8 +28,10 @@
     var host = img.parentElement;
     if (!host) return;
 
-    if (img.classList.contains('cover-img') || img.classList.contains('hero-img')) {
-      host.classList.add('fallback-on');
+    if (img.classList.contains('cover-img') || img.classList.contains('section-bg') || img.classList.contains('bleed') || img.id === 'heroImg') {
+      if (host.classList.contains('landing-media') || host.classList.contains('scene-frame') || host.classList.contains('scene') || host.id === 'reveal') {
+        host.classList.add('fallback-on');
+      }
     } else if (host.classList.contains('portrait') || host.classList.contains('tile')) {
       host.classList.add('is-empty');
       host.setAttribute('data-label', img.getAttribute('data-placeholder') || 'Photo');
@@ -38,7 +47,6 @@
       markMissing(img);
     });
 
-    /* an already-broken cached image never fires error again */
     if (img.complete && img.naturalWidth === 0) {
       if (queue.length) img.src = queue.shift();
       else markMissing(img);
@@ -56,10 +64,8 @@
   function blockTouch(e) { if (body.classList.contains('is-locked')) e.preventDefault(); }
   document.addEventListener('touchmove', blockTouch, { passive: false });
 
-  /* a reload must never drop the visitor into the middle of the journey */
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-  /* html has scroll-behavior:smooth, so a plain scrollTo would animate */
   function jumpToTop() {
     var root = document.documentElement;
     var prev = root.style.scrollBehavior;
@@ -74,86 +80,378 @@
   }
 
   /* ---------------------------------------------------------
-     3 · Landing → video → hero
+     3 · Video preload  ·  starts the moment the page opens
      --------------------------------------------------------- */
+  var videoReady = false;
+  var opening = false;
   var finished = false;
   var safety = 0;
+  var readyWait = 0;
+
+  function markVideoReady() {
+    videoReady = true;
+  }
+
+  function isVideoReady() {
+    /* HAVE_FUTURE_DATA (3) / HAVE_ENOUGH_DATA (4) — enough to start without a stall */
+    return video && !video.error && video.readyState >= 3;
+  }
+
+  function beginVideoPreload() {
+    if (!video) return;
+
+    video.muted = true;
+    video.setAttribute('muted', '');
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.preload = 'auto';
+
+    /* Force the network request even when the element is hidden */
+    try { video.load(); } catch (e) {}
+
+    var onReady = function () {
+      markVideoReady();
+      video.removeEventListener('canplay', onReady);
+      video.removeEventListener('canplaythrough', onReady);
+      video.removeEventListener('loadeddata', onReady);
+    };
+
+    video.addEventListener('canplay', onReady);
+    video.addEventListener('canplaythrough', onReady);
+    video.addEventListener('loadeddata', onReady);
+
+    if (isVideoReady()) markVideoReady();
+  }
+
+  beginVideoPreload();
+
+  /* ---------------------------------------------------------
+     4 · Hero gate  ·  never show until bg is loaded + decoded
+     --------------------------------------------------------- */
+  var heroEl = document.getElementById('hero');
+  var heroReadyPromise = null;
+  var heroIsReady = false;
+  var TEXT_REVEAL_MS = 520; /* after .loaded fade starts */
+
+  var HERO_CANDIDATES = (
+    (heroImg && heroImg.getAttribute('data-candidates')) ||
+    'assets/img/hero.avif,assets/img/hero.webp,landing%20after%20video.png,assets/img/hero.png'
+  ).split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+
+  function loadAndDecodeUrl(url) {
+    return new Promise(function (resolve, reject) {
+      var probe = new Image();
+      probe.decoding = 'async';
+
+      function succeed() {
+        if (probe.decode) {
+          probe.decode().then(function () { resolve(url); }).catch(function () { resolve(url); });
+        } else {
+          resolve(url);
+        }
+      }
+
+      probe.onload = succeed;
+      probe.onerror = function () { reject(new Error('fail ' + url)); };
+      probe.src = url;
+
+      /* Cached image may already be complete */
+      if (probe.complete && probe.naturalWidth > 0) succeed();
+    });
+  }
+
+  function firstAvailable(urls, index) {
+    index = index || 0;
+    if (index >= urls.length) {
+      return Promise.reject(new Error('no hero asset'));
+    }
+    return loadAndDecodeUrl(urls[index]).catch(function () {
+      return firstAvailable(urls, index + 1);
+    });
+  }
+
+  function warmFonts() {
+    if (!(document.fonts && document.fonts.load)) return Promise.resolve();
+    return Promise.all([
+      document.fonts.load('300 48px "Cormorant Garamond"'),
+      document.fonts.load('400 18px Marcellus'),
+      document.fonts.load('300 14px "Noto Sans Malayalam"')
+    ]).catch(function () {});
+  }
+
+  function applyHeroUrl(url) {
+    if (!heroImg || !url) return Promise.resolve();
+
+    var isAvif = /\.avif($|\?)/i.test(url);
+    var isWebp = /\.webp($|\?)/i.test(url);
+    var avifSource = document.getElementById('heroSourceAvif');
+    var webpSource = document.getElementById('heroSourceWebp');
+
+    if (avifSource) {
+      if (isAvif) avifSource.srcset = url;
+      else avifSource.removeAttribute('srcset');
+    }
+    if (webpSource) {
+      if (isWebp) webpSource.srcset = url;
+      else if (isAvif) webpSource.srcset = 'assets/img/hero.webp';
+      else webpSource.removeAttribute('srcset');
+    }
+
+    heroImg.src = url;
+
+    /* Landscape wash + any data-hero-src nodes share the same decoded bitmap */
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[data-hero-src], .scene-wash'),
+      function (el) { el.src = url; }
+    );
+
+    if (heroImg.decode) {
+      return heroImg.decode().catch(function () {});
+    }
+    return Promise.resolve();
+  }
+
+  function ensureHeroReady() {
+    if (heroIsReady) return Promise.resolve(true);
+    if (heroReadyPromise) return heroReadyPromise;
+
+    heroReadyPromise = firstAvailable(HERO_CANDIDATES)
+      .then(function (url) {
+        return applyHeroUrl(url).then(function () { return url; });
+      })
+      .then(function () {
+        return warmFonts();
+      })
+      .then(function () {
+        heroIsReady = true;
+        if (heroEl) {
+          /* Paint one frame while still under the video / hidden */
+          void heroEl.offsetWidth;
+        }
+        return true;
+      })
+      .catch(function () {
+        /* Absolute fallback — paint the PNG rather than stall forever */
+        if (heroImg) heroImg.src = 'landing%20after%20video.png';
+        Array.prototype.forEach.call(
+          document.querySelectorAll('[data-hero-src], .scene-wash'),
+          function (el) { el.src = 'landing%20after%20video.png'; }
+        );
+        heroIsReady = true;
+        return false;
+      });
+
+    return heroReadyPromise;
+  }
+
+  /* Start hero preload once the intro has enough video data (video wins the pipe) */
+  function scheduleHeroWarm() {
+    if (heroReadyPromise) return;
+    if (isVideoReady() || !video) {
+      ensureHeroReady();
+      return;
+    }
+    var once = function () {
+      video.removeEventListener('canplay', once);
+      ensureHeroReady();
+    };
+    video.addEventListener('canplay', once);
+    setTimeout(function () { ensureHeroReady(); }, 5000);
+  }
+
+  if (document.readyState === 'complete') scheduleHeroWarm();
+  else window.addEventListener('load', scheduleHeroWarm);
+
+  /* ---------------------------------------------------------
+     5 · Landing → video → hero
+     --------------------------------------------------------- */
+  function revealHeroAndSite() {
+    if (heroEl) {
+      heroEl.classList.add('loaded');
+      heroEl.setAttribute('aria-busy', 'false');
+    }
+
+    body.classList.add('is-revealed');
+    unlockScroll();
+    initReveals();
+    activateLazySections();
+
+    /* Background fade first; typography follows */
+    setTimeout(function () {
+      if (heroEl) heroEl.classList.add('text-ready');
+    }, TEXT_REVEAL_MS);
+
+    revealBox.classList.remove('is-armed', 'is-on');
+    revealBox.classList.add('is-out', 'is-live');
+
+    setTimeout(function () {
+      revealBox.classList.add('is-gone');
+      revealBox.setAttribute('aria-hidden', 'true');
+      try {
+        video.pause();
+        video.removeAttribute('src');
+        while (video.firstChild) video.removeChild(video.firstChild);
+        video.load();
+      } catch (e) {}
+    }, 900);
+  }
 
   function finishReveal() {
     if (finished) return;
     finished = true;
     clearTimeout(safety);
+    clearTimeout(readyWait);
 
-    /* Paint the hero underneath first, then dissolve the video off the top.
-       The visitor lands on the hero with nothing to scroll for. */
-    body.classList.add('is-revealed');
-    unlockScroll();
-    initReveals();
+    /* Freeze the last frame so the visitor never sees black while Hero decodes */
+    try {
+      video.pause();
+      if (video.duration && isFinite(video.duration)) {
+        video.currentTime = Math.max(0, video.duration - 0.05);
+      }
+    } catch (e) {}
 
-    revealBox.classList.remove('is-on');
-    revealBox.classList.add('is-out');
-
-    setTimeout(function () {
-      revealBox.classList.add('is-gone');
-      revealBox.setAttribute('aria-hidden', 'true');
-      try { video.pause(); video.removeAttribute('src'); video.load(); } catch (e) {}
-    }, 1300);
+    ensureHeroReady().then(function () {
+      revealHeroAndSite();
+    });
   }
 
-  function playVideo() {
-    /* fetch and decode the hero backdrop while the video runs, so the
-       hand-off has no blank frame */
-    if (heroImg) {
-      var pre = new Image();
-      pre.src = heroImg.currentSrc || heroImg.src;
-      if (pre.decode) pre.decode().catch(function () {});
-    }
+  function startPlaybackUnderCover() {
+    if (finished) return;
 
-    revealBox.classList.add('is-on');
+    /* Decode Hero in parallel while the visitor watches the video */
+    ensureHeroReady();
+
+    /* Arm the video layer UNDER the cover (z-index 60 < 70).
+       It paints and plays while the cover still hides it. */
+    revealBox.classList.add('is-armed');
     revealBox.removeAttribute('aria-hidden');
 
-    var attempt = video.play();
-    if (attempt && attempt.catch) {
-      attempt.catch(function () {
-        video.muted = true;
-        video.setAttribute('muted', '');
-        var retry = video.play();
-        if (retry && retry.catch) retry.catch(finishReveal);
+    try { video.currentTime = 0; } catch (e) {}
+
+    var coverLifted = false;
+    function liftCover() {
+      if (coverLifted || finished) return;
+      coverLifted = true;
+
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          landing.classList.remove('is-opening');
+          landing.classList.add('is-out');
+
+          setTimeout(function () {
+            landing.classList.add('is-gone');
+            revealBox.classList.add('is-on', 'is-live');
+            revealBox.classList.remove('is-armed');
+          }, COVER_FADE_MS);
+        });
       });
     }
 
-    setTimeout(function () { if (!finished) skipBtn.hidden = false; }, 5000);
-    /* if the file is missing or stalls forever, do not trap the visitor */
+    function onPlaying() {
+      video.removeEventListener('playing', onPlaying);
+      liftCover();
+      ensureHeroReady();
+    }
+    video.addEventListener('playing', onPlaying);
+
+    var attempt = video.play();
+    if (attempt && attempt.then) {
+      attempt.then(function () {
+        if (!video.paused) liftCover();
+      }).catch(function () {
+        video.muted = true;
+        video.setAttribute('muted', '');
+        var retry = video.play();
+        if (retry && retry.then) {
+          retry.then(function () {
+            if (!video.paused) liftCover();
+          }).catch(function () {
+            video.removeEventListener('playing', onPlaying);
+            finishReveal();
+          });
+        } else {
+          video.removeEventListener('playing', onPlaying);
+          finishReveal();
+        }
+      });
+    } else if (!video.paused) {
+      liftCover();
+    }
+
+    setTimeout(function () {
+      if (!coverLifted && !finished) liftCover();
+    }, 900);
+
+    setTimeout(function () { if (!finished && skipBtn) skipBtn.hidden = false; }, 5000);
+
     safety = setTimeout(function () {
       if (!finished && (video.readyState < 2 || video.paused)) finishReveal();
-    }, 12000);
+    }, PLAY_SAFETY_MS);
+  }
+
+  function whenVideoReady(done) {
+    if (isVideoReady() || videoReady) {
+      done();
+      return;
+    }
+
+    var settled = false;
+    function settle() {
+      if (settled) return;
+      settled = true;
+      video.removeEventListener('canplay', settle);
+      video.removeEventListener('canplaythrough', settle);
+      video.removeEventListener('loadeddata', settle);
+      clearTimeout(readyWait);
+      done();
+    }
+
+    video.addEventListener('canplay', settle);
+    video.addEventListener('canplaythrough', settle);
+    video.addEventListener('loadeddata', settle);
+
+    /* Keep nudging the buffer while the cover stays up */
+    try { video.load(); } catch (e) {}
+
+    readyWait = setTimeout(settle, READY_TIMEOUT_MS);
   }
 
   function openInvitation() {
-    if (landing.classList.contains('is-out')) return;
-    openBtn.disabled = true;
-    landing.classList.add('is-out');
+    if (opening || finished) return;
+    if (!video) { finishReveal(); return; }
 
-    setTimeout(function () { landing.classList.add('is-gone'); }, 1200);
-    setTimeout(playVideo, 620);
+    opening = true;
+    if (openBtn) openBtn.disabled = true;
+    landing.classList.add('is-opening');
+
+    whenVideoReady(startPlaybackUnderCover);
   }
 
   if (openBtn) openBtn.addEventListener('click', openInvitation);
+  if (landing) {
+    /* Whole cover is tappable — button is the primary affordance */
+    landing.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('a, button')) return;
+      openInvitation();
+    });
+  }
   if (skipBtn) skipBtn.addEventListener('click', finishReveal);
 
   if (video) {
     video.addEventListener('ended', finishReveal);
-    video.addEventListener('error', finishReveal);
-    /* some browsers report the last frame slightly short of duration */
+    video.addEventListener('error', function () {
+      if (opening && !finished) finishReveal();
+    });
     video.addEventListener('timeupdate', function () {
       if (video.duration && video.duration - video.currentTime < 0.12) finishReveal();
     });
+    /* Re-warm hero mid-playback in case the early pass was aborted */
+    video.addEventListener('playing', function () { ensureHeroReady(); }, { once: true });
   }
 
   /* ---------------------------------------------------------
-     4 · Scroll reveals
-     Observation starts only once the site is on screen, otherwise
-     everything above the fold would animate behind the cover.
+     6 · Scroll reveals  ·  start only after the site is visible
      --------------------------------------------------------- */
   var revealsStarted = false;
   function initReveals() {
@@ -176,7 +474,24 @@
   }
 
   /* ---------------------------------------------------------
-     5 · Countdown  ·  21 Aug 2026, 11:00 IST
+     7 · Lazy sections  ·  hydrate gallery / portrait srcs late
+     --------------------------------------------------------- */
+  function activateLazySections() {
+    /* Native lazy already covers gallery + portraits. This only
+       upgrades any data-src deferrals if present. */
+    Array.prototype.forEach.call(
+      document.querySelectorAll('#gallery img[data-src], #couple img[data-src]'),
+      function (img) {
+        if (!img.getAttribute('src')) {
+          img.src = img.getAttribute('data-src');
+          img.removeAttribute('data-src');
+        }
+      }
+    );
+  }
+
+  /* ---------------------------------------------------------
+     8 · Countdown  ·  21 Aug 2026, 11:00 IST
      --------------------------------------------------------- */
   (function countdown() {
     var target = new Date('2026-08-21T11:00:00+05:30').getTime();
@@ -206,14 +521,12 @@
   })();
 
   /* ---------------------------------------------------------
-     6 · Particles + THANK YOU finale
+     9 · Particles + THANK YOU finale
      --------------------------------------------------------- */
   function bootParticles() {
     if (!window.KeralaParticles) return;
     window.KeralaParticles.init();
 
-    /* watch the stage itself — the section is taller than the viewport,
-       so its intersection ratio would never reach the trigger point */
     var stage = document.getElementById('finaleStage');
     if (!stage || !('IntersectionObserver' in window)) return;
 
@@ -234,7 +547,7 @@
   else window.addEventListener('load', bootParticles);
 
   /* ---------------------------------------------------------
-     7 · Smooth anchor (respects reduced motion)
+     10 · Smooth anchor
      --------------------------------------------------------- */
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
